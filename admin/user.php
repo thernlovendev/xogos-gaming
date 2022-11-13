@@ -1,7 +1,6 @@
 <?php include "includes/header.php" ?>
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
-<?php include "functions.php" ?>
 
 <?php
 
@@ -55,14 +54,21 @@ if(isset($_POST['edit_parent'])) {
         $query .= "parent_address        = '{$parent_address}', ";
         $query .= "parent_city           = '{$parent_city}', ";
         $query .= "parent_zip            = '{$parent_zip}' ";
-        $query .= "WHERE parent_username = {$parent_username} ";
+        $query .= "WHERE parent_username = '{$parent_username}' ";
     
         $edit_parent_query = mysqli_query($connection, $query);
     
         confirm($edit_parent_query);
         
+        $message = "Profile Updated!";
 
-}
+        header("refresh:2;url=user.php");
+
+        } else {
+
+        $message = "";
+
+        } 
 
 
 
@@ -76,13 +82,12 @@ if(isset($_POST['edit_parent'])) {
             <div class="card">
               <div class="card-header">
                 <h5 class="title">Edit Profile</h5>
+                <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
-                <form action="" method="post" enctype="multipart/form-data">
-
                 <!-- ADD KID MODAL -->
                 <?php include "includes/add_kid.php" ?>
-
+                <form action="" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Add Kid</button>
                   </div>
@@ -182,7 +187,7 @@ if(isset($_POST['edit_parent'])) {
 
                         <?php 
                         
-                        $query = "SELECT * FROM students ORDER BY student_id ASC";
+                        $query = "SELECT * FROM students WHERE student_parent = ".loggedInUserIdParent()." ORDER BY student_id DESC";
                         $select_student = mysqli_query($connection, $query);
                 
                         while ($row = mysqli_fetch_assoc($select_student)) {

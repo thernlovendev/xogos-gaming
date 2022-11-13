@@ -17,7 +17,7 @@ if(isset($_POST['add_student'])) {
     $student_firstname = mysqli_real_escape_string($connection, $student_firstname);
     $student_lastname  = mysqli_real_escape_string($connection, $student_lastname);
     $student_email     = mysqli_real_escape_string($connection, $student_email);
-    $username          = mysqli_real_escape_string($connection, $username);
+    $studentusername   = mysqli_real_escape_string($connection, $username);
     $password          = mysqli_real_escape_string($connection, $password);
     $student_address   = mysqli_real_escape_string($connection, $student_address);
     $student_city      = mysqli_real_escape_string($connection, $student_city);
@@ -25,8 +25,8 @@ if(isset($_POST['add_student'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO students(student_firstname, student_lastname, student_email, student_username, student_password, student_address, student_city, student_zip, user_role) ";
-    $query .= "VALUES('{$student_firstname}', '{$student_lastname}', '{$student_email}', '{$username}', '{$password}', '{$student_address}', '{$student_city}', '{$student_zip}', 'student' ) ";
+    $query  = "INSERT INTO students(student_firstname, student_lastname, student_email, student_username, student_password, student_address, student_city, student_zip, user_role, student_parent) ";
+    $query .= "VALUES('{$student_firstname}', '{$student_lastname}', '{$student_email}', '{$username}', '{$password}', '{$student_address}', '{$student_city}', '{$student_zip}', 'student', '{$_SESSION['parent_id']}'  ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {

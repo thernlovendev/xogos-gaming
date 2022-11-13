@@ -248,64 +248,6 @@ function confirm($result) {
 
 }
 
-function is_admin() {
-    if(isLoggedIn()){
-        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
-        $row = fetchRecords($result);
-        if($row['user_role'] == 'admin'){
-            return true;
-        }else {
-            return false;
-        }
-    }
-    return false;
-}
-
-function is_sales() {
-    if(isLoggedIn()){
-        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
-        $row = fetchRecords($result);
-        if($row['user_role'] == 'editor'){
-            return true;
-        }else {
-            return false;
-        }
-    }
-    return false;
-}
-
-function isLoggedIn(){
-    if(isset($_SESSION['user_id'])){
-        return true;
-    }
-   return false;
-}
-
-function query($query){
-    global $connection;
-    $result = mysqli_query($connection, $query);
-    confirmQuery($result);
-    return $result;
-}
-
-function confirmQuery($result) {
-    
-    global $connection;
-
-    if(!$result ) {
-          
-          die("QUERY FAILED ." . mysqli_error($connection));
-   
-          
-      }
-    
-
-}
-
-function fetchRecords($result){
-    return mysqli_fetch_array($result);
-}
-
 function slug($text) {
    /* $spl_char = '/[^\-\s\pN\pL]+/u';
     $double_char = '/[\-\s]+/';
@@ -367,4 +309,98 @@ function GetShortUrl($url){
     return $token;
     }
    }
+
+   //===== AUTHENTICATION HELPERS =====//
+
+function is_admin() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'admin'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
+function is_sales() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'sales'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
+//===== END AUTHENTICATION HELPERS =====//
+
+function isLoggedIn(){
+    if(isset($_SESSION['parent_id'])){
+        return true;
+    }
+   return false;
+}
+
+function query($query){
+    global $connection;
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    return $result;
+}
+
+function fetchRecords($result){
+    return mysqli_fetch_array($result);
+}
+
+function confirmQuery($result) {
+    
+    global $connection;
+
+    if(!$result ) {
+          
+          die("QUERY FAILED ." . mysqli_error($connection));
    
+          
+      }
+    
+
+}
+   
+   function loggedInUserIdParent(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM parents WHERE parent_username='" . $_SESSION['parent_username'] ."'");
+        confirmQuery($result);
+        $parent = mysqli_fetch_array($result);
+        if(mysqli_num_rows($result) >= 1) {
+            return $parent['parent_id'];
+        }
+    }
+    return false;
+
+}
+
+function get_all_user_clients(){
+    return query("SELECT * FROM clients WHERE client_user=".loggedInUserId()."");
+}
+
+function get_all_user_leads(){
+    return query("SELECT * FROM leads WHERE lead_user=".loggedInUserId()."");
+}
+
+function get_all_user_proposals(){
+    return query("SELECT * FROM proposal WHERE proposal_user=".loggedInUserId()."");
+}
+
+function get_all_user_meetings(){
+    return query("SELECT * FROM meetings WHERE meeting_user=".loggedInUserId()."");
+}
+
+function count_records($result){
+    return mysqli_num_rows($result);
+}

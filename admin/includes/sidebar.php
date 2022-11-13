@@ -31,9 +31,9 @@
             </a>
           </li>
           <li>
-            <a href="classmates.php">
+            <a href="students.php">
               <i class="tim-icons icon-attach-87"></i>
-              <p>Classmates</p>
+              <p>Students</p>
             </a>
           </li>
           <li>
