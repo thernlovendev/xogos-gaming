@@ -2,7 +2,7 @@
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Friends Online</h5>
-                <h3 class="card-title"><i class="tim-icons icon-chat-33 text-info"></i> 4</h3>
+                <h3 class="card-title"><i class="tim-icons icon-chat-33 text-info"></i><?php echo users_online(); ?></h3>
               </div>
               <div class="card-body">
                 <div class="chart-area">

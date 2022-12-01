@@ -3,7 +3,7 @@
               <div class="card-header ">
                 <div class="row">
                   <div class="col-sm-6 text-left">
-                      <h5></h5>
+                      <h5>Your Stats</h5>
                     <h2 class="card-title">Game Performance</h2>
                   </div>
                   <div class="col-sm-6">

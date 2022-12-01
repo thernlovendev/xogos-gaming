@@ -404,3 +404,55 @@ function get_all_user_meetings(){
 function count_records($result){
     return mysqli_num_rows($result);
 }
+
+function users_online() {
+
+    global $connection;
+
+        $session = session_id();
+        $time = time();
+        $time_out_in_seconds = 30;
+        $time_out = $time - $time_out_in_seconds;
+
+        $query = "SELECT * FROM users_online WHERE session = '$session'";
+        $send_query = mysqli_query($connection, $query);
+        $count = mysqli_num_rows($send_query);
+
+            if($count == NULL) {
+
+            mysqli_query($connection, "INSERT INTO users_online(session, time) VALUES('$session','$time')");
+
+
+            } else {
+
+            mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+
+
+            }
+
+        $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
+        return $count_user = mysqli_num_rows($users_online_query);
+
+
+    }
+
+function print_users_online(){
+    global $connection;   
+    $user_online_id = $_SESSION['parent_id'];
+    
+    $session = session_id();
+    $time = time();
+    $time_out_in_secound = 60*2;
+    $time_out = $time - $time_out_in_secound;
+ 
+    $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
+ 
+    while($row = mysqli_fetch_array($users_online_query)){
+        $online_user_id = $row['parent_id'];        
+        $query = "SELECT * FROM parents WHERE parent_id = '{$online_user_id}' ";
+        $select_user_query = mysqli_query($connection, $query);
+        $user_row = mysqli_fetch_array($select_user_query);
+        echo $user_row['parent_username']." ";
+    }
+ 
+}
