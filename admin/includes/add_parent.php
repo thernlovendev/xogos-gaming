@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST['add_student'])) {
+if(isset($_POST['add_parent'])) {
 
     $firstname = $_POST['firstname'];
     $lastname  = $_POST['lastname'];
@@ -25,8 +25,8 @@ if(isset($_POST['add_student'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, student_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'student' ) ";
+    $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, parent_id, user_role) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'parent' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {
@@ -56,11 +56,11 @@ if(isset($_POST['add_student'])) {
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenterKids" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenterParents" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Kid</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Parent</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -127,7 +127,7 @@ if(isset($_POST['add_student'])) {
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Close">
-                    <input type="submit" name="add_student" class="btn btn-primary" value="Add Kid">
+                    <input type="submit" name="add_parent" class="btn btn-primary" value="Add Parent">
                     </div>
                 </form>
       </div>

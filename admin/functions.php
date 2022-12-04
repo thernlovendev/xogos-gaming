@@ -312,11 +312,11 @@ function GetShortUrl($url){
 
    //===== AUTHENTICATION HELPERS =====//
 
-function is_admin() {
+function is_student() {
     if(isLoggedIn()){
         $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
         $row = fetchRecords($result);
-        if($row['user_role'] == 'admin'){
+        if($row['user_role'] == 'parent'){
             return true;
         }else {
             return false;
@@ -325,11 +325,11 @@ function is_admin() {
     return false;
 }
 
-function is_sales() {
+function is_teacher() {
     if(isLoggedIn()){
         $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
         $row = fetchRecords($result);
-        if($row['user_role'] == 'sales'){
+        if($row['user_role'] == 'teacher'){
             return true;
         }else {
             return false;
@@ -341,7 +341,7 @@ function is_sales() {
 //===== END AUTHENTICATION HELPERS =====//
 
 function isLoggedIn(){
-    if(isset($_SESSION['parent_id'])){
+    if(isset($_SESSION['user_id'])){
         return true;
     }
    return false;
@@ -374,7 +374,7 @@ function confirmQuery($result) {
    
    function loggedInUserIdParent(){
     if(isLoggedIn()){
-        $result = query("SELECT * FROM parents WHERE parent_username='" . $_SESSION['parent_username'] ."'");
+        $result = query("SELECT * FROM users WHERE username='" . $_SESSION['username'] ."'");
         confirmQuery($result);
         $parent = mysqli_fetch_array($result);
         if(mysqli_num_rows($result) >= 1) {
@@ -409,10 +409,14 @@ function users_online() {
 
     global $connection;
 
-        $session = session_id();
-        $time = time();
-        $time_out_in_seconds = 30;
-        $time_out = $time - $time_out_in_seconds;
+        $session                 = session_id();
+        $time                    = time();
+        $online_id               = $_SESSION['user_id'];
+        $online_firstname        = $_SESSION['firstname'];
+        $online_img              = $_SESSION['img'];
+        $online_user_role        = $_SESSION['user_role'];
+        $time_out_in_seconds     = 30;
+        $time_out                = $time - $time_out_in_seconds;
 
         $query = "SELECT * FROM users_online WHERE session = '$session'";
         $send_query = mysqli_query($connection, $query);
@@ -420,7 +424,7 @@ function users_online() {
 
             if($count == NULL) {
 
-            mysqli_query($connection, "INSERT INTO users_online(session, time) VALUES('$session','$time')");
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$_SESSION['user_id']}', '{$_SESSION['firstname']}', '{$_SESSION['img']}', '{$_SESSION['user_role']}')");
 
 
             } else {
@@ -433,26 +437,25 @@ function users_online() {
         $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
         return $count_user = mysqli_num_rows($users_online_query);
 
-
     }
 
 function print_users_online(){
     global $connection;   
-    $user_online_id = $_SESSION['parent_id'];
     
     $session = session_id();
     $time = time();
+    $online_parent_firstname = $_SESSION['parent_firstname'];
     $time_out_in_secound = 60*2;
     $time_out = $time - $time_out_in_secound;
  
     $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
  
     while($row = mysqli_fetch_array($users_online_query)){
-        $online_user_id = $row['parent_id'];        
-        $query = "SELECT * FROM parents WHERE parent_id = '{$online_user_id}' ";
-        $select_user_query = mysqli_query($connection, $query);
-        $user_row = mysqli_fetch_array($select_user_query);
-        echo $user_row['parent_username']." ";
+        $online_parent_firstname = $row['parent_firstname'];        
+        $query = "SELECT * FROM users_online WHERE online_parent_id = '{$online_parent_id}' ";
+        $select_parent_query = mysqli_query($connection, $query);
+        $user_row = mysqli_fetch_array($select_parent_query);
+        echo $user_row['parent_firstname']." ";
     }
  
 }

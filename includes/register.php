@@ -2,37 +2,35 @@
 
 <?php
 
-if(isset($_POST['add_parent'])) {
+if(isset($_POST['add_user'])) {
 
-    $parent_firstname = $_POST['parent_firstname'];
-    $parent_lastname  = $_POST['parent_lastname'];
-    $parent_email     = $_POST['parent_email'];
-    $parent_phone     = $_POST['parent_phone'];
-    $username  = $_POST['parent_username'];
-    $password  = $_POST['parent_password'];
-    $parent_address   = $_POST['parent_address'];
-    $parent_city      = $_POST['parent_city'];
-    $parent_zip       = $_POST['parent_zip'];
-    $parent_kids      = $_POST['parent_kids'];
+    $firstname = $_POST['firstname'];
+    $lastname  = $_POST['lastname'];
+    $email     = $_POST['email'];
+    $phone     = $_POST['phone'];
+    $username  = $_POST['username'];
+    $password  = $_POST['password'];
+    $address   = $_POST['address'];
+    $city      = $_POST['city'];
+    $zip       = $_POST['zip'];
 
 
-    if(!empty($username) && !empty($parent_firstname) && !empty($parent_lastname) && !empty($parent_email) && !empty($password) ) {
+    if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {
 
-    $parent_firstname = mysqli_real_escape_string($connection, $parent_firstname);
-    $parent_lastname  = mysqli_real_escape_string($connection, $parent_lastname);
-    $parent_email     = mysqli_real_escape_string($connection, $parent_email);
-    $parent_phone     = mysqli_real_escape_string($connection, $parent_phone);
+    $firstname = mysqli_real_escape_string($connection, $firstname);
+    $lastname  = mysqli_real_escape_string($connection, $lastname);
+    $email     = mysqli_real_escape_string($connection, $email);
+    $phone     = mysqli_real_escape_string($connection, $phone);
     $username  = mysqli_real_escape_string($connection, $username);
     $password  = mysqli_real_escape_string($connection, $password);
-    $parent_address   = mysqli_real_escape_string($connection, $parent_address);
-    $parent_city      = mysqli_real_escape_string($connection, $parent_city);
-    $parent_zip       = mysqli_real_escape_string($connection, $parent_zip);
-    $parent_kids      = mysqli_real_escape_string($connection, $parent_kids);
+    $address   = mysqli_real_escape_string($connection, $address);
+    $city      = mysqli_real_escape_string($connection, $city);
+    $zip       = mysqli_real_escape_string($connection, $zip);
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO parents(parent_firstname, parent_lastname, parent_email, parent_phone, parent_username, parent_password, parent_address, parent_city, parent_zip, parent_kids, user_role) ";
-    $query .= "VALUES('{$parent_firstname}', '{$parent_lastname}', '{$parent_email}', '{$parent_phone}', '{$username}', '{$password}', '{$parent_address}', '{$parent_city}', '{$parent_zip}', '{$parent_kids}', 'parent' ) ";
+    $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, zip, user_role, parent_id) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', 'parent', RAND()*(999-1)+5 ) ";
     $register_parent_query = mysqli_query($connection, $query);
 
     if(!$register_parent_query) {
@@ -97,7 +95,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_firstname" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="firstname" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label shadow-5-strong" for="firstName">First Name</label>
                   </div>
 
@@ -105,7 +103,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_lastname" id="lastName" class="form-control form-control-lg" />
+                    <input type="text" name="lastname" id="lastName" class="form-control form-control-lg" />
                     <label class="form-label" for="lastName">Last Name</label>
                   </div>
 
@@ -116,7 +114,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_email" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="email" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Email</label>
                   </div>
 
@@ -124,7 +122,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_phone" id="lastName" class="form-control form-control-lg" />
+                    <input type="text" name="phone" id="lastName" class="form-control form-control-lg" />
                     <label class="form-label" for="lastName">Phone Number</label>
                   </div>
 
@@ -135,7 +133,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-12 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_address" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="address" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Address</label>
                   </div>
 
@@ -146,7 +144,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_city" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="city" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">City</label>
                   </div>
 
@@ -155,7 +153,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_zip" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="zip" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">ZIP</label>
                   </div>
 
@@ -168,7 +166,7 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-4 mb-5">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_username" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="username" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Username</label>
                   </div>
 
@@ -177,17 +175,18 @@ if(isset($_POST['add_parent'])) {
                 <div class="col-md-4 mb-5">
 
                   <div class="form-outline">
-                    <input type="password" name="parent_password" id="firstName" class="form-control form-control-lg" />
+                    <input type="password" name="password" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Password</label>
                   </div>
 
                 </div>
 
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-5">
 
                   <div class="form-outline">
-                    <input type="number" name="parent_kids" id="firstName" class="form-control form-control-lg" />
-                    <label class="form-label" for="firstName">How many kids?</label>
+                    <input type="file" class="form-control" name="img">
+                  </div>
+
                   </div>
 
                 </div>
@@ -195,7 +194,7 @@ if(isset($_POST['add_parent'])) {
 
               <div class="mt-4 pt-2">
                 <input style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="add_parent" value="Register" />
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="add_user" value="Register" />
               </div>
 
               <div class="row">

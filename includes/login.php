@@ -41,7 +41,7 @@
                 <div class="col-md-12 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="parent_username" id="firstName" class="form-control form-control-lg" />
+                    <input type="text" name="username" id="firstName" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Username</label>
                   </div>
 
@@ -49,7 +49,7 @@
                 <div class="col-md-12 mb-4">
 
                   <div class="form-outline">
-                    <input type="password" name="parent_password" id="lastName" class="form-control form-control-lg" />
+                    <input type="password" name="password" id="lastName" class="form-control form-control-lg" />
                     <label class="form-label" for="lastName">Password</label>
                   </div>
 

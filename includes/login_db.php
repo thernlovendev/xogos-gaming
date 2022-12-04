@@ -6,38 +6,42 @@
 
 if(isset($_POST['login'])) {
 
-  $parent_username = $_POST['parent_username'];
-  $parent_password = $_POST['parent_password'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-  $parent_username = mysqli_real_escape_string($connection, $parent_username);
-  $parent_password = mysqli_real_escape_string($connection, $parent_password);
+  $username = mysqli_real_escape_string($connection, $username);
+  $password = mysqli_real_escape_string($connection, $password);
 
-  $query = "SELECT * FROM parents WHERE parent_username = '{$parent_username}' ";
-  $select_parent_query = mysqli_query($connection, $query);
+  $query = "SELECT * FROM users WHERE username = '{$username}' ";
+  $select_user_query = mysqli_query($connection, $query);
 
-  if(!$select_parent_query) {
+  if(!$select_user_query) {
       die("QUERY FAILED" . mysqli_error($connection));
   }
 
-  while($row = mysqli_fetch_array($select_parent_query)) {
+  while($row = mysqli_fetch_array($select_user_query)) {
 
-    $db_parent_id        = $row['parent_id'];
-    $db_parent_username  = $row['parent_username'];
-    $db_parent_password  = $row['parent_password'];
-    $db_parent_firstname = $row['parent_firstname'];
-    $db_parent_lastname  = $row['parent_lastname'];
-    $db_user_role        = $row['user_role'];
+    $db_user_id   = $row['user_id'];
+    $db_parent_id = $row['parent_id'];
+    $db_username  = $row['username'];
+    $db_password  = $row['password'];
+    $db_firstname = $row['firstname'];
+    $db_lastname  = $row['lastname'];
+    $db_img       = $row['img'];
+    $db_user_role = $row['user_role'];
   }
 
 //   $password = crypt($password, $db_user_password);
 
-if (password_verify($parent_password,$db_parent_password)) {
+if (password_verify($password,$db_password)) {
 
-  $_SESSION['parent_id']        = $db_parent_id;
-  $_SESSION['parent_username']  = $db_parent_username;
-  $_SESSION['parent_firstname'] = $db_parent_firstname;
-  $_SESSION['parent_lastname']  = $db_parent_lastname;
-  $_SESSION['user_role']        = $db_user_role;
+  $_SESSION['user_id']   = $db_user_id;
+  $_SESSION['username']  = $db_username;
+  $_SESSION['firstname'] = $db_firstname;
+  $_SESSION['lastname']  = $db_lastname;
+  $_SESSION['img']       = $db_img;
+  $_SESSION['user_role'] = $db_user_role;
+  $_SESSION['parent_id'] = $db_parent_id;
 
   
     header("Location: ../admin/index.php");
