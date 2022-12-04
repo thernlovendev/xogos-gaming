@@ -10,7 +10,13 @@
 
       <?php include "includes/performance.php" ?>
       <div class="row">
+      <?php if(is_student()): ?>
       <?php include "includes/friends_online.php" ?>
+      <?php endif ?>
+      
+      <?php if(is_teacher()): ?>
+      <?php include "includes/students_online.php" ?>
+      <?php endif ?>
 
       <?php include "includes/top_players.php" ?>
 

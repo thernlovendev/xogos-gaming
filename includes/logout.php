@@ -1,11 +1,10 @@
-<?php session_start(); ?>
-
-<?php 
-
-$_SESSION['parent_username'] = null;
-$_SESSION['parent_firstname'] = null;
-$_SESSION['parent_lastname'] = null;
-
-header("Location: login.php")
-
+<?php
+session_start();
+$parent_id = $_SESSION['parent_id'];
+$onlineUsers = ("DELETE FROM `users_online` WHERE `online_parent_username`='$parent_id'");
+sleep(1);
+unset($_SESSION['parent_username']);
+unset($_SESSION['parent_id']);
+session_destroy();
+header('location: login.php');
 ?>
