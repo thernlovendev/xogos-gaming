@@ -316,7 +316,7 @@ function is_student() {
     if(isLoggedIn()){
         $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
         $row = fetchRecords($result);
-        if($row['user_role'] == 'parent'){
+        if($row['user_role'] == 'student'){
             return true;
         }else {
             return false;
@@ -330,6 +330,19 @@ function is_teacher() {
         $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
         $row = fetchRecords($result);
         if($row['user_role'] == 'teacher'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
+function is_parent() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'parent'){
             return true;
         }else {
             return false;
@@ -374,7 +387,7 @@ function confirmQuery($result) {
    
    function loggedInUserIdParent(){
     if(isLoggedIn()){
-        $result = query("SELECT * FROM users WHERE username='" . $_SESSION['username'] ."'");
+        $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
         confirmQuery($result);
         $parent = mysqli_fetch_array($result);
         if(mysqli_num_rows($result) >= 1) {
@@ -418,7 +431,7 @@ function users_online() {
         $time_out_in_seconds     = 30;
         $time_out                = $time - $time_out_in_seconds;
 
-        $query = "SELECT * FROM users_online WHERE session = '$session'";
+        $query = "SELECT * FROM users_online WHERE session = '$session' ";
         $send_query = mysqli_query($connection, $query);
         $count = mysqli_num_rows($send_query);
 
@@ -434,7 +447,7 @@ function users_online() {
 
             }
 
-        $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out'");
+        $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND online_id != {$_SESSION['user_id']} ");
         return $count_user = mysqli_num_rows($users_online_query);
 
     }

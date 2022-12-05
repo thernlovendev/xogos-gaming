@@ -13,9 +13,13 @@
       <?php if(is_student()): ?>
       <?php include "includes/friends_online.php" ?>
       <?php endif ?>
-      
+
       <?php if(is_teacher()): ?>
       <?php include "includes/students_online.php" ?>
+      <?php endif ?>
+
+      <?php if(is_parent()): ?>
+      <?php include "includes/kids_online.php" ?>
       <?php endif ?>
 
       <?php include "includes/top_players.php" ?>

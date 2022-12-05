@@ -18,30 +18,43 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="examples/notifications.html">
               <i class="tim-icons icon-bell-55"></i>
               <p>Tasks</p>
             </a>
-          </li>
+          </li> -->
           <li>
             <a href="user.php">
               <i class="tim-icons icon-single-02"></i>
               <p>User Profile</p>
             </a>
           </li>
+
+          <?php if(is_teacher()): ?>
           <li>
             <a href="students.php">
               <i class="tim-icons icon-attach-87"></i>
               <p>Students</p>
             </a>
           </li>
+          <?php endif ?>
+
+          <?php if(is_parent()): ?>
           <li>
+            <a href="my_kids.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>My Kids</p>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <!-- <li>
             <a href="examples/icons.html">
               <i class="tim-icons icon-atom"></i>
               <p>Icons</p>
             </a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>

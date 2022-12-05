@@ -12,16 +12,16 @@
 
                     switch($source) {
 
-                        case 'add_student';
-                        include "includes/add_student.php";
+                        case 'add_kid';
+                        include "includes/add_kid.php";
                         break;
 
-                        case 'edit_student';
-                        include "includes/edit_student.php";
+                        case 'edit_kid';
+                        include "includes/edit_kid.php";
                         break;
 
                         default:
-                        include "includes/all_students.php";
+                        include "includes/all_kids.php";
                         break;
                     }
                     

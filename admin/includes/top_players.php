@@ -18,19 +18,19 @@
 
                         <?php 
                         
-                        $query = "SELECT * FROM students ORDER BY student_score DESC ";
+                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY score DESC ";
                         $select_student = mysqli_query($connection, $query);
                 
                         while ($row = mysqli_fetch_assoc($select_student)) {
-                        $student_id        = $row['student_id'];
-                        $student_firstname = $row['student_firstname'];
-                        $student_lastname  = $row['student_lastname'];
-                        $student_score     = $row['student_score'];
+                        $user_id   = $row['user_id'];
+                        $firstname = $row['firstname'];
+                        $lastname  = $row['lastname'];
+                        $score     = $row['score'];
 
                         echo "<tr>";
-                            echo "<td>$student_id</td>";
-                            echo "<td>$student_firstname $student_lastname</td>";
-                            echo "<td class='text-right'>$student_score</td>";    
+                            echo "<td>$user_id</td>";
+                            echo "<td>$firstname $lastname</td>";
+                            echo "<td class='text-right'>$score</td>";    
                             echo "</tr>";
                         }
                         

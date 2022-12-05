@@ -21,27 +21,29 @@ if(isset($_POST['login'])) {
 
   while($row = mysqli_fetch_array($select_user_query)) {
 
-    $db_user_id   = $row['user_id'];
-    $db_parent_id = $row['parent_id'];
-    $db_username  = $row['username'];
-    $db_password  = $row['password'];
-    $db_firstname = $row['firstname'];
-    $db_lastname  = $row['lastname'];
-    $db_img       = $row['img'];
-    $db_user_role = $row['user_role'];
+    $db_user_id    = $row['user_id'];
+    $db_parent_id  = $row['parent_id'];
+    $db_student_id = $row['student_id'];
+    $db_username   = $row['username'];
+    $db_password   = $row['password'];
+    $db_firstname  = $row['firstname'];
+    $db_lastname   = $row['lastname'];
+    $db_img        = $row['img'];
+    $db_user_role  = $row['user_role'];
   }
 
 //   $password = crypt($password, $db_user_password);
 
 if (password_verify($password,$db_password)) {
 
-  $_SESSION['user_id']   = $db_user_id;
-  $_SESSION['username']  = $db_username;
-  $_SESSION['firstname'] = $db_firstname;
-  $_SESSION['lastname']  = $db_lastname;
-  $_SESSION['img']       = $db_img;
-  $_SESSION['user_role'] = $db_user_role;
-  $_SESSION['parent_id'] = $db_parent_id;
+  $_SESSION['user_id']    = $db_user_id;
+  $_SESSION['username']   = $db_username;
+  $_SESSION['firstname']  = $db_firstname;
+  $_SESSION['lastname']   = $db_lastname;
+  $_SESSION['img']        = $db_img;
+  $_SESSION['user_role']  = $db_user_role;
+  $_SESSION['parent_id']  = $db_parent_id;
+  $_SESSION['student_id'] = $db_student_id;
 
   
     header("Location: ../admin/index.php");

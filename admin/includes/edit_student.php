@@ -1,18 +1,16 @@
-<?php include "includes/header.php" ?>
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
 
 <?php
 
-if(isset($_SESSION['user_id'])) {
+if(isset($_GET['edit_student'])) {
 
-    $the_user_id = $_SESSION['user_id'];
+    $the_user_id = $_GET['edit_student'];
 
     $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
-
     $select_user_profile_query = mysqli_query($connection, $query);
 
-    while($row = mysqli_fetch_array($select_user_profile_query)) {
+    while($row = mysqli_fetch_assoc($select_user_profile_query)) {
 
       $user_id   = $row['user_id'];
       $firstname = $row['firstname'];
@@ -51,7 +49,7 @@ if(isset($_POST['edit_user'])) {
 
     if(empty($img)) {
         
-        $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+        $query = "SELECT * FROM users WHERE user_id = '{$user_id}' ";
         $select_image = mysqli_query($connection,$query);
             
         while($row = mysqli_fetch_array($select_image)) {
@@ -130,15 +128,6 @@ if(!empty($password)) {
                 <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
-
-                  <!-- ADD PARENT MODAL -->
-                  <?php if(is_parent()): ?>
-                  <?php include "includes/add_parent.php" ?>
-                  <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterParents">Add Parent</button>
-                  </div>
-                  <?php endif ?>
-
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
@@ -221,6 +210,3 @@ if(!empty($password)) {
             </div>
           </div>
         </div>
-
-      <?php include "includes/footer.php" ?>
-      
