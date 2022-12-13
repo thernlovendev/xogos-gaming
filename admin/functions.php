@@ -351,6 +351,19 @@ function is_parent() {
     return false;
 }
 
+function is_admin() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'admin'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
 //===== END AUTHENTICATION HELPERS =====//
 
 function isLoggedIn(){
@@ -392,6 +405,19 @@ function confirmQuery($result) {
         $parent = mysqli_fetch_array($result);
         if(mysqli_num_rows($result) >= 1) {
             return $parent['parent_id'];
+        }
+    }
+    return false;
+
+}
+
+function loggedInUserIdTeacher(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
+        confirmQuery($result);
+        $teacher = mysqli_fetch_array($result);
+        if(mysqli_num_rows($result) >= 1) {
+            return $teacher['teacher_id'];
         }
     }
     return false;
@@ -449,6 +475,7 @@ function users_online() {
 
         $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND online_id != {$_SESSION['user_id']} ");
         return $count_user = mysqli_num_rows($users_online_query);
+
 
     }
 
