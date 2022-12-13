@@ -1,10 +1,11 @@
 <?php
 session_start();
-$parent_id = $_SESSION['parent_id'];
-$onlineUsers = ("DELETE FROM `users_online` WHERE `online_parent_username`='$parent_id'");
+$user_id = session_id();
+$delete_sessions_query = ("DELETE FROM users_online WHERE session = $user_id ");
 sleep(1);
-unset($_SESSION['parent_username']);
-unset($_SESSION['parent_id']);
+unset($_SESSION['username']);
+unset($_SESSION['user_id']);
 session_destroy();
 header('location: login.php');
 ?>
+

@@ -10,6 +10,7 @@ if(isset($_POST['add_parent'])) {
     $address   = $_POST['address'];
     $city      = $_POST['city'];
     $zip       = $_POST['zip'];
+    $student_id = $_POST['student_id'];
 
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {
@@ -17,16 +18,17 @@ if(isset($_POST['add_parent'])) {
     $firstname = mysqli_real_escape_string($connection, $firstname);
     $lastname  = mysqli_real_escape_string($connection, $lastname);
     $email     = mysqli_real_escape_string($connection, $email);
-    $username  = mysqli_real_escape_string($connection, $username);
-    $password  = mysqli_real_escape_string($connection, $password);
+    $username   = mysqli_real_escape_string($connection, $username);
+    $password          = mysqli_real_escape_string($connection, $password);
     $address   = mysqli_real_escape_string($connection, $address);
     $city      = mysqli_real_escape_string($connection, $city);
     $zip       = mysqli_real_escape_string($connection, $zip);
+    $student_id       = mysqli_real_escape_string($connection, $student_id);
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, parent_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'parent' ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$student_id}', 'parent' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {
@@ -41,7 +43,7 @@ if(isset($_POST['add_parent'])) {
 
   }
 
-  header("refresh:2;url=user.php");
+  header("refresh:2");
 
 } else {
    $message = "";
@@ -56,7 +58,7 @@ if(isset($_POST['add_parent'])) {
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenterParents" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenterNewParent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">

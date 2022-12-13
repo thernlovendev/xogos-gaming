@@ -31,11 +31,38 @@
             </a>
           </li>
 
-          <?php if(is_teacher()): ?>
+          <?php if(is_admin()): ?>
           <li>
             <a href="students.php">
               <i class="tim-icons icon-attach-87"></i>
               <p>Students</p>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <?php if(is_teacher()): ?>
+          <li>
+            <a href="my_students.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>My Students</p>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <?php if(is_admin()): ?>
+          <li>
+            <a href="students.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <?php if(is_admin()): ?>
+          <li>
+            <a href="parents.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>Parents</p>
             </a>
           </li>
           <?php endif ?>

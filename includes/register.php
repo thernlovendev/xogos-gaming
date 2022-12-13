@@ -29,8 +29,8 @@ if(isset($_POST['add_user'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, zip, user_role, parent_id) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', 'parent', RAND()*(999-1)+5 ) ";
+    $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, zip, user_role, parent_id, teacher_id, admin_id) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', 'parent', RAND()*(999-1)+5, RAND()*(999-1)+5, RAND()*(999-1)+5 ) ";
     $register_parent_query = mysqli_query($connection, $query);
 
     if(!$register_parent_query) {
@@ -180,24 +180,14 @@ if(isset($_POST['add_user'])) {
                   </div>
 
                 </div>
-
-                <div class="col-md-4 mb-5">
-
-                  <div class="form-outline">
-                    <input type="file" class="form-control" name="img">
-                  </div>
-
-                  </div>
-
-                </div>
               </div>
 
+              <div class="row">
               <div class="mt-4 pt-2">
                 <input style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="add_user" value="Register" />
               </div>
 
-              <div class="row">
                 <div class="ml-auto mr-auto" style="margin-top: 0.5rem";>
                   <a href="login.php">Or Login</a>
                 </div>

@@ -128,6 +128,13 @@ if(!empty($password)) {
                 <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
+                <!-- ADD PARENT MODAL -->
+                <?php if(is_teacher()): ?>
+                  <?php include "includes/add_extra_parent.php" ?>
+                  <div class="form-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterNewParent">Add Parent</button>
+                  </div>
+                  <?php endif ?>
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">

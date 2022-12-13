@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST['add_parent'])) {
+if(isset($_POST['add_student'])) {
 
     $firstname = $_POST['firstname'];
     $lastname  = $_POST['lastname'];
@@ -25,8 +25,8 @@ if(isset($_POST['add_parent'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, parent_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'parent' ) ";
+    $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, t_student_id, student_id, user_role) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['teacher_id']}', RAND()*(999-1)+5, 'student' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {
@@ -41,7 +41,7 @@ if(isset($_POST['add_parent'])) {
 
   }
 
-  header("refresh:2;url=user.php");
+  header("refresh:2;url=my_students.php");
 
 } else {
    $message = "";
@@ -56,11 +56,11 @@ if(isset($_POST['add_parent'])) {
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenterParents" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenterStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Parent</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Student</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -127,7 +127,7 @@ if(isset($_POST['add_parent'])) {
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Close">
-                    <input type="submit" name="add_parent" class="btn btn-primary" value="Add Parent">
+                    <input type="submit" name="add_student" class="btn btn-primary" value="Add Student">
                     </div>
                 </form>
       </div>

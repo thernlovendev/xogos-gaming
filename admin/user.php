@@ -133,7 +133,7 @@ if(!empty($password)) {
 
                   <!-- ADD PARENT MODAL -->
                   <?php if(is_parent()): ?>
-                  <?php include "includes/add_parent.php" ?>
+                  <?php include "includes/add_extra_parent.php" ?>
                   <div class="form-group">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterParents">Add Parent</button>
                   </div>
