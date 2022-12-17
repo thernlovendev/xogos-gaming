@@ -51,7 +51,7 @@
 
           <?php if(is_admin()): ?>
           <li>
-            <a href="students.php">
+            <a href="teachers.php">
               <i class="tim-icons icon-attach-87"></i>
               <p>Teachers</p>
             </a>

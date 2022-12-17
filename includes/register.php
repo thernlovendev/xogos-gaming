@@ -89,7 +89,8 @@ if(isset($_POST['add_user'])) {
           <h6 class="text-center" style="color:green";> <?php echo $message ?> </h6>
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
-            <form method="post" enctype="multipart/form-data">
+            
+            <form action="http://localhost:8888/web-development/xogos-gaming/stripe-one/create-checkout-session.php" method="post" enctype="multipart/form-data">
 
               <div class="row">
                 <div class="col-md-6 mb-4">
@@ -185,7 +186,7 @@ if(isset($_POST['add_user'])) {
               <div class="row">
               <div class="mt-4 pt-2">
                 <input style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="add_user" value="Register" />
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="add_user" id="checkout-button" value="Register" />
               </div>
 
                 <div class="ml-auto mr-auto" style="margin-top: 0.5rem";>
