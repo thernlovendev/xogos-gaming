@@ -12,10 +12,10 @@ $YOUR_DOMAIN = 'http://localhost:8888/web-development/xogos-gaming/stripe-one/';
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-    'price' => 'price_1MG2iTJaC8AzBwqGNN25Ob2y',
+    'price' => 'price_1MGsf1JaC8AzBwqG9STUCHb0',
     'quantity' => 1,
   ]],
-  'mode' => 'payment',
+  'mode' => 'subscription',
   'success_url' => $YOUR_DOMAIN . '/success.html',
   'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
   'automatic_tax' => [

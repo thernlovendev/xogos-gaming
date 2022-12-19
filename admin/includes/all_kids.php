@@ -8,10 +8,8 @@
                 <h4 class="card-title"> My Kids</h4>
                 <!-- ADD KID MODAL -->
                 <?php if(is_parent()): ?>
+                  <a href="../stripe-one/checkout.html" class="btn btn-primary">Add Kid</a>
                 <?php include "includes/add_kid.php" ?>
-                <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterKids">Add Kid</button>
-                  </div>
                   <?php endif ?>
               </div>
               <div class="card-body">
@@ -41,7 +39,7 @@
                             echo "<td>$user_id</td>";
                             echo "<td>$firstname $lastname</td>";
                             echo "<td class='text-right'><a href='students.php?source=edit_student&edit_student={$user_id}'>Edit</a></td>";  
-                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='cams.php?delete={$user_id}'>Delete</a></td>";  
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='my_kids.php?delete={$user_id}'>Delete</a></td>";  
                             echo "</tr>";
                         }
                         
@@ -57,7 +55,7 @@
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
-                    header("Location: users.php");
+                    header("Location: my_kids.php");
 
 
                    }
