@@ -8,7 +8,7 @@
                 <h4 class="card-title"> My Kids</h4>
                 <!-- ADD KID MODAL -->
                 <?php if(is_parent()): ?>
-                  <a href="../stripe-one/checkout.html" class="btn btn-primary">Add Kid</a>
+                  <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Kid</a>
                 <?php include "includes/add_kid.php" ?>
                   <?php endif ?>
               </div>
