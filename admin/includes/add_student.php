@@ -11,6 +11,11 @@ if(isset($_POST['add_student'])) {
     $city      = $_POST['city'];
     $zip       = $_POST['zip'];
 
+    $img      = $_FILES['img']['name'];
+    $img_temp = $_FILES['img']['tmp_name'];
+
+    move_uploaded_file($img_temp, "assets/img/users/$img");
+
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {
 
@@ -50,88 +55,102 @@ if(isset($_POST['add_student'])) {
 ?>
 
 <style>
-    .input-modal{
-        color:black !important;
+    .content {
+        padding:50px;
     }
 </style>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenterStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Student</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form action="" method="post" enctype="multipart/form-data">
+      <!-- End Navbar -->
+      <div class="content">
         <div class="row">
-            <div class="col-md-6 pr-md-1">
-                <div class="form-group">
-                <label class="input-modal">Username</label>
-                <input type="text" class="form-control input-modal" placeholder="Username" name="username">
-                </div>
-            </div>
-            <div class="col-md-6 px-md-1">
-                <div class="form-group">
-                <label class="input-modal">Password</label>
-                <input type="password" class="form-control input-modal" placeholder="Password" name="password">
-                </div>
-            </div>
-            </div>
-            <div class="row">
-                    <div class="col-md-12 pr-md-1">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Register New Kid</h5>
+                <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
+              </div>
+              <div class="card-body">
+                  <form action="" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <label class="input-modal">Email</label>
-                        <input type="email" class="form-control input-modal" placeholder="Email" name="email">
+                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/user_image.png" alt='..'>
+                        <input type="file" class="form-control" name="img">
+                      </div>
+                    </div>
+                  </div>
+                    <div class="row">
+                    <div class="col-md-6 pr-md-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" name="username">
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-md-1">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" placeholder="Password" name="password">
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <label class="input-modal">First Name</label>
-                        <input type="text" class="form-control input-modal" placeholder="First Name" name="firstname">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Email" name="email">
+                      </div>
+                    </div>
+                    <div class="col-md-6 px-md-1">
+                      <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" class="form-control" placeholder="Number" name="phone">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-md-1">
+                      <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="First Name" name="firstname">
                       </div>
                     </div>
                     <div class="col-md-6 pl-md-1">
                       <div class="form-group">
-                        <label class="input-modal">Last Name</label>
-                        <input type="text" class="form-control input-modal" placeholder="Last Name" name="lastname">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last Name" name="lastname">
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label class="input-modal">Address</label>
-                        <input type="text" class="form-control input-modal" placeholder="Address" name="address">
+                        <label>Address</label>
+                        <input type="text" class="form-control" placeholder="Address" name="address">
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <label class="input-modal">City</label>
-                        <input type="text" class="form-control input-modal" placeholder="City" name="city">
+                        <label>City</label>
+                        <input type="text" class="form-control" placeholder="City" name="city">
                       </div>
                     </div>
                     <div class="col-md-6 pl-md-1">
                       <div class="form-group">
-                        <label class="input-modal">Postal Code</label>
-                        <input type="number" class="form-control input-modal" placeholder="ZIP Code" name="zip">
+                        <label>Postal Code</label>
+                        <input type="number" class="form-control" placeholder="ZIP Code" name="zip">
                       </div>
                     </div>
                   </div>
-                  <div class="modal-footer">
-                    <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Close">
-                    <input type="submit" name="add_student" class="btn btn-primary" value="Add Student">
-                    </div>
+                  <div class="form-group">
+                    <input type="submit" class="btn btn-primary" name="add_student" value="Register Kid">
+                  </div>
                 </form>
-      </div>
-    </div>
-  </div>
-</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+      <?php include "includes/footer.php" ?>
+      
