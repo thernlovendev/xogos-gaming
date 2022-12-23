@@ -26,7 +26,7 @@ if(isset($_POST['add_parent'])) {
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, parent_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'parent' ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$student_id}', 'parent' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {
@@ -56,7 +56,7 @@ if(isset($_POST['add_parent'])) {
 </style>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenterParents" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenterParent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -67,6 +67,27 @@ if(isset($_POST['add_parent'])) {
       </div>
       <div class="modal-body">
       <form action="" method="post" enctype="multipart/form-data">
+      <div class="row">
+                <div class="col-md-4 form-group">
+                    <label class="input-modal" for="users">Parent</label>
+                    <select style="color:black;" name="student_parent" class="form-control" id="">
+                    <?php 
+            
+                    $query = "SELECT * FROM users WHERE user_role = 'parent'";
+                    $select_user = mysqli_query($connection, $query);
+
+                    while ($row = mysqli_fetch_assoc($select_user)) {
+                    $parent_id = $row['parent_id'];
+                    $firstname = $row['firstname'];
+                
+                    echo "<option value='{$parent_id}'>{$firstname}</option>";
+
+                      }
+                
+                    ?>
+                    </select>
+                  </div>
+                    </div>
         <div class="row">
             <div class="col-md-6 pr-md-1">
                 <div class="form-group">

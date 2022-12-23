@@ -15,17 +15,6 @@ header("location: ../includes/login.php");
 
 }
 
-if($_SESSION['kids_count'] >= 1) {
-
-
-} else {
-
-header("location: ../admin/register_kid.php");
-
-
-}
-
-
 
 ?>
 

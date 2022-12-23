@@ -12,17 +12,18 @@ if(isset($_GET['edit_student'])) {
 
     while($row = mysqli_fetch_assoc($select_user_profile_query)) {
 
-      $user_id   = $row['user_id'];
-      $firstname = $row['firstname'];
-      $lastname  = $row['lastname'];
-      $img       = $row['img'];
-      $email     = $row['email'];
-      $phone     = $row['phone'];
-      $username  = $row['username'];
-      $password  = $row['password'];
-      $address   = $row['address'];
-      $city      = $row['city'];
-      $zip       = $row['zip'];
+      $user_id    = $row['user_id'];
+      $student_id = $row['student_id'];
+      $firstname  = $row['firstname'];
+      $lastname   = $row['lastname'];
+      $img        = $row['img'];
+      $email      = $row['email'];
+      $phone      = $row['phone'];
+      $username   = $row['username'];
+      $password   = $row['password'];
+      $address    = $row['address'];
+      $city       = $row['city'];
+      $zip        = $row['zip'];
 
 
     }
@@ -32,15 +33,16 @@ if(isset($_GET['edit_student'])) {
 
 if(isset($_POST['edit_user'])) {
     
-  $firstname = $_POST['firstname'];
-  $lastname  = $_POST['lastname'];
-  $email     = $_POST['email'];
-  $phone     = $_POST['phone'];
-  $username  = $_POST['username'];
-  $password  = $_POST['password'];
-  $address   = $_POST['address'];
-  $city      = $_POST['city'];
-  $zip       = $_POST['zip'];
+  $student_id = $_POST['student_id'];
+  $firstname  = $_POST['firstname'];
+  $lastname   = $_POST['lastname'];
+  $email      = $_POST['email'];
+  $phone      = $_POST['phone'];
+  $username   = $_POST['username'];
+  $password   = $_POST['password'];
+  $address    = $_POST['address'];
+  $city       = $_POST['city'];
+  $zip        = $_POST['zip'];
 
   $img      = $_FILES['img']['name'];
   $img_temp = $_FILES['img']['tmp_name'];
@@ -82,6 +84,7 @@ if(!empty($password)) {
     
 
         $query = "UPDATE users SET ";
+        $query .= "student_id     = '{$student_id}', ";
         $query .= "firstname      = '{$firstname}', ";
         $query .= "lastname       = '{$lastname}', ";
         $query .= "lastname       = '{$lastname}', ";
@@ -101,7 +104,7 @@ if(!empty($password)) {
         
         $message = "Profile Updated!";
 
-        header("refresh:2;url=user.php");
+        header("refresh:2;url=my_students.php");
 
         }
 
@@ -129,12 +132,7 @@ if(!empty($password)) {
               </div>
               <div class="card-body">
                 <!-- ADD PARENT MODAL -->
-                <?php if(is_teacher()): ?>
-                  <?php include "includes/add_extra_parent.php" ?>
-                  <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterNewParent">Add Parent</button>
-                  </div>
-                  <?php endif ?>
+                
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
@@ -142,6 +140,14 @@ if(!empty($password)) {
                       <div class="form-group">
                         <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/<?php echo $img;?>" alt='..'>
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Student Id</label>
+                        <input type="text" class="form-control" placeholder="Username" name="student_id" value="<?php echo $student_id; ?>">
                       </div>
                     </div>
                   </div>

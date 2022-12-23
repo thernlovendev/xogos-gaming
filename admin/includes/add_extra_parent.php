@@ -28,7 +28,7 @@ if(isset($_POST['add_parent'])) {
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, zip, parent_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$student_id}', 'parent' ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'parent' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {

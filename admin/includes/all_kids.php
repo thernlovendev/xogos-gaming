@@ -1,15 +1,19 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php"; ?>
+
+<?php 
+$kids_count = count_records(get_all_user_kids());
+?>
+
 <div class="content">
 <div class="row">
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header">
-                <h4 class="card-title"> My Kids</h4>
+                <h4 class="card-title"> My Kids <?php echo $kids_count ?></h4>
                 <!-- ADD KID MODAL -->
                 <?php if(is_parent()): ?>
                   <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Kid</a>
-                <?php include "includes/add_kid.php" ?>
                   <?php endif ?>
               </div>
               <div class="card-body">

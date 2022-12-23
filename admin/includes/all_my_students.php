@@ -8,10 +8,7 @@
                 <h4 class="card-title"> My Kids</h4>
                 <!-- ADD KID MODAL -->
                 <?php if(is_teacher()): ?>
-                <?php include "includes/add_student.php" ?>
-                <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterStudent">Add Student</button>
-                  </div>
+                  <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Student</a>
                   <?php endif ?>
               </div>
               <div class="card-body">

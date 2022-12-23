@@ -7,7 +7,7 @@ include './stripe-php-master/init.php';
 
 header('Content-Type: application/json');
 
-$YOUR_DOMAIN = 'https://testing.thernloven.com/admin/stripe-one/';
+$YOUR_DOMAIN = 'http://localhost:8888/web-development/xogos-gaming/admin';
 
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[
@@ -16,7 +16,7 @@ $checkout_session = \Stripe\Checkout\Session::create([
     'quantity' => 1,
   ]],
   'mode' => 'subscription',
-  'success_url' => $YOUR_DOMAIN . '/success.html',
+  'success_url' => $YOUR_DOMAIN . '/success.php',
   'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
   'automatic_tax' => [
     'enabled' => true,

@@ -424,8 +424,8 @@ function loggedInUserIdTeacher(){
 
 }
 
-function get_all_user_clients(){
-    return query("SELECT * FROM clients WHERE client_user=".loggedInUserId()."");
+function get_all_user_kids(){
+    return query("SELECT * FROM users WHERE student_id =".loggedInUserIdParent()."");
 }
 
 function get_all_user_leads(){

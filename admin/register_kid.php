@@ -1,17 +1,17 @@
-<?php include "includes/header.php" ?>
+<?php include "includes/reg_header.php" ?>
 
 <?php
 
 if(isset($_POST['add_student'])) {
 
-    $firstname = $_POST['firstname'];
-    $lastname  = $_POST['lastname'];
-    $email     = $_POST['email'];
-    $username  = $_POST['username'];
-    $password  = $_POST['password'];
-    $address   = $_POST['address'];
-    $city      = $_POST['city'];
-    $zip       = $_POST['zip'];
+    $firstname  = $_POST['firstname'];
+    $lastname   = $_POST['lastname'];
+    $email      = $_POST['email'];
+    $username   = $_POST['username'];
+    $password   = $_POST['password'];
+    $address    = $_POST['address'];
+    $city       = $_POST['city'];
+    $zip        = $_POST['zip'];
 
     $img      = $_FILES['img']['name'];
     $img_temp = $_FILES['img']['tmp_name'];
@@ -48,11 +48,26 @@ if(isset($_POST['add_student'])) {
 
   }
 
-  header("refresh:2;url=my_kids.php");
+  // header("refresh:2;url=index.php");
 
 } else {
    $message = "";
 }
+
+// UPDATE KIDS COUNT
+
+if(isset($_SESSION['add_student'])) {
+  
+  $the_user_id = $_SESSION['user_id'];
+  $kids_count  = $_SESSION['kids_count'];
+  
+      $query = "UPDATE users SET kids_count = kids_count + 1 WHERE user_id = '{$the_user_id}' ";
+  
+      $edit_user_query = mysqli_query($connection, $query);
+  
+      confirm($edit_user_query);
+
+      }
 
 ?>
 

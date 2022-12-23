@@ -4,6 +4,7 @@
 
 <?php 
 
+
 if(isset($_POST['login'])) {
 
   $username = $_POST['username'];
@@ -32,6 +33,7 @@ if(isset($_POST['login'])) {
     $db_lastname     = $row['lastname'];
     $db_img          = $row['img'];
     $db_user_role    = $row['user_role'];
+    $db_kids_count   = $row['kids_count'];
   }
 
 //   $password = crypt($password, $db_user_password);
@@ -48,6 +50,7 @@ if (password_verify($password,$db_password)) {
   $_SESSION['teacher_id']   = $db_teacher_id;
   $_SESSION['student_id']   = $db_student_id;
   $_SESSION['t_student_id'] = $db_t_student_id;
+  $_SESSION['kids_count']   = $db_kids_count;
 
   
     header("Location: ../admin/index.php");
