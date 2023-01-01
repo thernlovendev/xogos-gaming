@@ -499,3 +499,61 @@ function print_users_online(){
     }
  
 }
+
+function update_kids_count(){
+     global $connection;  
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE parent_id !=''");
+       
+        if (mysqli_num_rows($result) > 0) {
+            while ($parent_data = mysqli_fetch_assoc($result)) {
+                $student_row = query("SELECT * FROM users WHERE student_id ='".$parent_data['parent_id']."'");
+               $student_count= mysqli_num_rows($student_row); 
+               $query="UPDATE users SET kids_count=".$student_count." WHERE parent_id=".$parent_data['parent_id'];
+                  $update= mysqli_query($connection, $query);
+                  if($update){
+                      
+                  }
+                  else{
+                      echo $query;
+                       die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+                  }
+            }
+
+        }
+       
+
+    }
+    return false;
+}
+function update_kids_count_byteacher(){
+     global $connection;  
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE teacher_id !=''");
+       
+        if (mysqli_num_rows($result) > 0) {
+            while ($parent_data = mysqli_fetch_assoc($result)) {
+                $student_row = query("SELECT * FROM users WHERE t_student_id ='".$parent_data['teacher_id']."'");
+              //  echo $parent_data['teacher_id'];
+               $student_count= mysqli_num_rows($student_row); 
+              // echo $student_count.'<br>';
+              
+               if($student_count > 0){
+               $query="UPDATE users SET kids_count=".$student_count." WHERE teacher_id=".$parent_data['teacher_id'];
+                  $update= mysqli_query($connection, $query);
+                  if($update){
+                      
+                  }
+                  else{
+                      echo $query;
+                       die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+                  }
+               }
+            }
+
+        }
+       
+
+    }
+    return false;
+}

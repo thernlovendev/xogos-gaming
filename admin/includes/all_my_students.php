@@ -5,7 +5,7 @@
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header">
-                <h4 class="card-title"> My Kids</h4>
+                <h4 class="card-title"> My Students</h4>
                 <!-- ADD KID MODAL -->
                 <?php if(is_teacher()): ?>
                   <a href="./stripe-one/checkout.php" class="btn btn-primary">Add Student</a>
@@ -54,6 +54,8 @@
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
+                     update_kids_count();
+        update_kids_count_byteacher();
                     header("Location: users.php");
 
 

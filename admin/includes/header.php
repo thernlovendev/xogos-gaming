@@ -20,7 +20,7 @@ if($_SESSION['kids_count'] >= 1) {
 
 } else {
 
-header("location: ../admin/register_kid.php");
+header("location: ../stripe-one/checkout.php");
 
 
 }

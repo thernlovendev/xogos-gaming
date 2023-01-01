@@ -15,6 +15,7 @@ if(isset($_SESSION['user_id'])) {
     while($row = mysqli_fetch_array($select_user_profile_query)) {
 
       $user_id   = $row['user_id'];
+      $parent_id = $row['parent_id'];
       $firstname = $row['firstname'];
       $lastname  = $row['lastname'];
       $img       = $row['img'];
@@ -102,6 +103,8 @@ if(!empty($password)) {
         confirm($edit_user_query);
         
         $message = "Profile Updated!";
+          update_kids_count();
+    update_kids_count_byteacher();
 
         header("refresh:2;url=user.php");
 
@@ -150,13 +153,19 @@ if(!empty($password)) {
                     </div>
                   </div>
                     <div class="row">
-                    <div class="col-md-6 pr-md-1">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Parent ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
+                      </div>
+                    </div>
+                    <div class="col-md-5 pr-md-1">
                       <div class="form-group">
                         <label>Username</label>
                         <input type="text" class="form-control" placeholder="Username" name="username" value="<?php echo $username; ?>" readonly>
                       </div>
                     </div>
-                    <div class="col-md-6 px-md-1">
+                    <div class="col-md-5 px-md-1">
                       <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password; ?>">

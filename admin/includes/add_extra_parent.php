@@ -34,7 +34,8 @@ if(isset($_POST['add_parent'])) {
     if(!$register_student_query) {
         die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
     }
-    
+    update_kids_count();
+    update_kids_count_byteacher();
     $message = "Your registration was successful";
 
   } else {

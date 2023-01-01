@@ -59,6 +59,9 @@ $kids_count = count_records(get_all_user_kids());
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
+                     
+        update_kids_count();
+        update_kids_count_byteacher();
                     header("Location: my_kids.php");
 
 

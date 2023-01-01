@@ -36,7 +36,6 @@ if(isset($_POST['add_user'])) {
     if(!$register_parent_query) {
         die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
     }
-    
     $message = "Your registration was successful";
 
   } else {

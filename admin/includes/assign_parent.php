@@ -28,6 +28,8 @@ if(isset($_POST['edit_user'])) {
         $edit_user_query = mysqli_query($connection, $query);
     
         confirm($edit_user_query);
+       update_kids_count();
+    update_kids_count_byteacher();
         
         $message = "Profile Updated!";
 

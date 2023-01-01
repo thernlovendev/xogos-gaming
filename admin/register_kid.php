@@ -40,6 +40,9 @@ if(isset($_POST['add_student'])) {
         die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
     }
     
+    update_kids_count();
+    update_kids_count_byteacher();
+   
     $message = "Your registration was successful";
 
   } else {
@@ -47,8 +50,6 @@ if(isset($_POST['add_student'])) {
     $message = "Fields cannot be empty";
 
   }
-
-  // header("refresh:2;url=index.php");
 
 } else {
    $message = "";
@@ -66,6 +67,10 @@ if(isset($_SESSION['add_student'])) {
       $edit_user_query = mysqli_query($connection, $query);
   
       confirm($edit_user_query);
+      update_kids_count();
+    update_kids_count_byteacher();
+
+    // header("refresh:2;url=index.php");
 
       }
 

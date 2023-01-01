@@ -12,7 +12,7 @@
 
                     switch($source) {
 
-                        case 'add_kid';
+                        case 'add_student';
                         include "includes/add_student.php";
                         break;
 
