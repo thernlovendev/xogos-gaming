@@ -1,4 +1,6 @@
-<?php include "../admin/includes/db.php"; ?>
+<?php include "../admin/includes/db.php";
+include "../admin/functions.php"
+?>
 <?php session_start(); ?>
 
 
@@ -34,6 +36,7 @@ if(isset($_POST['login'])) {
     $db_img          = $row['img'];
     $db_user_role    = $row['user_role'];
     $db_kids_count   = $row['kids_count'];
+    $db_email        = $row['email'];
   }
 
 //   $password = crypt($password, $db_user_password);
@@ -51,8 +54,16 @@ if (password_verify($password,$db_password)) {
   $_SESSION['student_id']   = $db_student_id;
   $_SESSION['t_student_id'] = $db_t_student_id;
   $_SESSION['kids_count']   = $db_kids_count;
-
-  
+  $_SESSION['email']        = $db_email;
+  $data_array_login = [
+      'email'=>$db_email,
+      'password'=>$_POST['password'],
+    ];
+    $_SESSION['token_LR'] = loginLightingRound($data_array_login);
+    $token = loginLightingRound($data_array_login);
+    $query="UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
+    $update= mysqli_query($connection, $query); 
+    confirm($update);
     header("Location: ../admin/index.php");
 
 } else {
@@ -61,11 +72,5 @@ if (password_verify($password,$db_password)) {
 
 
 }
-
-
-
-
-
-
 
 ?>
