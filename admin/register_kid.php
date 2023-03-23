@@ -43,13 +43,15 @@ if(isset($_POST['add_student'])) {
     update_kids_count();
     update_kids_count_byteacher();
    
-    $message = "Your registration was successful";
+    $message = "Your registration was successful, returing to login...";
 
   } else {
 
     $message = "Fields cannot be empty";
 
   }
+
+  header("refresh:2;url=../includes/login.php");
 
 } else {
    $message = "";
@@ -69,8 +71,6 @@ if(isset($_SESSION['add_student'])) {
       confirm($edit_user_query);
       update_kids_count();
     update_kids_count_byteacher();
-
-    // header("refresh:2;url=index.php");
 
       }
 
@@ -166,7 +166,9 @@ if(isset($_SESSION['add_student'])) {
                     </div>
                   </div>
                   <div class="form-group">
+                  <a href="index.php">
                     <input type="submit" class="btn btn-primary" name="add_student" value="Register Kid">
+                    </a>
                   </div>
                 </form>
               </div>
