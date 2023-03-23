@@ -24,6 +24,7 @@
       <input type="hidden" id="session-id" name="session_id" value="" />
       <button id="checkout-and-portal-button" type="submit">Continue Registration</button>
     </form>
+
   </section>
 </body>
 </html>
