@@ -45,7 +45,8 @@ if(isset($_POST['add_student'])) {
       'email'=>$email,
       'password'=>$_POST['password'],
       'password_confirmation'=>$_POST['password'],
-      'country_id'=>1
+      'country_id'=>1,
+      'parent_id'=>$_SESSION['parent_id'] 
     ];
     register_lighting_round($data_register_lightning_round);
     $message = "Your registration was successful";
@@ -159,6 +160,5 @@ if(isset($_POST['add_student'])) {
             </div>
           </div>
         </div>
-
       <?php include "includes/footer.php" ?>
       

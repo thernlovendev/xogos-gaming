@@ -527,7 +527,7 @@ function update_kids_count(){
 }
 
 function register_lighting_round($data_array){
-    $url = 'http://127.0.0.1:8000/api/register';
+    $url = 'https://lightninground.rocks/api/register';
     
     $data = http_build_query($data_array);
     $ch = curl_init();
@@ -546,7 +546,7 @@ function register_lighting_round($data_array){
 }
 function deleteUserFromLightningRound($data_array)
 {
-    $url = 'http://127.0.0.1:8000/api/removeAccount';
+    $url = 'https://lightninground.rocks/api/removeAccount';
     
     $data = http_build_query($data_array);
     $ch = curl_init();
@@ -565,7 +565,7 @@ function deleteUserFromLightningRound($data_array)
 }
 
 function loginLightingRound($data_array){
-    $url = 'http://127.0.0.1:8000/api/login';
+    $url = 'https://lightninground.rocks/api/login';
     
     $data = http_build_query($data_array);
     $ch = curl_init();
@@ -585,7 +585,7 @@ function loginLightingRound($data_array){
 
 }
 function editInfoLightingRound($data_array){
-    $url = 'http://127.0.0.1:8000/api/updateInfoKids';
+    $url = 'https://lightninground.rocks/api/updateInfoKids';
     
     $data = http_build_query($data_array);
     $ch = curl_init();
@@ -597,7 +597,7 @@ function editInfoLightingRound($data_array){
     if($e = curl_error($ch)){
         echo $e;
     }else{
-       var_dump(json_decode($resp));
+      json_decode($resp);
     }
 }
 
