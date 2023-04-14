@@ -10,7 +10,6 @@ if(isset($_POST['add_student'])) {
     $address    = $_POST['address'];
     $city       = $_POST['city'];
     $zip        = $_POST['zip'];
-
     $img      = $_FILES['img']['name'];
     $img_temp = $_FILES['img']['tmp_name'];
 
@@ -39,12 +38,21 @@ if(isset($_POST['add_student'])) {
     }
     update_kids_count();
     update_kids_count_byteacher();
+    $data_register_lightning_round = [
+      'username'=>$username,
+      'first_name'=>$firstname,
+      'last_name'=>$lastname,
+      'email'=>$email,
+      'password'=>$_POST['password'],
+      'password_confirmation'=>$_POST['password'],
+      'country_id'=>1,
+      'parent_id'=>$_SESSION['parent_id'] 
+    ];
+    register_lighting_round($data_register_lightning_round);
     $message = "Your registration was successful";
 
   } else {
-
     $message = "Fields cannot be empty";
-
   }
 
   header("refresh:2;url=my_kids.php");
@@ -152,6 +160,5 @@ if(isset($_POST['add_student'])) {
             </div>
           </div>
         </div>
-
       <?php include "includes/footer.php" ?>
       

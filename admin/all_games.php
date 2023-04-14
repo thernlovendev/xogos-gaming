@@ -26,7 +26,7 @@ $kids_count = count_records(get_all_user_kids());
                         <tbody>
                       <td>123</td>
                       <td>Historical Conquest</td>
-                      <td class='text-right'><a href=''>Play</a></td>
+                      <td class='text-right'><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Play</a></td>
                       </tr>
                 
                    </tbody>
@@ -37,7 +37,6 @@ $kids_count = count_records(get_all_user_kids());
                    if(isset($_GET['delete'])) {
 
                     $client_id = $_GET['delete'];
-
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
                      
@@ -47,8 +46,6 @@ $kids_count = count_records(get_all_user_kids());
 
 
                    }
-                   
-                   
                    ?>
 
                 </div>

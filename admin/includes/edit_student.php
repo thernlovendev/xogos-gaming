@@ -1,6 +1,7 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
 
+
 <?php
 
 if(isset($_GET['edit_student'])) {
@@ -27,8 +28,7 @@ if(isset($_GET['edit_student'])) {
 
 
     }
-
-    
+   
 }
 
 if(isset($_POST['edit_user'])) {
@@ -43,11 +43,10 @@ if(isset($_POST['edit_user'])) {
   $address    = $_POST['address'];
   $city       = $_POST['city'];
   $zip        = $_POST['zip'];
-
   $img      = $_FILES['img']['name'];
   $img_temp = $_FILES['img']['tmp_name'];
 
-    move_uploaded_file($img_temp, "assets/img/users/$img");
+  move_uploaded_file($img_temp, "assets/img/users/$img");
 
     if(empty($img)) {
         
@@ -80,9 +79,6 @@ if(!empty($password)) {
 
   }
 
-
-    
-
         $query = "UPDATE users SET ";
         $query .= "student_id     = '{$student_id}', ";
         $query .= "firstname      = '{$firstname}', ";
@@ -99,9 +95,17 @@ if(!empty($password)) {
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
-    
+        $data_array = [
+          'email' => $email,
+          'first_name'=>$firstname,
+          'last_name'=>$lastname,
+          'password'=>$password,
+          'username'=>$username,
+        ];
+        var_dump($data_array);
+        editInfoLightingRound($data_array);
         confirm($edit_user_query);
-         update_kids_count();
+        update_kids_count();
         update_kids_count_byteacher();
         
         $message = "Profile Updated!";

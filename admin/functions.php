@@ -504,7 +504,6 @@ function update_kids_count(){
      global $connection;  
     if(isLoggedIn()){
         $result = query("SELECT * FROM users WHERE parent_id !=''");
-       
         if (mysqli_num_rows($result) > 0) {
             while ($parent_data = mysqli_fetch_assoc($result)) {
                 $student_row = query("SELECT * FROM users WHERE student_id ='".$parent_data['parent_id']."'");
@@ -526,6 +525,82 @@ function update_kids_count(){
     }
     return false;
 }
+
+function register_lighting_round($data_array){
+    $url = 'https://lightninground.rocks/api/register';
+    
+    $data = http_build_query($data_array);
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_POST,true);
+    curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $resp = curl_exec($ch);
+    if($e = curl_error($ch)){
+        echo $e;
+    }else{
+        return json_decode($resp)->content->token;
+    }
+
+
+}
+function deleteUserFromLightningRound($data_array)
+{
+    $url = 'https://lightninground.rocks/api/removeAccount';
+    
+    $data = http_build_query($data_array);
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_POST,true);
+    curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $resp = curl_exec($ch);
+    if($e = curl_error($ch)){
+        echo $e;
+    
+    }else{
+        
+        return json_decode($resp)->content->token;
+    }
+}
+
+function loginLightingRound($data_array){
+    $url = 'https://lightninground.rocks/api/login';
+    
+    $data = http_build_query($data_array);
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_POST,true);
+    curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $resp = curl_exec($ch);
+    if($e = curl_error($ch)){
+        echo $e;
+    
+    }else{
+        
+        return json_decode($resp)->content->token;
+    }
+
+
+}
+function editInfoLightingRound($data_array){
+    $url = 'https://lightninground.rocks/api/updateInfoKids';
+    
+    $data = http_build_query($data_array);
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$url);
+    curl_setopt($ch,CURLOPT_POST,true);
+    curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $resp = curl_exec($ch);
+    if($e = curl_error($ch)){
+        echo $e;
+    }else{
+      json_decode($resp);
+    }
+}
+
 function update_kids_count_byteacher(){
      global $connection;  
     if(isLoggedIn()){
