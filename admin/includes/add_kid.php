@@ -48,7 +48,12 @@ if(isset($_POST['add_student'])) {
       'country_id'=>1,
       'parent_id'=>$_SESSION['parent_id'] 
     ];
-    register_lighting_round($data_register_lightning_round);
+    $token_lr = register_lighting_round($data_register_lightning_round);
+
+    $query="UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
+    $update= mysqli_query($connection, $query); 
+
+    $edit_user_query = mysqli_query($connection, $query);
     $message = "Your registration was successful";
 
   } else {

@@ -538,11 +538,10 @@ function register_lighting_round($data_array){
     $resp = curl_exec($ch);
     if($e = curl_error($ch)){
         echo $e;
-    }else{
+    }else{ 
         return json_decode($resp)->content->token;
+        
     }
-
-
 }
 function deleteUserFromLightningRound($data_array)
 {
@@ -581,8 +580,6 @@ function loginLightingRound($data_array){
         
         return json_decode($resp)->content->token;
     }
-
-
 }
 function editInfoLightingRound($data_array){
     $url = 'https://lightninground.rocks/api/updateInfoKids';
