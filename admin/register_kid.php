@@ -1,4 +1,4 @@
-<?php include "includes/reg_header.php" ?>
+<?php include "includes/reg_header.php"; ?>
 
 <?php
 
@@ -42,6 +42,20 @@ if(isset($_POST['add_student'])) {
     
     update_kids_count();
     update_kids_count_byteacher();
+    $data_register_lightning_round = [
+      'username'=>$username,
+      'first_name'=>$firstname,
+      'last_name'=>$lastname,
+      'email'=>$email,
+      'password'=>$_POST['password'],
+      'password_confirmation'=>$_POST['password'],
+      'country_id'=>1,
+      'parent_id'=>$_SESSION['parent_id'] 
+    ];
+    $token = register_lighting_round($data_register_lightning_round);
+
+    $query="UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
+    $update= mysqli_query($connection, $query); 
    
     $message = "Your registration was successful, returing to login...";
 

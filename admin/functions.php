@@ -538,7 +538,7 @@ function register_lighting_round($data_array){
     $resp = curl_exec($ch);
     if($e = curl_error($ch)){
         echo $e;
-    }else{
+    }else{ 
         return json_decode($resp)->content->token;
         
     }
