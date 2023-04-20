@@ -2,10 +2,6 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php"; ?>
 
-<?php 
-$kids_count = count_records(get_all_user_kids());
-?>
-
 <div class="content">
 <div class="row">
           <div class="col-md-12">
@@ -24,10 +20,24 @@ $kids_count = count_records(get_all_user_kids());
                             </tr>
                         </thead>
                         <tbody>
-                      <td>123</td>
-                      <td>Historical Conquest</td>
-                      <td class='text-right'><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Play</a></td>
-                      </tr>
+                          <tr>
+                            <td>1</td>
+                            <td><img src="assets/img/lightning-round.jpg" alt="" style="width:125px; height:auto;"></td>
+                            <td>Lightning Round</td>
+                            <td class='text-right'><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Play</a></td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td><img src="assets/img/historical-conquest.jpg" alt="" style="width:125px; height:auto;"></td>
+                            <td>Historical Conquest</td>
+                            <td class='text-right'><a href=''>Play</a></td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td><img src="assets/img/time-quest.jpg" alt="" style="width:125px; height:auto;"></td>
+                            <td>Time Quest</td>
+                            <td class='text-right'><a href=''>Play</a></td>
+                          </tr>
                 
                    </tbody>
                    </table>

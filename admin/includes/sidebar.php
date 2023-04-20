@@ -75,6 +75,12 @@
             </a>
           </li>
           <?php endif ?>
+          <li>
+            <a href="all_games.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>All Games</p>
+            </a>
+          </li>
 
           <!-- <li>
             <a href="examples/icons.html">

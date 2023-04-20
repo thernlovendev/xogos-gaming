@@ -15,7 +15,7 @@ header("location: ../includes/login.php");
 
 }
 
-if($_SESSION['kids_count'] >= 1) {
+if($_SESSION['kids_count'] >= 1 OR $_SESSION['user_role'] == 'student') {
 
 
 } else {
