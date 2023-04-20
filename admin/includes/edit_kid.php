@@ -96,7 +96,14 @@ if(!empty($password)) {
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
-    
+        $data_array = [
+          'email' => $email,
+          'first_name'=>$firstname,
+          'last_name'=>$lastname,
+          'password'=>$password,
+          'username'=>$username,
+        ];
+        editInfoLightingRound($data_array);
         confirm($edit_user_query);
           update_kids_count();
     update_kids_count_byteacher();

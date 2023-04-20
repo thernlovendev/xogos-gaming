@@ -48,7 +48,7 @@ if(isset($_POST['add_student'])) {
       'country_id'=>1,
       'parent_id'=>$_SESSION['parent_id'] 
     ];
-    $token_lr = register_lighting_round($data_register_lightning_round);
+    $token = register_lighting_round($data_register_lightning_round);
 
     $query="UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
     $update= mysqli_query($connection, $query); 

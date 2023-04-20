@@ -60,6 +60,7 @@
                       'username'=>$row['username'],
                      ];
                      deleteUserFromLightningRound($data_array);
+                     
                     header("Location: users.php");
 
 

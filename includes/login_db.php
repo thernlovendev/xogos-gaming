@@ -59,8 +59,9 @@ if (password_verify($password,$db_password)) {
       'email'=>$db_email,
       'password'=>$_POST['password'],
     ];
-    $_SESSION['token_LR'] = loginLightingRound($data_array_login);
+   
     $token = loginLightingRound($data_array_login);
+    $_SESSION['token_LR'] = $token;
     $query="UPDATE users SET token_lr='{$token}' WHERE username='{$db_username}'";
     $update= mysqli_query($connection, $query); 
     confirm($update);

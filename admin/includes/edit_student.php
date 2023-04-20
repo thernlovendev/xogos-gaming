@@ -102,7 +102,6 @@ if(!empty($password)) {
           'password'=>$password,
           'username'=>$username,
         ];
-        var_dump($data_array);
         editInfoLightingRound($data_array);
         confirm($edit_user_query);
         update_kids_count();
