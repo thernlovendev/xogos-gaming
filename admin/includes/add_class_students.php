@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirect the user to a different page
-        header("refresh:2;url=my_classes.php");
+        header("Location: my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
         exit();
     } else {
         echo "Class ID cannot be empty.";
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="row">
                     <div class="col-md-12 pr-md-1">
                       <div class="form-group">
-                      <input type="text" name="class_id" id="class_id" value="">
+                      <input type="text" name="class_id" id="class_id" value="<?php echo $class_id ?>">
                       <label for="users">Select Students</label>
                     <select multiple name="student_id[]" class="form-control" id="student_id">
                     <?php 

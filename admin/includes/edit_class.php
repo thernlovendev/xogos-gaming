@@ -1,7 +1,6 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
-<?php include "add_class_students.php" ?>
-
+<?php include "includes/add_class_students.php" ?>
 <?php
 
 ///EDIT THE CLASS NAME///
@@ -66,6 +65,29 @@ if(isset($_GET['edit_class'])) {
 
 }
 
+///DELETE CLASS///
+                   
+if(isset($_GET['delete'])) {
+  $class_id = $_GET['delete'];
+
+  // Display a confirmation popup before deleting the data
+  echo '<script>if(confirm("Are you sure you want to delete this class?")){';
+  
+  $query = "DELETE FROM enrollments WHERE class_id = {$class_id}";
+  $delete_enrollments_query = mysqli_query($connection, $query);
+
+  $query = "DELETE FROM classes WHERE class_id = {$class_id}";
+  $delete_query = mysqli_query($connection, $query);
+
+  // Check if the query executed successfully
+  if($delete_query) {
+    header("Location: my_classes.php");
+  } else {
+    echo "Error deleting class.";
+  }
+
+  echo '}</script>';
+}
 ?>
 
       <!-- End Navbar -->
@@ -74,7 +96,7 @@ if(isset($_GET['edit_class'])) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Edit Profile</h5>
+                <h4 class="card-title">Edit Class</h4>
                 <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
@@ -94,6 +116,7 @@ if(isset($_GET['edit_class'])) {
                     <input type="submit" class="btn btn-primary" name="edit_class" value="Update Class">
                   </div>
                 </form>
+                <a class="text-danger" href="my_classes.php?delete=<?php echo $class_id; ?>" onclick="return confirm('Are you sure you want to delete this class?')">Delete Class</a>
               </div>
             </div>
           </div>
@@ -105,8 +128,8 @@ if(isset($_GET['edit_class'])) {
                 <h4 class="card-title"> My Students</h4>
                 <!-- ADD CLASS MODAL -->
                 <?php if(is_teacher()): ?>
-                  <?php include "add_student_to_class.php" ?>
                   <div class="form-group">
+                  <?php include "add_student_to_class.php" ?>
                     <button type='button' class='btn btn-primary add-students-btn' data-toggle='modal' data-target='#newStudentsEditClass' data-class-id='$the_class_id'>Add Students</button>
                   </div>
                   <?php endif ?>
