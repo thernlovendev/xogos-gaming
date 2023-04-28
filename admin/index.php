@@ -6,7 +6,7 @@
       <!-- End Navbar -->
       <div class="content">
       <div class="row">
-      <?php include "includes/profile.php" ?>
+      <?php include "includes/coins.php" ?>
 
       <?php include "includes/performance.php" ?>
       <div class="row">
