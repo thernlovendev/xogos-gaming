@@ -1,129 +1,70 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
+<?php include "add_class_students.php" ?>
 
 <?php
 
-if(isset($_GET['edit_student'])) {
+///EDIT THE CLASS NAME///
 
-    $the_class_id = $_GET['edit_class'];
+if(isset($_GET['edit_class'])) {
 
-    $query = "SELECT * FROM enrollments WHERE class_id = '{$the_class_id}' ";
-    $select_class_query = mysqli_query($connection, $query);
+  $the_class_id = $_GET['edit_class'];
 
-    while($row = mysqli_fetch_assoc($select_class_query)) {
+  $query = "SELECT * FROM classes WHERE class_id = '{$the_class_id}' ";
+  $select_class_profile_query = mysqli_query($connection, $query);
 
-      $user_id   = $row['user_id'];
-      $firstname = $row['firstname'];
-      $lastname  = $row['lastname'];
-      $img       = $row['img'];
-      $email     = $row['email'];
-      $phone     = $row['phone'];
-      $username  = $row['username'];
-      $password  = $row['password'];
-      $address   = $row['address'];
-      $city      = $row['city'];
-      $zip       = $row['zip'];
+  while($row = mysqli_fetch_assoc($select_class_profile_query)) {
 
+    $class_id      = $row['class_id'];
+    $class_subject = $row['class_subject'];
 
-    }
-
-    
-}
-
-if(isset($_POST['edit_user'])) {
-    
-  $firstname = $_POST['firstname'];
-  $lastname  = $_POST['lastname'];
-  $email     = $_POST['email'];
-  $phone     = $_POST['phone'];
-  $username  = $_POST['username'];
-  $password  = $_POST['password'];
-  $address   = $_POST['address'];
-  $city      = $_POST['city'];
-  $zip       = $_POST['zip'];
-
-  $img      = $_FILES['img']['name'];
-  $img_temp = $_FILES['img']['tmp_name'];
-
-    move_uploaded_file($img_temp, "assets/img/users/$img");
-
-    if(empty($img)) {
-        
-        $query = "SELECT * FROM users WHERE user_id = '{$user_id}' ";
-        $select_image = mysqli_query($connection,$query);
-            
-        while($row = mysqli_fetch_array($select_image)) {
-            
-          $img = $row['img'];
-        
-        }
-        
-        
-}
-
-if(!empty($password)) {
-
-  $query_password = "SELECT password FROM users WHERE user_id = '{$the_user_id}' ";
-  $get_user_query = mysqli_query($connection, $query_password);
-  confirmQuery($get_user_query);
-
-  $row = mysqli_fetch_array($get_user_query);
-
-  $db_password = $row['password'];
-
-
-  if($db_password != $password) {
-
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
   }
 
-
-    
-
-        $query = "UPDATE users SET ";
-        $query .= "firstname      = '{$firstname}', ";
-        $query .= "lastname       = '{$lastname}', ";
-        $query .= "lastname       = '{$lastname}', ";
-        $query .= "img            = '{$img}', ";
-        $query .= "email          = '{$email}', ";
-        $query .= "phone          = '{$phone}', ";
-        $query .= "username       = '{$username}', ";
-        $query .= "password       = '{$password}', ";
-        $query .= "address        = '{$address}', ";
-        $query .= "city           = '{$city}', ";
-        $query .= "zip            = '{$zip}' ";
-        $query .= "WHERE user_id  = '{$the_user_id}' ";
-    
-        $edit_user_query = mysqli_query($connection, $query);
-        $data_array = [
-          'email' => $email,
-          'first_name'=>$firstname,
-          'last_name'=>$lastname,
-          'password'=>$password,
-          'username'=>$username,
-        ];
-        editInfoLightingRound($data_array);
-        confirm($edit_user_query);
-          update_kids_count();
-    update_kids_count_byteacher();
-        
-        $message = "Profile Updated!";
-
-        header("refresh:2;url=user.php");
-
-        }
-
-      } else {
-
-        $message = "";
-
-        } 
-
-       
+}
 
 
+if(isset($_POST['edit_class'])) {
+  
+$class_subject  = $_POST['class_subject'];
+$the_class_id   = $_POST['class_id'];
 
+      $query = "UPDATE classes SET ";
+      $query .= "class_subject = '{$class_subject}' ";
+      $query .= "WHERE class_id = '{$the_class_id}' ";
+  
+      $edit_user_query = mysqli_query($connection, $query);
+      
+      $message = "Class Updated!";
+
+      header("refresh:2;url=my_classes.php");
+
+} else {
+  $message = '';
+}
+
+///END EDIT CLASS NAME///
+
+///EDIT STUDENTS IN CLASS///
+
+if(isset($_GET['edit_class'])) {
+
+  $the_class_id = $_GET['edit_class'];
+
+  $query = "SELECT classes.class_id, classes.class_subject, enrollments.student_id, enrollments.firstname, enrollments.lastname
+            FROM classes
+            INNER JOIN enrollments ON classes.class_id = enrollments.class_id
+            INNER JOIN users ON enrollments.student_id = users.user_id
+            WHERE classes.class_id = {$the_class_id}";
+
+  $select_student = mysqli_query($connection, $query);
+
+  // check for query error
+  if(!$select_student) {
+      die("QUERY FAILED" . mysqli_error($connection));
+  }
+
+}
 
 ?>
 
@@ -140,82 +81,90 @@ if(!empty($password)) {
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
+                  <input type="hidden" name="class_id" value="<?php echo $class_id ?>">
+
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/<?php echo $img;?>" alt='..'>
-                        <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
-                      </div>
-                    </div>
-                  </div>
-                    <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" name="username" value="<?php echo $username; ?>" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6 px-md-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo $email; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 px-md-1">
-                      <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Number" name="phone" value="<?php echo $phone; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name" name="firstname" value="<?php echo $firstname; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="<?php echo $lastname; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address" name="address" value="<?php echo $address; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" name="city" value="<?php echo $city; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code" name="zip" value="<?php echo $zip; ?>">
+                        <label>Class Name</label>
+                        <input type="text" class="form-control" placeholder="First Name" name="class_subject" value="<?php echo $class_subject; ?>">
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="edit_user" value="Update Profile">
+                    <input type="submit" class="btn btn-primary" name="edit_class" value="Update Class">
                   </div>
                 </form>
               </div>
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title"> My Students</h4>
+                <!-- ADD CLASS MODAL -->
+                <?php if(is_teacher()): ?>
+                  <?php include "add_student_to_class.php" ?>
+                  <div class="form-group">
+                    <button type='button' class='btn btn-primary add-students-btn' data-toggle='modal' data-target='#newStudentsEditClass' data-class-id='$the_class_id'>Add Students</button>
+                  </div>
+                  <?php endif ?>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                <table class="table tablesorter">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th class="text-right">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php 
+                        
+                        while ($row = mysqli_fetch_assoc($select_student)) {
+                        $student_id  = $row['student_id'];
+                        $firstname  = $row['firstname'];
+                        $lastname  = $row['lastname'];
+
+                        echo "<tr>";
+                            echo "<td>$student_id</td>";
+                            echo "<td>$firstname $lastname</td>";
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='my_classes.php?source=edit_class&edit_class={$class_id}&delete={$student_id}'>Delete</a></td>";
+                            echo "</tr>";
+                        }
+                        
+                        ?>
+                   </tbody>
+                   </table>
+
+                   <?php 
+                   
+                   if(isset($_GET['delete'])) {
+
+                    $student_id = $_GET['delete'];
+
+                    $query = "DELETE FROM enrollments WHERE student_id = $student_id";
+                    $delete_enrollments_query = mysqli_query($connection, $query);
+                    
+                    // Check if the query executed successfully
+                      if($delete_enrollments_query) {
+                        header("Location: my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
+                        } else {
+                        echo "Error deleting class.";
+                    }
+
+
+                   }
+                   
+                   
+                   ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
+                  </div>

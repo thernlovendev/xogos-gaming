@@ -41,7 +41,8 @@
                         echo "<tr>";
                             echo "<td>$class_id</td>";
                             echo "<td>$class_subject</td>";
-                            echo "<td class='text-right'><a href='#' class='add-students-btn' data-toggle='modal' data-target='#newStudents' data-class-id='$class_id'>Add</a></td>";                              echo "<td class='text-right'><a href='my_classes.php?source=edit_class&edit_class={$class_id}'>Edit</a></td>";  
+                            echo "<td class='text-right'><a href='#' class='add-students-btn' data-toggle='modal' data-target='#newStudents' data-class-id='$class_id'>Add</a></td>";                              
+                            echo "<td class='text-right'><a href='my_classes.php?source=edit_class&edit_class={$class_id}'>Edit</a></td>";  
                             echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='my_classes.php?delete={$class_id}'>Delete</a></td>";  
                             echo "</tr>";
                         }
@@ -56,9 +57,18 @@
 
                     $class_id = $_GET['delete'];
 
+                    $query = "DELETE FROM enrollments WHERE class_id = {$class_id}";
+                    $delete_enrollments_query = mysqli_query($connection, $query);
+
                     $query = "DELETE FROM classes WHERE class_id = {$class_id}";
                     $delete_query = mysqli_query($connection, $query);
-                    header("Location: my_classes.php");
+                    
+                    // Check if the query executed successfully
+                      if($delete_query) {
+                        header("Location: my_classes.php");
+                    } else {
+                        echo "Error deleting class.";
+                    }
 
 
                    }

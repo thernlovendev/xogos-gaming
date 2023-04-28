@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <!-- Modal -->
-<div class="modal fade" id="newStudents" tabindex="-1" role="dialog" aria-labelledby="newStudents" aria-hidden="true">
+<div class="modal fade" id="newStudentsEditClass" tabindex="-1" role="dialog" aria-labelledby="newStudentsEditClass" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newStudents">Add Students</h5>
+        <h5 class="modal-title" id="newStudentsEditClass">Add Students</h5>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="tim-icons icon-simple-remove"></i>
         </button>
@@ -95,37 +95,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-<script>
-
-jQuery(document).ready(function() {
-    jQuery("#add-students-btn").click(function() {
-        var classId = jQuery("#class_id").val();
-        jQuery.ajax({
-            url: "add_class_students.php",
-            method: "POST",
-            data: { classId: classId },
-            success: function(response) {
-                // Handle success response from your PHP script
-            },
-            error: function(xhr, status, error) {
-                // Handle error response from your PHP script
-            }
-        });
-    });
-
-    jQuery('#newStudents').on('show.bs.modal', function (event) {
-        var button = jQuery(event.relatedTarget)
-        var class_id = button.data('class-id')
-        var modal = jQuery(this)
-        jQuery('#class_id').val(class_id)
-        jQuery('#new-student-form').attr('action', 'add_class_students.php?classId=' + class_id)
-    })
-});
-
-</script>
 
         

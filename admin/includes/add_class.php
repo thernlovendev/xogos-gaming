@@ -4,7 +4,7 @@ if(isset($_POST['add_class'])) {
   
     $class_teacher_id = $_POST['class_teacher_id'];
     $class_subject	  = $_POST['class_subject'];
-    
+
     $query = "INSERT INTO classes(class_teacher_id, class_subject) ";
     $query .= "VALUES('{$_SESSION['teacher_id']}', '{$class_subject}') ";
 
@@ -14,7 +14,7 @@ if(isset($_POST['add_class'])) {
       die("QUERY FAILED" . mysqli_error($connection));
   }
 
-//   header("refresh:2;url=my_classes.php");
+  header('Location: my_classes.php');
 }
 
 ?>
@@ -45,6 +45,7 @@ if(isset($_POST['add_class'])) {
       <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-md-12 pr-md-1">
+                    <input type="hidden" name="class_teacher_id" id="class_teacher_id" value="">
                       <div class="form-group">
                         <label>Class Name</label>
                         <input type="text" class="form-control" placeholder="Class Name" name="class_subject" style="color:black !important;">
