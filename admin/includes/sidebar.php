@@ -49,7 +49,7 @@
           </li>
           <?php endif ?>
 
-          <?php if(is_teacher()): ?>
+          <?php if(is_teacher() OR is_student()): ?>
           <li>
             <a href="my_classes.php">
               <i class="tim-icons icon-attach-87"></i>

@@ -94,6 +94,7 @@ if(isset($_GET['delete'])) {
       <div class="content">
         <div class="row">
           <div class="col-md-12">
+          <?php if(is_teacher()): ?>
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Edit Class</h4>
@@ -127,12 +128,10 @@ if(isset($_GET['delete'])) {
               <div class="card-header">
                 <h4 class="card-title"> My Students</h4>
                 <!-- ADD CLASS MODAL -->
-                <?php if(is_teacher()): ?>
                   <div class="form-group">
                   <?php include "add_student_to_class.php" ?>
                     <button type='button' class='btn btn-primary add-students-btn' data-toggle='modal' data-target='#newStudentsEditClass' data-class-id='$the_class_id'>Add Students</button>
                   </div>
-                  <?php endif ?>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -189,5 +188,65 @@ if(isset($_GET['delete'])) {
                 </div>
               </div>
             </div>
+            <?php endif ?>
+            <?php if(is_student()): ?>
+            <div class="card ">
+              <div class="card-header">
+                <h4 class="card-title"> All Students</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                <table class="table tablesorter">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php 
+                        
+                        while ($row = mysqli_fetch_assoc($select_student)) {
+                        $student_id  = $row['student_id'];
+                        $firstname  = $row['firstname'];
+                        $lastname  = $row['lastname'];
+
+                        echo "<tr>";
+                            echo "<td>$student_id</td>";
+                            echo "<td>$firstname $lastname</td>";
+                            echo "</tr>";
+                        }
+                        
+                        ?>
+                   </tbody>
+                   </table>
+
+                   <?php 
+                   
+                   if(isset($_GET['delete'])) {
+
+                    $student_id = $_GET['delete'];
+
+                    $query = "DELETE FROM enrollments WHERE student_id = $student_id";
+                    $delete_enrollments_query = mysqli_query($connection, $query);
+                    
+                    // Check if the query executed successfully
+                      if($delete_enrollments_query) {
+                        header("Location: my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
+                        } else {
+                        echo "Error deleting class.";
+                    }
+
+
+                   }
+                   
+                   
+                   ?>
+
+                </div>
+              </div>
+            </div>
+            <?php endif ?>
           </div>
                   </div>

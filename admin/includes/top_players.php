@@ -11,26 +11,26 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th class="text-right">Score</th>
+                                <th class="text-right">Coins</th>
                             </tr>
                         </thead>
                         <tbody>
 
                         <?php 
                         
-                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY score DESC ";
+                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY total_coins DESC ";
                         $select_student = mysqli_query($connection, $query);
                 
                         while ($row = mysqli_fetch_assoc($select_student)) {
-                        $user_id   = $row['user_id'];
-                        $firstname = $row['firstname'];
-                        $lastname  = $row['lastname'];
-                        $score     = $row['score'];
+                        $user_id     = $row['user_id'];
+                        $firstname   = $row['firstname'];
+                        $lastname    = $row['lastname'];
+                        $total_coins = $row['total_coins'];
 
                         echo "<tr>";
                             echo "<td>$user_id</td>";
                             echo "<td>$firstname $lastname</td>";
-                            echo "<td class='text-right'>$score</td>";    
+                            echo "<td class='text-right'>$total_coins</td>";    
                             echo "</tr>";
                         }
                         

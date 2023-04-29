@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   password: "root",
   database: "xogos",
 });
-vf;
+
 async function main() {
   // Example data from API
   const apiUrl = "https://lightninground.rocks/api";
