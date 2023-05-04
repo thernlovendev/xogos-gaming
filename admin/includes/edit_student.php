@@ -83,6 +83,7 @@ if(!empty($password)) {
 
         $query = "UPDATE users SET ";
         $query .= "student_id     = '{$student_id}', ";
+        $query .= "t_student_id   = '{$t_student_id}', ";
         $query .= "firstname      = '{$firstname}', ";
         $query .= "lastname       = '{$lastname}', ";
         $query .= "lastname       = '{$lastname}', ";

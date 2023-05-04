@@ -25,27 +25,26 @@ if(isset($_GET['edit_class'])) {
 
 if(isset($_POST['edit_class'])) {
   
-  $class_subject = $_POST['class_subject'];
-  $the_class_id = $_POST['class_id'];
-
-  $query = "UPDATE classes SET ";
-  $query .= "class_subject = '{$class_subject}' ";
-  $query .= "WHERE class_id = '{$the_class_id}' ";
+    $class_subject    = $_POST['class_subject'];
+    $the_class_id     = $_POST['class_id'];
   
-  $edit_user_query = mysqli_query($connection, $query);
-      
-  if (!$edit_user_query) {
-    die("QUERY FAILED" . mysqli_error($connection));
+    $query = "UPDATE classes SET ";
+    $query .= "class_subject    = '{$class_subject}' ";
+    $query .= "WHERE class_id   = '{$the_class_id}' ";
+    
+    $edit_user_query = mysqli_query($connection, $query);
+        
+    if (!$edit_user_query) {
+      die("QUERY FAILED" . mysqli_error($connection));
+    }
+  
+    $message = "Class Updated!";
+  
+    header("Location: refresh:2;url=my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
+    exit();  
+  } else {
+    $message = '';
   }
-
-  $message = "Class Updated!";
-  $class_subject = $_POST['class_subject']; // update $class_subject variable with the new value
-
-  header("refresh:2;url=my_classes.php");
-
-} else {
-  $message = '';
-}
 
 ///END EDIT CLASS NAME///
 
