@@ -1,21 +1,20 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
-<?php include "includes/add_class_students.php"?>
 <?php
 
 ///EDIT THE CLASS NAME///
 
 if(isset($_GET['edit_class'])) {
 
-  $the_class_id = $_GET['edit_class'];
+    $the_class_id = $_GET['edit_class'];
 
   $query = "SELECT * FROM classes WHERE class_id = '{$the_class_id}' ";
   $select_class_profile_query = mysqli_query($connection, $query);
 
   while($row = mysqli_fetch_assoc($select_class_profile_query)) {
 
-    $class_id      = $row['class_id'];
-    $class_subject = $row['class_subject'];
+    $class_id          = $row['class_id'];
+    $class_subject     = $row['class_subject'];
 
 
   }
@@ -40,7 +39,7 @@ if(isset($_POST['edit_class'])) {
   
     $message = "Class Updated!";
   
-    header("Location: refresh:2;url=my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
+    header("Location: refresh:2;url=my_classes.php?source=edit_class_admin&edit_class_admin=" . $_GET['edit_class']);
     exit();  
   } else {
     $message = '';
@@ -72,33 +71,30 @@ if(isset($_GET['edit_class'])) {
 ///DELETE CLASS///
                    
 if(isset($_GET['delete'])) {
-  $class_id = $_GET['delete'];
-
-  // Display a confirmation popup before deleting the data
-  echo '<script>if(confirm("Are you sure you want to delete this class?")){';
+    $class_id = $_GET['delete'];
   
-  $query = "DELETE FROM enrollments WHERE class_id = {$class_id}";
-  $delete_enrollments_query = mysqli_query($connection, $query);
-
-  $query = "DELETE FROM classes WHERE class_id = {$class_id}";
-  $delete_query = mysqli_query($connection, $query);
-
-  // Check if the query executed successfully
-  if($delete_query) {
-    header("Location: my_classes.php");
-  } else {
-    echo "Error deleting class.";
+    // Delete all enrollments associated with the class
+    $enrollment_query = "DELETE FROM enrollments WHERE class_id = {$class_id}";
+    $delete_enrollment_result = mysqli_query($connection, $enrollment_query);
+    
+    // Delete the class
+    $class_query = "DELETE FROM classes WHERE class_id = {$class_id}";
+    $delete_class_result = mysqli_query($connection, $class_query);
+  
+    // Check if both queries executed successfully
+    if($delete_enrollment_result && $delete_class_result) {
+      header("Location: my_classes.php");
+    } else {
+      echo "Error deleting class.";
+    }
   }
-
-  echo '}</script>';
-}
+  
 ?>
 
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
           <div class="col-md-12">
-          <?php if(is_teacher()): ?>
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Edit Class</h4>
@@ -109,19 +105,18 @@ if(isset($_GET['delete'])) {
                   <form action="" method="post" enctype="multipart/form-data">
                   <div class="row">
                   <input type="hidden" name="class_id" value="<?php echo $class_id ?>">
-
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
                         <label>Class Name</label>
                         <input type="text" class="form-control" placeholder="Class Subject" name="class_subject" value="<?php echo $class_subject; ?>">
                       </div>
                     </div>
-                  </div>
+                    </div>
                   <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="edit_class" value="Update Class">
                   </div>
                 </form>
-                <a class="text-danger" href="my_classes.php?delete=<?php echo $class_id; ?>" onclick="return confirm('Are you sure you want to delete this class?')">Delete Class</a>
+                <a class="text-danger" href="classes.php?delete=<?php echo $class_id; ?>" onclick="return confirm('Are you sure you want to delete this class?')">Delete Class</a>
               </div>
             </div>
           </div>
@@ -130,9 +125,8 @@ if(isset($_GET['delete'])) {
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header">
-                <h4 class="card-title"> My Students</h4>
-                <!-- ADD CLASS MODAL -->
-                  <div class="form-group">
+                <h4 class="card-title"> All Students</h4>
+                <div class="form-group">
                   <?php include "add_student_to_class.php" ?>
                     <button type='button' class='btn btn-primary add-students-btn' data-toggle='modal' data-target='#newStudentsEditClass' data-class-id='$the_class_id'>Add Students</button>
                   </div>
@@ -159,7 +153,7 @@ if(isset($_GET['delete'])) {
                         echo "<tr>";
                             echo "<td>$student_id</td>";
                             echo "<td>$firstname $lastname</td>";
-                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='my_classes.php?source=edit_class&edit_class={$class_id}&delete={$student_id}'>Delete</a></td>";
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='classes.php?source=edit_class_admin&edit_class_admin={$class_id}&delete={$student_id}'>Delete</a></td>";
                             echo "</tr>";
                         }
                         
@@ -192,42 +186,5 @@ if(isset($_GET['delete'])) {
                 </div>
               </div>
             </div>
-            <?php endif ?>
-            <?php if(is_student()): ?>
-            <div class="card ">
-              <div class="card-header">
-                <h4 class="card-title"> All Students</h4>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                <table class="table tablesorter">
-                        <thead class="text-primary">
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        <?php 
-                        
-                        while ($row = mysqli_fetch_assoc($select_student)) {
-                        $student_id  = $row['student_id'];
-                        $firstname  = $row['firstname'];
-                        $lastname  = $row['lastname'];
-
-                        echo "<tr>";
-                            echo "<td>$student_id</td>";
-                            echo "<td>$firstname $lastname</td>";
-                            echo "</tr>";
-                        }
-                        
-                        ?>
-                   </tbody>
-                   </table>
-                </div>
-              </div>
-            </div>
-            <?php endif ?>
           </div>
                   </div>
