@@ -6,13 +6,18 @@
             <div class="card ">
               <div class="card-header">
                 <h4 class="card-title"> All Teachers</h4>
+                <?php include "add_teacher.php" ?>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterTeacher">Add Teacher</button>
+                        </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                 <table class="table tablesorter">
                         <thead class="text-primary">
                             <tr>
-                                <th>Id</th>
+                                <th>User Id</th>
+                                <th>Teacher Id</th>
                                 <th>Name</th>
                                 <th class="text-right">Edit</th>
                                 <th class="text-right">Delete</th>
@@ -27,14 +32,16 @@
                 
                         while ($row = mysqli_fetch_assoc($select_student)) {
                         $user_id   = $row['user_id'];
+                        $teacher_id = $row['teacher_id'];
                         $firstname = $row['firstname'];
                         $lastname  = $row['lastname'];
 
                         echo "<tr>";
                             echo "<td>$user_id</td>";
+                            echo "<td>$teacher_id</td>";
                             echo "<td>$firstname $lastname</td>";
-                            echo "<td class='text-right'><a href='students.php?source=edit_student&edit_student={$user_id}'>Edit</a></td>";  
-                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='cams.php?delete={$user_id}'>Delete</a></td>";  
+                            echo "<td class='text-right'><a href='teachers.php?source=edit_teacher&edit_teacher={$user_id}'>Edit</a></td>";  
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='teachers.php?delete={$user_id}'>Delete</a></td>";  
                             echo "</tr>";
                         }
                         
@@ -46,13 +53,13 @@
                    
                    if(isset($_GET['delete'])) {
 
-                    $client_id = $_GET['delete'];
+                    $user_id = $_GET['delete'];
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
-                     update_kids_count();
-        update_kids_count_byteacher();
-                    header("Location: users.php");
+                    update_kids_count();
+                    update_kids_count_byteacher();
+                    header("Location: teachers.php");
 
 
                    }

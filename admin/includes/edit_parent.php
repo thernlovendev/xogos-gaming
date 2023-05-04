@@ -4,49 +4,47 @@
 
 <?php
 
-if(isset($_GET['edit_student'])) {
+if(isset($_GET['edit_parent'])) {
 
-    $the_user_id = $_GET['edit_student'];
+    $the_user_id = $_GET['edit_parent'];
 
     $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
     $select_user_profile_query = mysqli_query($connection, $query);
 
     while($row = mysqli_fetch_assoc($select_user_profile_query)) {
 
-      $user_id      = $row['user_id'];
-      $student_id   = $row['student_id'];
-      $t_student_id = $row['t_student_id'];
-      $firstname    = $row['firstname'];
-      $lastname     = $row['lastname'];
-      $img          = $row['img'];
-      $email        = $row['email'];
-      $phone        = $row['phone'];
-      $username     = $row['username'];
-      $password     = $row['password'];
-      $address      = $row['address'];
-      $city         = $row['city'];
-      $zip          = $row['zip'];
+      $user_id    = $row['user_id'];
+      $parent_id  = $row['parent_id'];
+      $firstname  = $row['firstname'];
+      $lastname   = $row['lastname'];
+      $img        = $row['img'];
+      $email      = $row['email'];
+      $phone      = $row['phone'];
+      $username   = $row['username'];
+      $password   = $row['password'];
+      $address    = $row['address'];
+      $city       = $row['city'];
+      $zip        = $row['zip'];
 
 
     }
    
 }
 
-if(isset($_POST['edit_user'])) {
+if(isset($_POST['edit_parent'])) {
     
-  $student_id   = $_POST['student_id'];
-  $t_student_id = $_POST['t_student_id'];
-  $firstname    = $_POST['firstname'];
-  $lastname     = $_POST['lastname'];
-  $email        = $_POST['email'];
-  $phone        = $_POST['phone'];
-  $username     = $_POST['username'];
-  $password     = $_POST['password'];
-  $address      = $_POST['address'];
-  $city         = $_POST['city'];
-  $zip          = $_POST['zip'];
-  $img          = $_FILES['img']['name'];
-  $img_temp     = $_FILES['img']['tmp_name'];
+  $parent_id  = $_POST['parent_id'];
+  $firstname  = $_POST['firstname'];
+  $lastname   = $_POST['lastname'];
+  $email      = $_POST['email'];
+  $phone      = $_POST['phone'];
+  $username   = $_POST['username'];
+  $password   = $_POST['password'];
+  $address    = $_POST['address'];
+  $city       = $_POST['city'];
+  $zip        = $_POST['zip'];
+  $img        = $_FILES['img']['name'];
+  $img_temp   = $_FILES['img']['tmp_name'];
 
   move_uploaded_file($img_temp, "assets/img/users/$img");
 
@@ -81,8 +79,10 @@ if(!empty($password)) {
 
   }
 
+  $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
+
         $query = "UPDATE users SET ";
-        $query .= "student_id     = '{$student_id}', ";
+        $query .= "parent_id      = '{$parent_id}', ";
         $query .= "firstname      = '{$firstname}', ";
         $query .= "lastname       = '{$lastname}', ";
         $query .= "lastname       = '{$lastname}', ";
@@ -111,7 +111,7 @@ if(!empty($password)) {
         
         $message = "Profile Updated!";
 
-        header("refresh:2;url=students.php");
+        header("refresh:2;url=parents.php");
 
         }
 
@@ -154,23 +154,15 @@ if(!empty($password)) {
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
                         <label>User Id</label>
-                        <input type="text" class="form-control" placeholder="User ID" name="user" value="<?php echo $user_id; ?>" readonly>
-                      </div>
-                    </div>
-                    <?php if(is_admin()): ?>
-                    <div class="col-md-2 pr-md-1">
-                      <div class="form-group">
-                        <label>Student Id</label>
-                        <input type="text" class="form-control" placeholder="Student ID" name="student_id" value="<?php echo $student_id; ?>">
+                        <input type="text" class="form-control" placeholder="User ID" name="user_id" value="<?php echo $user_id; ?>" readonly>
                       </div>
                     </div>
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
-                        <label>Teacher Id</label>
-                        <input type="text" class="form-control" placeholder="Teacher ID" name="t_student_id" value="<?php echo $t_student_id; ?>">
+                        <label>Parent Id</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>">
                       </div>
                     </div>
-                    <?php endif ?>
                   </div>
                     <div class="row">
                     <div class="col-md-6 pr-md-1">
@@ -237,7 +229,7 @@ if(!empty($password)) {
                     </div>
                   </div>
                   <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="edit_user" value="Update Profile">
+                    <input type="submit" class="btn btn-primary" name="edit_parent" value="Update Profile">
                   </div>
                 </form>
               </div>

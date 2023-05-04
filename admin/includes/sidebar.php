@@ -76,6 +76,15 @@
           </li>
           <?php endif ?>
 
+          <?php if(is_admin()): ?>
+          <li>
+            <a href="classes.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>Classes</p>
+            </a>
+          </li>
+          <?php endif ?>
+
           <?php if(is_parent()): ?>
           <li>
             <a href="my_kids.php">

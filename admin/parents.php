@@ -17,7 +17,7 @@
                         break;
 
                         case 'edit_parent';
-                        include "includes/edit_student.php";
+                        include "includes/edit_parent.php";
                         break;
 
                         default:

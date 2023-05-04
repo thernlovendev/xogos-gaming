@@ -6,6 +6,10 @@
             <div class="card ">
               <div class="card-header">
                 <h4 class="card-title"> All Students</h4>
+                <?php include "add_students_admin.php" ?>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterStudent">Add Student</button>
+                        </div>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -34,7 +38,7 @@
                             echo "<td>$user_id</td>";
                             echo "<td>$firstname $lastname</td>";
                             echo "<td class='text-right'><a href='students.php?source=edit_student&edit_student={$user_id}'>Edit</a></td>";  
-                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='cams.php?delete={$user_id}'>Delete</a></td>";  
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='students.php?delete={$user_id}'>Delete</a></td>";  
                             echo "</tr>";
                         }
                         
@@ -46,13 +50,13 @@
                    
                    if(isset($_GET['delete'])) {
 
-                    $client_id = $_GET['delete'];
+                    $user_id = $_GET['delete'];
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
-                     update_kids_count();
-        update_kids_count_byteacher();
-                    header("Location: users.php");
+                    update_kids_count();
+                    update_kids_count_byteacher();
+                    header("Location: students.php");
 
 
                    }

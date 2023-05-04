@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirect the user to a different page
-        header("Location: my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
+        header("Location: classes.php?source=edit_class_admin&edit_class_admin=" . $_GET['edit_class_admin']);
         exit();
     } else {
         echo "Class ID cannot be empty.";
@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <!-- Modal -->
-<div class="modal fade" id="newStudents" tabindex="-1" role="dialog" aria-labelledby="newStudents" aria-hidden="true">
+<div class="modal fade" id="newStudentsEditClassAdmin" tabindex="-1" role="dialog" aria-labelledby="newStudentsEditClassAdmin" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newStudents">Add Students</h5>
+        <h5 class="modal-title" id="newStudentsEditClass">Add Students</h5>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="tim-icons icon-simple-remove"></i>
         </button>
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select multiple name="student_id[]" class="form-control" id="student_id">
                     <?php 
             
-                    $query = "SELECT * FROM users WHERE t_student_id =".loggedInUserIdTeacher()." ORDER BY student_id DESC";
+                    $query = "SELECT * FROM users where user_role = 'student' ORDER BY student_id DESC";
                     $select_user = mysqli_query($connection, $query);
 
                     while ($row = mysqli_fetch_assoc($select_user)) {
@@ -95,37 +95,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-<script>
-
-jQuery(document).ready(function() {
-    jQuery("#add-students-btn").click(function() {
-        var classId = jQuery("#class_id").val();
-        jQuery.ajax({
-            url: "add_class_students.php",
-            method: "POST",
-            data: { classId: classId },
-            success: function(response) {
-                // Handle success response from your PHP script
-            },
-            error: function(xhr, status, error) {
-                // Handle error response from your PHP script
-            }
-        });
-    });
-
-    jQuery('#newStudents').on('show.bs.modal', function (event) {
-        var button = jQuery(event.relatedTarget)
-        var class_id = button.data('class-id')
-        var modal = jQuery(this)
-        jQuery('#class_id').val(class_id)
-        jQuery('#new-student-form').attr('action', 'add_class_students.php?classId=' + class_id)
-    })
-});
-
-</script>
-
-        
