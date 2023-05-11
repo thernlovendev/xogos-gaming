@@ -454,7 +454,7 @@ function users_online() {
         $online_firstname        = $_SESSION['firstname'];
         $online_img              = $_SESSION['img'];
         $online_user_role        = $_SESSION['user_role'];
-        $time_out_in_seconds     = 30;
+        $time_out_in_seconds     = 60;
         $time_out                = $time - $time_out_in_seconds;
 
         $query = "SELECT * FROM users_online WHERE session = '$session' ";
@@ -629,3 +629,36 @@ function update_kids_count_byteacher(){
     }
     return false;
 }
+
+function check_password_strength($password) {
+    // check if password is at least 8 characters long
+    if (strlen($password) < 8) {
+      return false;
+    }
+    
+    // check if password contains uppercase and lowercase letters
+    if (!preg_match('/[a-z]/', $password) || !preg_match('/[A-Z]/', $password)) {
+      return false;
+    }
+    
+    // check if password contains numbers and special characters
+    if (!preg_match('/[0-9]/', $password) || !preg_match('/[\W]/', $password)) {
+      return false;
+    }
+    
+    // check if password contains common words or phrases
+    $common_passwords = array('password', '123456', 'qwerty', 'admin', 'letmein', 'monkey', 'abc123', 'football');
+    if (in_array(strtolower($password), $common_passwords)) {
+      return false;
+    }
+    
+    // check if password is a commonly used password
+    $commonly_used_passwords = array('password1', '12345678', '123456789', '1234567890', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm', 'letmein1', 'welcome1', 'monkey1', 'iloveyou1', 'admin123', 'football1', 'baseball1', 'superman1');
+    if (in_array(strtolower($password), $commonly_used_passwords)) {
+      return false;
+    }
+    
+    // password meets all criteria
+    return true;
+  }
+  

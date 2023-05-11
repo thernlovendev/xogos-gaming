@@ -2,28 +2,28 @@
 
 if(isset($_POST['add_parent'])) {
 
-    $firstname = $_POST['firstname'];
-    $lastname  = $_POST['lastname'];
-    $email     = $_POST['email'];
-    $username  = $_POST['username'];
-    $password  = $_POST['password'];
-    $address   = $_POST['address'];
-    $city      = $_POST['city'];
-    $zip       = $_POST['zip'];
-    $student_id = $_POST['student_id'];
+    $firstname  = escape($_POST['firstname']);
+    $lastname   = escape($_POST['lastname']);
+    $email      = escape($_POST['email']);
+    $username   = escape($_POST['username']);
+    $password   = escape($_POST['password']);
+    $address    = escape($_POST['address']);
+    $city       = escape($_POST['city']);
+    $zip        = escape($_POST['zip']);
+    $student_id = escape($_POST['student_id']);
 
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {
 
-    $firstname = mysqli_real_escape_string($connection, $firstname);
-    $lastname  = mysqli_real_escape_string($connection, $lastname);
-    $email     = mysqli_real_escape_string($connection, $email);
+    $firstname  = mysqli_real_escape_string($connection, $firstname);
+    $lastname   = mysqli_real_escape_string($connection, $lastname);
+    $email      = mysqli_real_escape_string($connection, $email);
     $username   = mysqli_real_escape_string($connection, $username);
-    $password          = mysqli_real_escape_string($connection, $password);
-    $address   = mysqli_real_escape_string($connection, $address);
-    $city      = mysqli_real_escape_string($connection, $city);
-    $zip       = mysqli_real_escape_string($connection, $zip);
-    $student_id       = mysqli_real_escape_string($connection, $student_id);
+    $password   = mysqli_real_escape_string($connection, $password);
+    $address    = mysqli_real_escape_string($connection, $address);
+    $city       = mysqli_real_escape_string($connection, $city);
+    $zip        = mysqli_real_escape_string($connection, $zip);
+    $student_id = mysqli_real_escape_string($connection, $student_id);
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 

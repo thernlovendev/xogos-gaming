@@ -144,14 +144,16 @@ if(!empty($password)) {
 
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
+                  <?php if(is_student()): ?>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/<?php echo $img;?>" alt='..'>
+                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/avatars/<?php echo $img;?>" alt='..'>
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
                       </div>
                     </div>
                   </div>
+                  <?php endif ?>
                     <div class="row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">

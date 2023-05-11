@@ -2,16 +2,15 @@
 
 if(isset($_POST['add_student'])) {
 
-    $firstname  = $_POST['firstname'];
-    $lastname   = $_POST['lastname'];
-    $email      = $_POST['email'];
-    $username   = $_POST['username'];
-    $password   = $_POST['password'];
-    $address    = $_POST['address'];
-    $city       = $_POST['city'];
-    $zip        = $_POST['zip'];
-    $img      = $_FILES['img']['name'];
-    $img_temp = $_FILES['img']['tmp_name'];
+    $firstname  = escape($_POST['firstname']);
+    $lastname   = escape($_POST['lastname']);
+    $email      = escape($_POST['email']);
+    $username   = escape($_POST['username']);
+    $password   = escape($_POST['password']);
+    $city       = escape($_POST['city']);
+    $zip        = escape($_POST['zip']);
+    $img        = escape($_FILES['img']['name']);
+    $img_temp   = escape($_FILES['img']['tmp_name']);
 
     move_uploaded_file($img_temp, "assets/img/users/$img");
 
@@ -29,8 +28,8 @@ if(isset($_POST['add_student'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, address, city, zip, student_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'student' ) ";
+    $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, city, zip, student_id, user_role) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$zip}', '{$_SESSION['parent_id']}', 'student' ) ";
     $register_student_query = mysqli_query($connection, $query);
 
     if(!$register_student_query) {
@@ -132,14 +131,6 @@ if(isset($_POST['add_student'])) {
                       <div class="form-group">
                         <label>Last Name</label>
                         <input type="text" class="form-control" placeholder="Last Name" name="lastname">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address" name="address">
                       </div>
                     </div>
                   </div>

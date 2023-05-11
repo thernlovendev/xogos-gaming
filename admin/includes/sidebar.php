@@ -12,7 +12,7 @@
           </a>
         </div>
         <ul class="nav">
-          <li class="active ">
+          <li class="">
             <a href="index.php">
               <i class="tim-icons icon-chart-pie-36"></i>
               <p>Dashboard</p>
@@ -34,7 +34,7 @@
           <?php if(is_admin()): ?>
           <li>
             <a href="students.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-badge"></i>
               <p>Students</p>
             </a>
           </li>
@@ -43,7 +43,7 @@
           <?php if(is_teacher()): ?>
           <li>
             <a href="my_students.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-badge"></i>
               <p>My Students</p>
             </a>
           </li>
@@ -52,7 +52,7 @@
           <?php if(is_teacher() OR is_student()): ?>
           <li>
             <a href="my_classes.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-globe-2"></i>
               <p>My Classes</p>
             </a>
           </li>
@@ -61,7 +61,7 @@
           <?php if(is_admin()): ?>
           <li>
             <a href="teachers.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-notes"></i>
               <p>Teachers</p>
             </a>
           </li>
@@ -79,7 +79,7 @@
           <?php if(is_admin()): ?>
           <li>
             <a href="classes.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-globe-2"></i>
               <p>Classes</p>
             </a>
           </li>
@@ -88,14 +88,14 @@
           <?php if(is_parent()): ?>
           <li>
             <a href="my_kids.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-badge"></i>
               <p>My Kids</p>
             </a>
           </li>
           <?php endif ?>
           <li>
             <a href="all_games.php">
-              <i class="tim-icons icon-attach-87"></i>
+              <i class="tim-icons icon-controller"></i>
               <p>All Games</p>
             </a>
           </li>

@@ -6,7 +6,7 @@
               </div>
               <div class="card-body">
                 <div class="chart-area">
-                <img src="assets/img/avatar.png" alt="">
+                <img src="<?php echo $_SESSION['img']; ?>" alt="">
                 </div>
               </div>
             </div>

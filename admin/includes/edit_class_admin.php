@@ -25,9 +25,9 @@ if(isset($_GET['edit_class_admin'])) {
 
 if(isset($_POST['edit_class_admin'])) {
   
-    $class_teacher_id = $_POST['class_teacher_id'];
-    $class_subject    = $_POST['class_subject'];
-    $the_class_id     = $_POST['class_id'];
+    $class_teacher_id = escape($_POST['class_teacher_id']);
+    $class_subject    = escape($_POST['class_subject']);
+    $the_class_id     = escape($_POST['class_id']);
   
     $query = "UPDATE classes SET ";
     $query .= "class_teacher_id = '{$class_teacher_id}', ";

@@ -2,14 +2,14 @@
 
 if(isset($_POST['add_teacher'])) {
 
-    $firstname = $_POST['firstname'];
-    $lastname  = $_POST['lastname'];
-    $email     = $_POST['email'];
-    $username  = $_POST['username'];
-    $password  = $_POST['password'];
-    $address   = $_POST['address'];
-    $city      = $_POST['city'];
-    $zip       = $_POST['zip'];
+  $firstname = escpae($_POST['firstname']);
+  $lastname  = escape($_POST['lastname']);
+  $email     = escape($_POST['email']);
+  $username  = escape($_POST['username']);
+  $password  = escape($_POST['password']);
+  $address   = escape($_POST['address']);
+  $city      = escape($_POST['city']);
+  $zip       = escape($_POST['zip']);
 
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {

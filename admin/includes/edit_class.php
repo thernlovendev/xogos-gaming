@@ -24,8 +24,8 @@ if(isset($_GET['edit_class'])) {
 
 if(isset($_POST['edit_class'])) {
   
-    $class_subject    = $_POST['class_subject'];
-    $the_class_id     = $_POST['class_id'];
+    $class_subject    = escape($_POST['class_subject']);
+    $the_class_id     = escape($_POST['class_id']);
   
     $query = "UPDATE classes SET ";
     $query .= "class_subject    = '{$class_subject}' ";

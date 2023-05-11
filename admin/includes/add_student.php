@@ -2,17 +2,17 @@
 
 if(isset($_POST['add_student'])) {
 
-    $firstname = $_POST['firstname'];
-    $lastname  = $_POST['lastname'];
-    $email     = $_POST['email'];
-    $username  = $_POST['username'];
-    $password  = $_POST['password'];
-    $address   = $_POST['address'];
-    $city      = $_POST['city'];
-    $zip       = $_POST['zip'];
+  $firstname = escpae($_POST['firstname']);
+  $lastname  = escape($_POST['lastname']);
+  $email     = escape($_POST['email']);
+  $username  = escape($_POST['username']);
+  $password  = escape($_POST['password']);
+  $address   = escape($_POST['address']);
+  $city      = escape($_POST['city']);
+  $zip       = escape($_POST['zip']);
 
-    $img      = $_FILES['img']['name'];
-    $img_temp = $_FILES['img']['tmp_name'];
+    $img      = escape($_FILES['img']['name']);
+    $img_temp = escape($_FILES['img']['tmp_name']);
 
     move_uploaded_file($img_temp, "assets/img/users/$img");
 

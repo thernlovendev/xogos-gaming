@@ -2,8 +2,8 @@
 
 if(isset($_POST['add_class'])) {
   
-    $class_teacher_id = $_POST['class_teacher_id'];
-    $class_subject	  = $_POST['class_subject'];
+    $class_teacher_id = escape($_POST['class_teacher_id']);
+    $class_subject	  = escape($_POST['class_subject']);
 
     $query = "INSERT INTO classes(class_teacher_id, class_subject) ";
     $query .= "VALUES('{$_SESSION['teacher_id']}', '{$class_subject}') ";

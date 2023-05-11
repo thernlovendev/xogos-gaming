@@ -34,19 +34,21 @@ if(isset($_GET['edit_student'])) {
 
 if(isset($_POST['edit_user'])) {
     
-  $student_id   = $_POST['student_id'];
-  $t_student_id = $_POST['t_student_id'];
-  $firstname    = $_POST['firstname'];
-  $lastname     = $_POST['lastname'];
-  $email        = $_POST['email'];
-  $phone        = $_POST['phone'];
-  $username     = $_POST['username'];
-  $password     = $_POST['password'];
-  $address      = $_POST['address'];
-  $city         = $_POST['city'];
-  $zip          = $_POST['zip'];
-  $img          = $_FILES['img']['name'];
-  $img_temp     = $_FILES['img']['tmp_name'];
+  $student_id   = escape($_POST['student_id']);
+  $t_student_id = escape($_POST['t_student_id']);
+
+  $firstname = escape($_POST['firstname']);
+  $lastname  = escape($_POST['lastname']);
+  $email     = escape($_POST['email']);
+  $phone     = escape($_POST['phone']);
+  $username  = escape($_POST['username']);
+  $password  = escape($_POST['password']);
+  $address   = escape($_POST['address']);
+  $city      = escape($_POST['city']);
+  $zip       = escape($_POST['zip']);
+
+  $img          = escape($_FILES['img']['name']);
+  $img_temp     = escape($_FILES['img']['tmp_name']);
 
   move_uploaded_file($img_temp, "assets/img/users/$img");
 
@@ -146,7 +148,7 @@ if(!empty($password)) {
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/<?php echo $img;?>" alt='..'>
+                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/avatars/<?php echo $img;?>" alt='..'>
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
                       </div>
                     </div>
