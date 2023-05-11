@@ -1,4 +1,6 @@
-<?php include "../admin/includes/db.php"; ?>
+<?php include "../admin/includes/db.php"; 
+
+$DOMAIN = "https://testing.thernloven.com"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
