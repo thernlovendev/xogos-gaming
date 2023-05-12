@@ -26,7 +26,7 @@
                         $online_img       = $row['online_img'];
                         
                         echo "<div class='col-lg-4 col-md-4 col-sm-4 col-4 text-center'>
-                        <img style='border-radius:100%; border: 2px solid #74FFBA; height:80px' src='assets/img/users/$online_img' alt=''>
+                        <img style='border-radius:100%; border: 2px solid #74FFBA; height:80px' src='assets/img/avatars/$online_img' alt=''>
                           <h5>$online_firstname</h5>
                         </div>";
                         }
