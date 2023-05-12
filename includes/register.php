@@ -3,9 +3,11 @@
 
 
 <?php
-$success = false;
-$pass_modal = false;
-$message = "";
+$success          = false;
+$pass_modal       = false;
+$message          = "";
+$message_username = "";
+$message_email    = "";
 
 $firstname = "";
 $lastname  = "";
@@ -20,17 +22,17 @@ $zip       = "";
 session_start(); // Start the session
 
 if (isset($_POST['add_user'])) {
-  $firstname = $_POST['firstname'];
-  $lastname = $_POST['lastname'];
-  $email = $_POST['email'];
-  $phone = $_POST['phone'];
-  $username = $_POST['username'];
-  $password = $_POST['password'];
+  $firstname       = $_POST['firstname'];
+  $lastname        = $_POST['lastname'];
+  $email           = $_POST['email'];
+  $phone           = $_POST['phone'];
+  $username        = $_POST['username'];
+  $password        = $_POST['password'];
   $repeat_password = $_POST['repeat_password'];
-  $address = $_POST['address'];
-  $city = $_POST['city'];
-  $state = $_POST['state'];
-  $zip = $_POST['zip'];
+  $address         = $_POST['address'];
+  $city            = $_POST['city'];
+  $state           = $_POST['state'];
+  $zip             = $_POST['zip'];
 
   $_SESSION['form_data'] = array(
     'firstname' => $firstname,
@@ -56,25 +58,38 @@ if (isset($_POST['add_user'])) {
         $pass_modal = true;
       } else {
 
+        // check if username and email already exist
+        $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
+        $result = mysqli_query($connection, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          if ($row['username'] == $username) {
+            $message_username = "Username already exists";
+          } else {
+            $message_email = "Email already exists";
+          }
+        } else {
+
         // sanitize inputs
         $firstname = mysqli_real_escape_string($connection, $firstname);
-        $lastname = mysqli_real_escape_string($connection, $lastname);
-        $email = mysqli_real_escape_string($connection, $email);
-        $phone = mysqli_real_escape_string($connection, $phone);
-        $username = mysqli_real_escape_string($connection, $username);
-        $password = mysqli_real_escape_string($connection, $password);
-        $address = mysqli_real_escape_string($connection, $address);
-        $city = mysqli_real_escape_string($connection, $city);
-        $state = mysqli_real_escape_string($connection, $state);
-        $zip = mysqli_real_escape_string($connection, $zip);
+        $lastname  = mysqli_real_escape_string($connection, $lastname);
+        $email     = mysqli_real_escape_string($connection, $email);
+        $phone     = mysqli_real_escape_string($connection, $phone);
+        $username  = mysqli_real_escape_string($connection, $username);
+        $password  = mysqli_real_escape_string($connection, $password);
+        $address   = mysqli_real_escape_string($connection, $address);
+        $city      = mysqli_real_escape_string($connection, $city);
+        $state     = mysqli_real_escape_string($connection, $state);
+        $zip       = mysqli_real_escape_string($connection, $zip);
 
         // hash password
         $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
         // generate random values for parent_id, teacher_id, and admin_id columns
-        $parent_id = rand(1, 999);
+        $parent_id  = rand(1, 999);
         $teacher_id = rand(1, 999);
-        $admin_id = rand(1, 999);
+        $admin_id   = rand(1, 999);
 
         // build SQL query
         $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id) ";
@@ -90,6 +105,7 @@ if (isset($_POST['add_user'])) {
           unset($_SESSION['form_data']); // Remove the form data from the session upon successful submission
         }
       }
+    }
     }
   }
 }
@@ -149,6 +165,7 @@ if (isset($_POST['add_user'])) {
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">Email</label>
                   <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_email ?></label>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom02">Phone Number</label>
@@ -196,6 +213,7 @@ if (isset($_POST['add_user'])) {
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom01">Username</label>
                   <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_username ?></label>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom02">Password</label>
