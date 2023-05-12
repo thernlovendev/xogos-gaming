@@ -14,7 +14,7 @@ if(isset($_POST['add_class'])) {
       die("QUERY FAILED" . mysqli_error($connection));
   }
 
-  header('Location: my_classes.php');
+  header('Location: classes.php');
 }
 
 ?>

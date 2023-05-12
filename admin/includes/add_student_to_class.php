@@ -1,10 +1,10 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['add_students'])) {
 
     // Get the class ID and array of student IDs from the form
-    $class_id   = escape($_POST['class_id']);
-    $student_id = escape($_POST['student_id']);
+    $class_id   = $_POST['class_id'];
+    $student_id = $_POST['student_id'];
 
     // Check if class_id is not empty
     if(!empty($class_id)) {

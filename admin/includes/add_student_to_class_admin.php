@@ -1,10 +1,10 @@
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if(isset($_POST['add_students'])) {
 
     // Get the class ID and array of student IDs from the form
-    $class_id   = escape($_POST['class_id']);
-    $student_id = escape($_POST['student_id']);
+    $class_id   = $_POST['class_id'];
+    $student_id = $_POST['student_id'];
 
     // Check if class_id is not empty
     if(!empty($class_id)) {
@@ -65,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-12 pr-md-1">
                       <div class="form-group">
                       <input type="hidden" name="class_id" id="class_id" value="<?php echo $class_id ?>">
-                      <label for="users">Select Students</label>
                     <select multiple name="student_id[]" class="form-control" id="student_id">
                     <?php 
             
