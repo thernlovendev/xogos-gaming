@@ -5,10 +5,8 @@
     -->
       <div class="sidebar-wrapper">
         <div class="logo">
-          <a href="javascript:void(0)" class="simple-text logo-mini">
-          </a>
           <a href="javascript:void(0)" class="simple-text logo-normal">
-           XOGOS GAMING
+           <img src="./assets/img/xogos-gaming-logo.png" alt="">
           </a>
         </div>
         <ul class="nav">

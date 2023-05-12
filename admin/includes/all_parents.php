@@ -56,7 +56,7 @@
                     $delete_query = mysqli_query($connection, $query);
                     update_kids_count();
                     update_kids_count_byteacher();
-                    header("Location: students.php");
+                    header("Location: parents.php");
 
 
                    }

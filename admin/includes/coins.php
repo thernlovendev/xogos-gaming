@@ -8,11 +8,11 @@
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Welcome</h5>
-                <h3 class="card-title"><?php echo $_SESSION['firstname']; echo " "; echo $_SESSION['lastname'] ?> </h3>
+                <h3 class="card-title"><?php echo $_SESSION['firstname']; ?></h3>
               </div>
               <div class="card-body" style="height:150px">
                 <div class="chart-area">
-                <img src="assets/img/avatar.png" alt="">
+                <img src="<?php echo $_SESSION['img']; ?>" alt="">
                 </div>
               </div>
             </div>

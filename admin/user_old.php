@@ -1,46 +1,73 @@
+<?php include "includes/header.php" ?>
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
 
-
 <?php
 
-if(isset($_GET['edit_student'])) {
+if(isset($_SESSION['user_id'])) {
 
-    $the_user_id = $_GET['edit_student'];
+    $the_user_id = $_SESSION['user_id'];
 
     $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+
     $select_user_profile_query = mysqli_query($connection, $query);
 
-    while($row = mysqli_fetch_assoc($select_user_profile_query)) {
+    while($row = mysqli_fetch_array($select_user_profile_query)) {
 
-      $user_id      = $row['user_id'];
-      $student_id   = $row['student_id'];
-      $t_student_id = $row['t_student_id'];
-      $firstname    = $row['firstname'];
-      $lastname     = $row['lastname'];
-      $img          = $row['img'];
-      $email        = $row['email'];
-      $username     = $row['username'];
-      $password     = $row['password'];
-      $city         = $row['city'];
-      $state        = $row['state'];
+      $user_id    = $row['user_id'];
+      $parent_id  = $row['parent_id'];
+      $teacher_id = $row['teacher_id'];
+      $student_id = $row['student_id'];
+      $firstname  = $row['firstname'];
+      $lastname   = $row['lastname'];
+      $img        = $row['img'];
+      $email      = $row['email'];
+      $phone      = $row['phone'];
+      $username   = $row['username'];
+      $password   = $row['password'];
+      $address    = $row['address'];
+      $city       = $row['city'];
+      $zip        = $row['zip'];
+
 
     }
-   
+
+    
 }
 
 if(isset($_POST['edit_user'])) {
     
-  $student_id   = escape($_POST['student_id']);
-  $t_student_id = escape($_POST['t_student_id']);
+  $parent_id  = escape($_POST['parent_id']);
+  $teacher_id = escape($_POST['teacher_id']);
+  $student_id = escape($_POST['student_id']);
+  $firstname  = escape($_POST['firstname']);
+  $lastname   = escape($_POST['lastname']);
+  $email      = escape($_POST['email']);
+  $phone      = escape($_POST['phone']);
+  $username   = escape($_POST['username']);
+  $password   = escape($_POST['password']);
+  $address    = escape($_POST['address']);
+  $city       = escape($_POST['city']);
+  $zip        = escape($_POST['zip']);
 
-  $firstname = escape($_POST['firstname']);
-  $lastname  = escape($_POST['lastname']);
-  $email     = escape($_POST['email']);
-  $username  = escape($_POST['username']);
-  $password  = escape($_POST['password']);
-  $city      = escape($_POST['city']);
-  $state     = escape($_POST['state']);
+//   $img      = $_FILES['img']['name'];
+//   $img_temp = $_FILES['img']['tmp_name'];
+
+//     move_uploaded_file($img_temp, "assets/img/users/$img");
+
+//     if(empty($img)) {
+        
+//         $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+//         $select_image = mysqli_query($connection,$query);
+            
+//         while($row = mysqli_fetch_array($select_image)) {
+            
+//           $img = $row['img'];
+        
+//         }
+        
+        
+// }
 
 if(!empty($password)) {
 
@@ -59,36 +86,33 @@ if(!empty($password)) {
 
   }
 
+
+    
+
         $query = "UPDATE users SET ";
-        $query .= "student_id     = '{$student_id}', ";
-        $query .= "t_student_id   = '{$t_student_id}', ";
         $query .= "firstname      = '{$firstname}', ";
         $query .= "lastname       = '{$lastname}', ";
         $query .= "lastname       = '{$lastname}', ";
         $query .= "img            = '{$img}', ";
         $query .= "email          = '{$email}', ";
+        $query .= "phone          = '{$phone}', ";
         $query .= "username       = '{$username}', ";
         $query .= "password       = '{$password}', ";
+        $query .= "address        = '{$address}', ";
         $query .= "city           = '{$city}', ";
-        $query .= "state          = '{$state}' ";
+        $query .= "zip            = '{$zip}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
-        $data_array = [
-          'email' => $email,
-          'first_name'=>$firstname,
-          'last_name'=>$lastname,
-          'password'=>$password,
-          'username'=>$username,
-        ];
-        editInfoLightingRound($data_array);
+    
         confirm($edit_user_query);
-        update_kids_count();
-        update_kids_count_byteacher();
         
         $message = "Profile Updated!";
+          update_kids_count();
+    update_kids_count_byteacher();
 
-        header("refresh:2;url=".$_SERVER['REQUEST_URI']);
+        header("refresh:2;url=user.php");
+
         }
 
       } else {
@@ -114,10 +138,18 @@ if(!empty($password)) {
                 <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
-                <!-- ADD PARENT MODAL -->
-                
+
+                  <!-- ADD PARENT MODAL -->
+                  <?php if(is_parent()): ?>
+                  <?php include "includes/add_extra_parent.php" ?>
+                  <div class="form-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterNewParent">Add Parent</button>
+                  </div>
+                  <?php endif ?>
+
                   <!-- ----------------- -->
                   <form action="" method="post" enctype="multipart/form-data">
+                  <?php if(is_student()): ?>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
@@ -125,49 +157,61 @@ if(!empty($password)) {
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
+                  <?php endif ?>
+                  <?php if(is_parent()): ?>
+                    <div class="row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
-                        <label>User Id</label>
-                        <input type="text" class="form-control" placeholder="User ID" name="user" value="<?php echo $user_id; ?>" readonly>
-                      </div>
-                    </div>
-                    <?php if(is_admin()): ?>
-                    <div class="col-md-2 pr-md-1">
-                      <div class="form-group">
-                      <label>Student Id <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Match it with Parent ID"></i></label>
-                        <input type="text" class="form-control" placeholder="Student ID" name="student_id" value="<?php echo $student_id; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-2 pr-md-1">
-                      <div class="form-group">
-                      <label data-toggle="tooltip" data-placement="right" title="Match with Teacher's Teacher ID">Teacher Id</label>
-                        <input type="text" class="form-control" placeholder="Teacher ID" name="t_student_id" value="<?php echo $t_student_id; ?>">
+                        <label>Parent ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
                       </div>
                     </div>
                     <?php endif ?>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4 pr-md-1">
+                    <?php if(is_teacher()): ?>
+                    <div class="row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Teacher ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $teacher_id; ?>" readonly>
+                      </div>
+                    </div>
+                    <?php endif ?>
+                    <?php if(is_student()): ?>
+                    <div class="row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $student_id; ?>" readonly>
+                      </div>
+                    </div>
+                    <?php endif ?>
+                    <div class="col-md-5 pr-md-1">
                       <div class="form-group">
                         <label>Username</label>
                         <input type="text" class="form-control" placeholder="Username" name="username" value="<?php echo $username; ?>" readonly>
                       </div>
                     </div>
-                    <div class="col-md-4 pr-md-1">
+                    <div class="col-md-5 pr-md-1">
                       <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password; ?>">
                       </div>
                     </div>
-                    <div class="col-md-4 pr-md-1">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-md-1">
                       <div class="form-group">
                         <label>Email</label>
                         <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo $email; ?>">
                       </div>
                     </div>
+                    <div class="col-md-6 px-md-1">
+                      <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" class="form-control" placeholder="Number" name="phone" value="<?php echo $phone; ?>">
+                      </div>
                     </div>
+                  </div>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
@@ -175,10 +219,18 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="First Name" name="firstname" value="<?php echo $firstname; ?>">
                       </div>
                     </div>
-                    <div class="col-md-6 pr-md-1">
+                    <div class="col-md-6 pl-md-1">
                       <div class="form-group">
                         <label>Last Name</label>
                         <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="<?php echo $lastname; ?>">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control" placeholder="Address" name="address" value="<?php echo $address; ?>">
                       </div>
                     </div>
                   </div>
@@ -189,29 +241,12 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="City" name="city" value="<?php echo $city; ?>">
                       </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                  <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
-                    <option selected disabled value="">Choose...</option>
-                    <?php 
-                                $query = "SELECT * FROM state ";
-                                $select_state = mysqli_query($connection, $query);
-
-                                while ($row = mysqli_fetch_assoc($select_state)) {
-                                    $id   = $row['id'];
-                                    $name = $row['name'];
-
-                                    if ($id === $state) {
-                                        $selected = 'selected';
-                                    } else {
-                                        $selected = '';
-                                    }
-
-                                    echo "<option $selected value='{$id}'>{$name}</option>";
-                                }
-                            ?>
-                  </select>
-                </div>
+                    <div class="col-md-6 pl-md-1">
+                      <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="number" class="form-control" placeholder="ZIP Code" name="zip" value="<?php echo $zip; ?>">
+                      </div>
+                    </div>
                   </div>
                   <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="edit_user" value="Update Profile">
@@ -221,3 +256,6 @@ if(!empty($password)) {
             </div>
           </div>
         </div>
+
+      <?php include "includes/footer.php" ?>
+      

@@ -37,9 +37,6 @@ if(isset($_SESSION['user_id'])) {
 
 if(isset($_POST['edit_user'])) {
     
-  $parent_id  = escape($_POST['parent_id']);
-  $teacher_id = escape($_POST['teacher_id']);
-  $student_id = escape($_POST['student_id']);
   $firstname  = escape($_POST['firstname']);
   $lastname   = escape($_POST['lastname']);
   $email      = escape($_POST['email']);
@@ -148,7 +145,7 @@ if(!empty($password)) {
                   <?php endif ?>
 
                   <!-- ----------------- -->
-                  <form action="" method="post" enctype="multipart/form-data">
+                  <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
                   <?php if(is_student()): ?>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
@@ -157,102 +154,161 @@ if(!empty($password)) {
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
                       </div>
                     </div>
-                  </div>
                   <?php endif ?>
-                  <?php if(is_parent()): ?>
-                    <div class="row">
+                  <?php if(is_admin()): ?>
+                  <div class="form-row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
-                        <label>Parent ID</label>
-                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
+                        <label>User ID</label>
+                        <input type="text" class="form-control" name="user_id" value="<?php echo $user_id; ?>" readonly>
                       </div>
                     </div>
-                    <?php endif ?>
-                    <?php if(is_teacher()): ?>
-                    <div class="row">
+                  </div>
+                  <?php endif ?>
+                  <?php if(is_teacher()): ?>
+                  <div class="form-row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
                         <label>Teacher ID</label>
-                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $teacher_id; ?>" readonly>
+                        <input type="text" class="form-control" name="teacher_id" value="<?php echo $teacher_id; ?>" readonly>
                       </div>
                     </div>
-                    <?php endif ?>
-                    <?php if(is_student()): ?>
-                    <div class="row">
+                  </div>
+                  <?php endif ?> 
+                  <?php if(is_parent()): ?>
+                  <div class="form-row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Parent ID</label>
+                        <input type="text" class="form-control" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
+                      </div>
+                    </div>
+                  </div>
+                  <?php endif ?>
+                  <?php if(is_student()): ?>
+                  <div class="form-row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
                         <label>Student ID</label>
-                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $student_id; ?>" readonly>
-                      </div>
-                    </div>
-                    <?php endif ?>
-                    <div class="col-md-5 pr-md-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" name="username" value="<?php echo $username; ?>" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-5 px-md-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password; ?>">
+                        <input type="text" class="form-control" name="student_id" value="<?php echo $student_id; ?>" readonly>
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo $email; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 px-md-1">
-                      <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Number" name="phone" value="<?php echo $phone; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name" name="firstname" value="<?php echo $firstname; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="<?php echo $lastname; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address" name="address" value="<?php echo $address; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
-                      <div class="form-group">
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" name="city" value="<?php echo $city; ?>">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code" name="zip" value="<?php echo $zip; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="edit_user" value="Update Profile">
-                  </div>
-                </form>
+                  <?php endif ?>        
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom01">First name</label>
+                  <input type="text" name="firstname" class="form-control" id="validationCustom01" value="<?php echo $firstname; ?>" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom02">Last name</label>
+                  <input type="text" name="lastname" class="form-control" id="validationCustom02" value="<?php echo $lastname; ?>" required>
+                </div>
+              </div>
+              <?php if(is_admin() OR is_admin() OR is_teacher() ): ?>
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom01">Email</label>
+                  <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email; ?>" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom01">Phone Number</label>
+                  <input type="text" name="phone" class="form-control" id="validationCustom01" value="<?php echo $phone; ?>" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label for="validationCustom01">Address</label>
+                  <input type="text" name="address" class="form-control" id="validationCustom01" value="<?php echo $address; ?>" required>
+                </div>
+              </div>
+              <?php endif ?>
+              <?php if(is_student()): ?>
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label for="validationCustom01">Email</label>
+                  <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email; ?>" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-8 mb-3">
+                  <label for="validationCustom03">City</label>
+                  <input type="text" name="city" class="form-control" id="validationCustom03" value="<?php echo $city; ?>" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom04">State</label>
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
+                    <option selected disabled value="">Choose...</option>
+                    <?php 
+                                $query = "SELECT * FROM state ";
+                                $select_state = mysqli_query($connection, $query);
+
+                                while ($row = mysqli_fetch_assoc($select_state)) {
+                                    $id   = $row['id'];
+                                    $name = $row['name'];
+
+                                    if ($id === $state) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+
+                                    echo "<option $selected value='{$id}'>{$name}</option>";
+                                }
+                            ?>
+                  </select>
+                </div>
+              </div>
+              <?php endif ?>
+              <?php if(is_admin()): ?>
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom03">City</label>
+                  <input type="text" name="city" class="form-control" id="validationCustom03" value="<?php echo $city; ?>" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom03">ZIP</label>
+                  <input type="text" name="zip" class="form-control" id="validationCustom03" value="<?php echo $zip; ?>" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom04">State</label>
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
+                    <option selected disabled value="">Choose...</option>
+                    <?php 
+                                $query = "SELECT * FROM state ";
+                                $select_state = mysqli_query($connection, $query);
+
+                                while ($row = mysqli_fetch_assoc($select_state)) {
+                                    $id   = $row['id'];
+                                    $name = $row['name'];
+
+                                    if ($id === $state) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+
+                                    echo "<option $selected value='{$id}'>{$name}</option>";
+                                }
+                            ?>
+                  </select>
+                </div>
+              </div>
+              <?php endif ?>
+              <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Login Information</h5>
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom01">Username</label>
+                  <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username; ?>" readonly>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">Password</label>
+                  <input type="password" name="password" class="form-control" id="validationCustom02" value="<?php echo $password; ?>" required>
+                </div>
+                </div>
+              <input style="background: rgb(223,78,204);
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="edit_user" value="Update">
+            </form>
               </div>
             </div>
           </div>

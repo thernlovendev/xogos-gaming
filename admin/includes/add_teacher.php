@@ -1,5 +1,7 @@
 <?php
 
+$message = "";
+
 if(isset($_POST['add_teacher'])) {
 
   $firstname       = escape($_POST['firstname']);
@@ -99,11 +101,15 @@ if(isset($_POST['add_teacher'])) {
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-md-8 mb-3">
+                <div class="col-md-6 mb-3">
                   <label for="validationCustom03">City</label>
                   <input type="text" name="city" class="form-control" id="validationCustom03" required>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+                  <label for="validationCustom03">ZIP</label>
+                  <input type="text" name="zip" class="form-control" id="validationCustom03" required>
+                </div>
+                <div class="col-md-3 mb-3">
                   <label for="validationCustom04">State</label>
                   <select name="state" class="custom-select form-control" id="validationCustom04" required>
                     <option selected disabled value="">Choose...</option>
