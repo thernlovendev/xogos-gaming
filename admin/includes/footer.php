@@ -52,6 +52,13 @@
   <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="assets/demo/demo.js"></script>
+
+  <!-- Initialize tooltips -->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -170,23 +177,6 @@
 
     });
   </script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-  <script>
-    window.TrackJS &&
-      TrackJS.install({
-        token: "ee6fab19c5a04ac1a32a645abde4613a",
-        application: "black-dashboard-free"
-      });
-  </script>
-
-<?php if ($success) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#successModal').modal('show');
-    });
-  </script>
-<?php } ?>
-
 </body>
 
 </html>

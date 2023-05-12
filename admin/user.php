@@ -14,18 +14,20 @@ if(isset($_SESSION['user_id'])) {
 
     while($row = mysqli_fetch_array($select_user_profile_query)) {
 
-      $user_id   = $row['user_id'];
-      $parent_id = $row['parent_id'];
-      $firstname = $row['firstname'];
-      $lastname  = $row['lastname'];
-      $img       = $row['img'];
-      $email     = $row['email'];
-      $phone     = $row['phone'];
-      $username  = $row['username'];
-      $password  = $row['password'];
-      $address   = $row['address'];
-      $city      = $row['city'];
-      $zip       = $row['zip'];
+      $user_id    = $row['user_id'];
+      $parent_id  = $row['parent_id'];
+      $teacher_id = $row['teacher_id'];
+      $student_id = $row['student_id'];
+      $firstname  = $row['firstname'];
+      $lastname   = $row['lastname'];
+      $img        = $row['img'];
+      $email      = $row['email'];
+      $phone      = $row['phone'];
+      $username   = $row['username'];
+      $password   = $row['password'];
+      $address    = $row['address'];
+      $city       = $row['city'];
+      $zip        = $row['zip'];
 
 
     }
@@ -35,34 +37,37 @@ if(isset($_SESSION['user_id'])) {
 
 if(isset($_POST['edit_user'])) {
     
-  $firstname = $_POST['firstname'];
-  $lastname  = $_POST['lastname'];
-  $email     = $_POST['email'];
-  $phone     = $_POST['phone'];
-  $username  = $_POST['username'];
-  $password  = $_POST['password'];
-  $address   = $_POST['address'];
-  $city      = $_POST['city'];
-  $zip       = $_POST['zip'];
+  $parent_id  = escape($_POST['parent_id']);
+  $teacher_id = escape($_POST['teacher_id']);
+  $student_id = escape($_POST['student_id']);
+  $firstname  = escape($_POST['firstname']);
+  $lastname   = escape($_POST['lastname']);
+  $email      = escape($_POST['email']);
+  $phone      = escape($_POST['phone']);
+  $username   = escape($_POST['username']);
+  $password   = escape($_POST['password']);
+  $address    = escape($_POST['address']);
+  $city       = escape($_POST['city']);
+  $zip        = escape($_POST['zip']);
 
-  $img      = $_FILES['img']['name'];
-  $img_temp = $_FILES['img']['tmp_name'];
+//   $img      = $_FILES['img']['name'];
+//   $img_temp = $_FILES['img']['tmp_name'];
 
-    move_uploaded_file($img_temp, "assets/img/users/$img");
+//     move_uploaded_file($img_temp, "assets/img/users/$img");
 
-    if(empty($img)) {
+//     if(empty($img)) {
         
-        $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
-        $select_image = mysqli_query($connection,$query);
+//         $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+//         $select_image = mysqli_query($connection,$query);
             
-        while($row = mysqli_fetch_array($select_image)) {
+//         while($row = mysqli_fetch_array($select_image)) {
             
-          $img = $row['img'];
+//           $img = $row['img'];
         
-        }
+//         }
         
         
-}
+// }
 
 if(!empty($password)) {
 
@@ -154,6 +159,7 @@ if(!empty($password)) {
                     </div>
                   </div>
                   <?php endif ?>
+                  <?php if(is_parent()): ?>
                     <div class="row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
@@ -161,6 +167,25 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
                       </div>
                     </div>
+                    <?php endif ?>
+                    <?php if(is_teacher()): ?>
+                    <div class="row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Teacher ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $teacher_id; ?>" readonly>
+                      </div>
+                    </div>
+                    <?php endif ?>
+                    <?php if(is_student()): ?>
+                    <div class="row">
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                        <label>Student ID</label>
+                        <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $student_id; ?>" readonly>
+                      </div>
+                    </div>
+                    <?php endif ?>
                     <div class="col-md-5 pr-md-1">
                       <div class="form-group">
                         <label>Username</label>

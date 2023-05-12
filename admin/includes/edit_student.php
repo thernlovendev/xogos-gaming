@@ -20,13 +20,10 @@ if(isset($_GET['edit_student'])) {
       $lastname     = $row['lastname'];
       $img          = $row['img'];
       $email        = $row['email'];
-      $phone        = $row['phone'];
       $username     = $row['username'];
       $password     = $row['password'];
-      $address      = $row['address'];
       $city         = $row['city'];
-      $zip          = $row['zip'];
-
+      $state        = $row['state'];
 
     }
    
@@ -40,31 +37,10 @@ if(isset($_POST['edit_user'])) {
   $firstname = escape($_POST['firstname']);
   $lastname  = escape($_POST['lastname']);
   $email     = escape($_POST['email']);
-  $phone     = escape($_POST['phone']);
   $username  = escape($_POST['username']);
   $password  = escape($_POST['password']);
-  $address   = escape($_POST['address']);
   $city      = escape($_POST['city']);
-  $zip       = escape($_POST['zip']);
-
-  $img          = escape($_FILES['img']['name']);
-  $img_temp     = escape($_FILES['img']['tmp_name']);
-
-  move_uploaded_file($img_temp, "assets/img/users/$img");
-
-    if(empty($img)) {
-        
-        $query = "SELECT * FROM users WHERE user_id = '{$user_id}' ";
-        $select_image = mysqli_query($connection,$query);
-            
-        while($row = mysqli_fetch_array($select_image)) {
-            
-          $img = $row['img'];
-        
-        }
-        
-        
-}
+  $state     = escape($_POST['state']);
 
 if(!empty($password)) {
 
@@ -91,12 +67,10 @@ if(!empty($password)) {
         $query .= "lastname       = '{$lastname}', ";
         $query .= "img            = '{$img}', ";
         $query .= "email          = '{$email}', ";
-        $query .= "phone          = '{$phone}', ";
         $query .= "username       = '{$username}', ";
         $query .= "password       = '{$password}', ";
-        $query .= "address        = '{$address}', ";
         $query .= "city           = '{$city}', ";
-        $query .= "zip            = '{$zip}' ";
+        $query .= "state          = '{$state}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
@@ -114,8 +88,7 @@ if(!empty($password)) {
         
         $message = "Profile Updated!";
 
-        header("refresh:2;url=students.php");
-
+        header("refresh:2;url=".$_SERVER['REQUEST_URI']);
         }
 
       } else {
@@ -163,46 +136,38 @@ if(!empty($password)) {
                     <?php if(is_admin()): ?>
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
-                        <label>Student Id</label>
+                      <label>Student Id <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Match it with Parent ID"></i></label>
                         <input type="text" class="form-control" placeholder="Student ID" name="student_id" value="<?php echo $student_id; ?>">
                       </div>
                     </div>
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
-                        <label>Teacher Id</label>
+                      <label data-toggle="tooltip" data-placement="top" title="Enter the teacher id">Teacher Id</label>
                         <input type="text" class="form-control" placeholder="Teacher ID" name="t_student_id" value="<?php echo $t_student_id; ?>">
                       </div>
                     </div>
                     <?php endif ?>
                   </div>
-                    <div class="row">
-                    <div class="col-md-6 pr-md-1">
+                  <div class="row">
+                    <div class="col-md-4 pr-md-1">
                       <div class="form-group">
                         <label>Username</label>
                         <input type="text" class="form-control" placeholder="Username" name="username" value="<?php echo $username; ?>" readonly>
                       </div>
                     </div>
-                    <div class="col-md-6 px-md-1">
+                    <div class="col-md-4 pr-md-1">
                       <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" placeholder="Password" name="password" value="<?php echo $password; ?>">
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
+                    <div class="col-md-4 pr-md-1">
                       <div class="form-group">
                         <label>Email</label>
                         <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo $email; ?>">
                       </div>
                     </div>
-                    <div class="col-md-6 px-md-1">
-                      <div class="form-group">
-                        <label>Phone Number</label>
-                        <input type="text" class="form-control" placeholder="Number" name="phone" value="<?php echo $phone; ?>">
-                      </div>
                     </div>
-                  </div>
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
@@ -210,18 +175,10 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="First Name" name="firstname" value="<?php echo $firstname; ?>">
                       </div>
                     </div>
-                    <div class="col-md-6 pl-md-1">
+                    <div class="col-md-6 pr-md-1">
                       <div class="form-group">
                         <label>Last Name</label>
                         <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="<?php echo $lastname; ?>">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address" name="address" value="<?php echo $address; ?>">
                       </div>
                     </div>
                   </div>
@@ -232,12 +189,29 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="City" name="city" value="<?php echo $city; ?>">
                       </div>
                     </div>
-                    <div class="col-md-6 pl-md-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code" name="zip" value="<?php echo $zip; ?>">
-                      </div>
-                    </div>
+                    <div class="col-md-6 mb-3">
+                  <label for="validationCustom04">State</label>
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
+                    <option selected disabled value="">Choose...</option>
+                    <?php 
+                                $query = "SELECT * FROM state ";
+                                $select_state = mysqli_query($connection, $query);
+
+                                while ($row = mysqli_fetch_assoc($select_state)) {
+                                    $id   = $row['id'];
+                                    $name = $row['name'];
+
+                                    if ($id === $state) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
+
+                                    echo "<option $selected value='{$id}'>{$name}</option>";
+                                }
+                            ?>
+                  </select>
+                </div>
                   </div>
                   <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="edit_user" value="Update Profile">

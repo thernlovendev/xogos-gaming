@@ -173,7 +173,7 @@ if(isset($_SESSION['add_student'])) {
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select" id="validationCustom04" required>
+                  <select name="state" class="custom-select form-control" id="validationCustom04" required>
                     <option selected disabled value="">Choose...</option>
                   <?php 
                                     
@@ -195,7 +195,7 @@ if(isset($_SESSION['add_student'])) {
               <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Login Information</h5>
               <div class="form-row">
                 <div class="col-md-4 mb-3">
-                  <label for="validationCustom01">User</label>
+                  <label for="validationCustom01">Username</label>
                   <input type="text" name="username" class="form-control" id="validationCustom01" required>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -236,6 +236,15 @@ if(isset($_SESSION['add_student'])) {
               }, false);
             })();
             </script>
+
+<?php if ($success) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#successModal').modal('show');
+    });
+  </script>
+<?php } ?>
+
           </div>
           <?php include "includes/footer.php" ?>
         </div>
