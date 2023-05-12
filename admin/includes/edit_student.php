@@ -59,6 +59,9 @@ if(!empty($password)) {
 
   }
 
+  $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
+
+
         $query = "UPDATE users SET ";
         $query .= "student_id     = '{$student_id}', ";
         $query .= "t_student_id   = '{$t_student_id}', ";
