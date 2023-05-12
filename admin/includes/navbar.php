@@ -22,7 +22,7 @@
               <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="photo">
-                    <img src="assets/img/users/<?php echo $_SESSION['img'] ?>" alt="Profile Photo">
+                    <img src="assets/img/avatars/<?php echo $_SESSION['img'] ?>" alt="Profile Photo">
                   </div>
                   <b class="caret d-none d-lg-block d-xl-block"></b>
                   <p class="d-lg-none">
