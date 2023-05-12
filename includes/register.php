@@ -1,80 +1,103 @@
 <?php include "header.php" ?>
+<?php include "../admin/functions.php" ?>
+
 
 <?php
+$success = false;
+$pass_modal = false;
+$message = "";
 
-$success = "";
+$firstname = "";
+$lastname  = "";
+$email     = "";
+$phone     = "";
+$username  = "";
+$address   = "";
+$city      = "";
+$state     = "";
+$zip       = "";
 
-if(isset($_POST['add_user'])) {
+session_start(); // Start the session
 
-    $firstname       = $_POST['firstname'];
-    $lastname        = $_POST['lastname'];
-    $email           = $_POST['email'];
-    $phone           = $_POST['phone'];
-    $username        = $_POST['username'];
-    $password        = $_POST['password'];
-    $repeat_password = $_POST['repeat_password'];
-    $address         = $_POST['address'];
-    $city            = $_POST['city'];
-    $state           = $_POST['state'];
-    $zip             = $_POST['zip'];
+if (isset($_POST['add_user'])) {
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $repeat_password = $_POST['repeat_password'];
+  $address = $_POST['address'];
+  $city = $_POST['city'];
+  $state = $_POST['state'];
+  $zip = $_POST['zip'];
 
-    // check password strength
-    // if (check_password_strength($password)) {
-    //   echo 'Password is strong';
-    // } else {
-    //   echo 'Password is weak';
-    //   return;
-    // }
+  $_SESSION['form_data'] = array(
+    'firstname' => $firstname,
+    'lastname' => $lastname,
+    'email' => $email,
+    'phone' => $phone,
+    'username' => $username,
+    'address' => $address,
+    'city' => $city,
+    'state' => $state,
+    'zip' => $zip
+  );
 
+  if (!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) && !empty($repeat_password)) {
 
-    if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) && !empty($repeat_password) ) {
+    // check if passwords match
+    if ($password !== $repeat_password) {
+      $message = "Passwords do not match";
+    } else {
 
-      // check if passwords match
-      if($password !== $repeat_password) {
-        $message = "Passwords do not match";
+      // check password strength
+      if (!check_password_strength($password)) {
+        $pass_modal = true;
       } else {
-    
+
         // sanitize inputs
         $firstname = mysqli_real_escape_string($connection, $firstname);
-        $lastname  = mysqli_real_escape_string($connection, $lastname);
-        $email     = mysqli_real_escape_string($connection, $email);
-        $phone     = mysqli_real_escape_string($connection, $phone);
-        $username  = mysqli_real_escape_string($connection, $username);
-        $password  = mysqli_real_escape_string($connection, $password);
-        $address   = mysqli_real_escape_string($connection, $address);
-        $city      = mysqli_real_escape_string($connection, $city);
-        $state     = mysqli_real_escape_string($connection, $state);
-        $zip       = mysqli_real_escape_string($connection, $zip);
-    
+        $lastname = mysqli_real_escape_string($connection, $lastname);
+        $email = mysqli_real_escape_string($connection, $email);
+        $phone = mysqli_real_escape_string($connection, $phone);
+        $username = mysqli_real_escape_string($connection, $username);
+        $password = mysqli_real_escape_string($connection, $password);
+        $address = mysqli_real_escape_string($connection, $address);
+        $city = mysqli_real_escape_string($connection, $city);
+        $state = mysqli_real_escape_string($connection, $state);
+        $zip = mysqli_real_escape_string($connection, $zip);
+
         // hash password
-        $password  = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
-    
+        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+
         // generate random values for parent_id, teacher_id, and admin_id columns
         $parent_id = rand(1, 999);
         $teacher_id = rand(1, 999);
         $admin_id = rand(1, 999);
-    
+
         // build SQL query
         $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id) ";
         $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}') ";
-    
+
         // execute query
         $register_parent_query = mysqli_query($connection, $query);
-    
-        if(!$register_parent_query) {
+
+        if (!$register_parent_query) {
           die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
         } else {
           $success = true;
+          unset($_SESSION['form_data']); // Remove the form data from the session upon successful submission
         }
-
       }
-    
-    } 
-    
-
+    }
+  }
 }
-
 ?>
+
+
+
+
 
 <style>
   body {
@@ -115,37 +138,37 @@ if(isset($_POST['add_user'])) {
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
-                  <input type="text" name="firstname" class="form-control" id="validationCustom01" required>
+                  <input type="text" name="firstname" class="form-control" id="validationCustom01" value="<?php echo $firstname ?>" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom02">Last name</label>
-                  <input type="text" name="lastname" class="form-control" id="validationCustom02" required>
+                  <input type="text" name="lastname" class="form-control" id="validationCustom02" value="<?php echo $lastname ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">Email</label>
-                  <input type="email" name="email" class="form-control" id="validationCustom01" required>
+                  <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email ?>" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom02">Phone Number</label>
-                  <input type="text" name="phone" class="form-control" id="validationCustom02" required>
+                  <input type="text" name="phone" class="form-control" id="validationCustom02" value="<?php echo $phone ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="validationCustom01">Address</label>
-                  <input type="text" name="address" class="form-control" id="validationCustom01" required>
+                  <input type="text" name="address" class="form-control" id="validationCustom01" value="<?php echo $address ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom03">City</label>
-                  <input type="text" name="city" class="form-control" id="validationCustom03" required>
+                  <input type="text" name="city" class="form-control" id="validationCustom03" value="<?php echo $city ?>" required>
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select" id="validationCustom04" required>
+                  <select name="state" class="custom-select" id="validationCustom04" value="<?php echo $state ?>" required>
                     <option selected disabled value="">Choose...</option>
                   <?php 
                                     
@@ -165,14 +188,14 @@ if(isset($_POST['add_user'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="validationCustom05">Zip</label>
-                  <input type="text" name="zip" class="form-control" id="validationCustom05" required>
+                  <input type="text" name="zip" class="form-control" id="validationCustom05" value="<?php echo $zip ?>" required>
                 </div>
               </div>
               <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Login Information</h5>
               <div class="form-row">
                 <div class="col-md-4 mb-3">
-                  <label for="validationCustom01">User</label>
-                  <input type="text" name="username" class="form-control" id="validationCustom01" required>
+                  <label for="validationCustom01">Username</label>
+                  <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username ?>" required>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom02">Password</label>
@@ -181,6 +204,7 @@ if(isset($_POST['add_user'])) {
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom02">Repeat Password</label>
                   <input type="password" name="repeat_password" class="form-control" id="validationCustom02" required>
+                  <label class="text-danger" for="validationCustom02"><?php echo $message ?></label>
                 </div>
               </div>
               <input style="background: rgb(223,78,204);
@@ -188,6 +212,7 @@ if(isset($_POST['add_user'])) {
             </form>
 
             <?php include "success_modal.php" ?>
+            <?php include "pass_modal.php" ?>
 
 
 

@@ -33,3 +33,11 @@
     });
   </script>
 <?php } ?>
+
+<?php if ($pass_modal) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#passModal').modal('show');
+    });
+  </script>
+<?php } ?>
