@@ -26,7 +26,7 @@ if (isset($_POST['add_user'])) {
   $lastname        = $_POST['lastname'];
   $email           = $_POST['email'];
   $phone           = $_POST['phone'];
-  $username        = $_POST['username'];
+  $username        = str_replace(' ', '', strtolower($_POST['username'])); // convert to lowercase and remove spaces
   $password        = $_POST['password'];
   $repeat_password = $_POST['repeat_password'];
   $address         = $_POST['address'];
@@ -185,7 +185,7 @@ if (isset($_POST['add_user'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select" id="validationCustom04" value="<?php echo $state ?>" required>
+                  <select name="state" class="custom-select form-control" id="validationCustom04" value="<?php echo $state ?>" required>
                     <option selected disabled value="">Choose...</option>
                   <?php 
                                     
@@ -227,6 +227,11 @@ if (isset($_POST['add_user'])) {
               </div>
               <input style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_user" value="Register">
+                <div class="row">
+                <div class="ml-auto mr-auto" style="margin-top: 0.5rem";>
+                  <a href="login.php">Or Login</a>
+                </div>
+              </div>
             </form>
 
             <?php include "success_modal.php" ?>
