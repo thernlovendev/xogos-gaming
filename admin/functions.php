@@ -661,4 +661,44 @@ function check_password_strength($password) {
     // password meets all criteria
     return true;
   }
+
+  function ifItIsMethod($method=null){
+
+    if($_SERVER['REQUEST_METHOD'] == strtoupper($method)){
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+function redirect($location){
+    header("Location:" . $location);
+    exit;
+}
+
+function email_exists($email){
+
+    global $connection;
+
+
+    $query = "SELECT email FROM users WHERE email = '$email'";
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+
+    if(mysqli_num_rows($result) > 0) {
+
+        return true;
+
+    } else {
+
+        return false;
+
+    }
+
+
+
+}
   

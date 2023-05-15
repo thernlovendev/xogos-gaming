@@ -1,7 +1,4 @@
 <?php include "header.php" ?>
-<?php include "../admin/functions.php" ?>
-
-
 <?php
 $success          = false;
 $pass_modal       = false;

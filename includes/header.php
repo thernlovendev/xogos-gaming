@@ -1,6 +1,7 @@
 <?php include "../admin/includes/db.php"; 
 
 $DOMAIN = "https://testing.thernloven.com"; ?>
+<?php include "../admin/functions.php" ?>
 
 <!DOCTYPE html>
 <html lang="en">

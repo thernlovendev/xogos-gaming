@@ -34,41 +34,41 @@
       <div class="col-12 col-lg-9 col-xl-7" style="padding-bottom: 50px;">
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px; border:solid 1px; border-color: #C153ED; background-color: #27293D">
           <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Login</h3>
-            <form method="post" action="login_db.php">
+
+          <?php if(!isset($emailSent)): ?>
+
+          
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Reset password?</h3>
+            <p class="mb-4 pb-2 pb-md-0 mb-md-5">You can reset your password below</p>
+            <form method="post" action="">
 
               <div class="row">
                 <div class="col-md-12 mb-4">
 
-                  <div class="form-outline">
-                    <input type="text" name="username" id="firstName" class="form-control form-control-lg" />
-                    <label class="form-label" for="firstName">Username</label>
+                  <div class="form-group">
+                    <input type="password" name="password" id="firstName" class="form-control form-control-lg" />
+                    <label class="form-label" for="firstName">Password</label>
+                  </div>
+
+                  <div class="form-group">
+                    <input type="password" name="password" id="firstName" class="form-control form-control-lg" />
+                    <label class="form-label" for="firstName">Confirm Password</label>
                   </div>
 
                 </div>
-                <div class="col-md-12 mb-4">
-
-                  <div class="form-outline">
-                    <input type="password" name="password" id="lastName" class="form-control form-control-lg" />
-                    <label class="form-label" for="lastName">Password</label>
-                  </div>
-                  <a class="text-sm" href="forgot.php?forgot=<?php echo uniqid(true); ?>">Forgot Password</a>
-
-                </div>
-
                 <div class="mt-4 pt-2">
                 <input style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="login" value="Login" />
-              </div>
-
-              <div class="row">
-                <div class="ml-auto mr-auto" style="margin-top: 0.5rem";>
-                  <a href="register.php">Or Register</a>
-                </div>
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn-lg" type="submit" name="recover-submit" value="Reset" />
               </div>
               </div>
 
             </form>
+
+            <?php else: ?>
+
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Check your inbox!</h3>
+
+            <?php endif ?>
           </div>
         </div>
       </div>
