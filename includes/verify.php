@@ -72,19 +72,8 @@ if (mysqli_num_rows($result) > 0) {
 
           
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5"><?php echo $message_suc ?> </h3>
-            <p class="mb-4 pb-2 pb-md-0 mb-md-5">Return to login and continue adding your kid.</p>
-            <form method="post" action="">
-
-              <div class="row">
-                <div class="mt-4 pt-2">
-                <a href="<?php echo $DOMAIN?>/xogos-gaming/includes/login.php" style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn">Continue</a>
-              </div>
-              <input type="hidden" class="hide" name="token" id="token" value="">
-              </div>
-
-            </form>
-
+            <p class="mb-4 pb-2 pb-md-0 mb-md-5">Returning to login to continue register you kid in:</p>
+            <h4 id="countdown">5</h4>
             <?php else: ?>
 
                 <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Check your inbox!</h3>
@@ -96,3 +85,34 @@ if (mysqli_num_rows($result) > 0) {
     </div>
   </div>
 </section>
+
+<style>
+  #countdown {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>
+
+<script>
+  // Countdown timer
+  var countdownElement = document.getElementById("countdown");
+  var countdown = 5; // Countdown duration in seconds
+  var countdownInterval = setInterval(updateCountdown, 1000);
+
+  function updateCountdown() {
+    countdown--;
+    countdownElement.innerText = countdown;
+
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      countdownElement.style.display = "none";
+      // Perform any action you want after the countdown finishes
+      // For example, you can hide the countdown element or show another message
+      // Redirect to the desired URL
+      window.location.href = "http://localhost:8888/web-development/xogos-gaming/includes/login.php"; // Replace "http://example.com" with your desired URL
+    }
+  }
+</script>
