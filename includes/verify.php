@@ -2,12 +2,8 @@
 
 <?php
 
-if(!isset($_GET['token'])){
-
-
+if (!isset($_GET['token'])) {
     header('Location: ../index.php');
-
-
 }
 
 $message_suc = "Verification Successful";
@@ -24,12 +20,16 @@ $result = mysqli_query($connection, $query);
 
 if (mysqli_num_rows($result) > 0) {
     // Token is valid
-    // Implement your verification logic here
-    // For example, update the user's status to "verified" or perform any other necessary actions
+    // Update the verified column to "yes" for the user with the given token
+    $updateQuery = "UPDATE users SET verified = 'yes' WHERE token = '{$token}'";
+    mysqli_query($connection, $updateQuery);
 
-    // Delete the token from the database
-    $deleteQuery = "UPDATE users SET token = NULL WHERE token = '{$token}'";
-    mysqli_query($connection, $deleteQuery);
+    // Check if the update was successful
+    if (mysqli_affected_rows($connection) > 0) {
+        // Delete the token from the database
+        $deleteQuery = "UPDATE users SET token = NULL WHERE token = '{$token}'";
+        mysqli_query($connection, $deleteQuery);
+    }
 } else {
 }
 ?>
