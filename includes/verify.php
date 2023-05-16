@@ -26,6 +26,10 @@ if (mysqli_num_rows($result) > 0) {
     // Token is valid
     // Implement your verification logic here
     // For example, update the user's status to "verified" or perform any other necessary actions
+
+    // Delete the token from the database
+    $deleteQuery = "UPDATE users SET token = NULL WHERE token = '{$token}'";
+    mysqli_query($connection, $deleteQuery);
 } else {
 }
 ?>
