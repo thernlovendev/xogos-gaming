@@ -1,5 +1,84 @@
 <?php include "header.php" ?>
 
+<?php
+
+
+
+    if(!isset($_GET['email']) && !isset($_GET['token'])){
+
+
+        header('Location: ../index.php');
+
+
+    }
+
+if($stmt = mysqli_prepare($connection, 'SELECT username, email, token FROM users WHERE token=?')){
+
+
+    mysqli_stmt_bind_param($stmt, "s", $_GET['token']);
+
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_bind_result($stmt, $username, $user_email, $token);
+
+    mysqli_stmt_fetch($stmt);
+
+    mysqli_stmt_close($stmt);
+
+
+//    if($_GET['token'] !== $token || $_GET['email'] !== $email){
+//
+//        redirect('index');
+//
+//    }
+
+    if(isset($_POST['password']) && isset($_POST['confirmPassword'])){
+
+
+        if($_POST['password'] === $_POST['confirmPassword']){
+
+
+            $password = $_POST['password'];
+
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT, array('cost'=>12));
+
+            if($stmt = mysqli_prepare($connection, "UPDATE users SET token='', password='{$hashedPassword}' WHERE email = ?")){
+
+
+                mysqli_stmt_bind_param($stmt, "s", $_GET['email']);
+                mysqli_stmt_execute($stmt);
+
+                if(mysqli_stmt_affected_rows($stmt) >= 1){
+
+                  header('Location: ../index.php');
+
+
+                }
+
+                mysqli_stmt_close($stmt);
+
+
+            }
+
+
+        }
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+?>
+
+
 
 <style>
   body {
@@ -51,7 +130,7 @@
                   </div>
 
                   <div class="form-group">
-                    <input type="password" name="password" id="firstName" class="form-control form-control-lg" />
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control form-control-lg" />
                     <label class="form-label" for="firstName">Confirm Password</label>
                   </div>
 

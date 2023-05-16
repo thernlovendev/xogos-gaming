@@ -1,6 +1,14 @@
 <?php include "header.php" ?>
 <?php
 
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../classes/config.php';
+
 require '../vendor/autoload.php';
 
     if(!isset($_GET['forgot'])){
@@ -55,7 +63,7 @@ require '../vendor/autoload.php';
                     $mail->setFrom('lukas@thernloven.com', 'Lukas Thern Loven');
                     $mail->addAddress($email);
 
-                    $mail->Subject = 'This is a test email';
+                    $mail->Subject = 'Password Reset';
 
                     $mail->Body = '<p>Please click to reset your password
 
@@ -71,8 +79,6 @@ require '../vendor/autoload.php';
                         $emailSent = true;
 
                     } else{
-
-                        echo "NOT SENT";
 
                     }
 
@@ -147,8 +153,8 @@ require '../vendor/autoload.php';
                 <div class="col-md-12 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" name="username" id="firstName" class="form-control form-control-lg" />
-                    <label class="form-label" for="firstName">Email Address</label>
+                    <input type="text" name="email" id="email" class="form-control form-control-lg" />
+                    <label class="form-label" for="email">Email Address</label>
                   </div>
 
                 </div>

@@ -71,6 +71,8 @@ if (password_verify($password,$db_password)) {
 
 } else {
     header("Location: login.php");
+
+    $login_message = "Passwords don't match";
 }
 
 
