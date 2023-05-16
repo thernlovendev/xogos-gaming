@@ -1,4 +1,18 @@
 <?php include "header.php" ?>
+
+<?php
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../classes/config.php';
+
+require '../vendor/autoload.php';
+
+?>
+
 <?php
 $success          = false;
 $pass_modal       = false;
@@ -88,9 +102,53 @@ if (isset($_POST['add_user'])) {
         $teacher_id = rand(1, 999);
         $admin_id   = rand(1, 999);
 
+        // generate token
+        $length = 50;
+        $token = bin2hex(openssl_random_pseudo_bytes($length));
+        $query .= "token = '{$token}', ";
+
+        // Send email notification using PHPMailer
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->Host = Config::SMTP_HOST;
+        $mail->Username = Config::SMTP_USER;
+        $mail->Password = Config::SMTP_PASSWORD;
+        $mail->Port = Config::SMTP_PORT;
+        $mail->SMTPSecure = 'tls';
+        $mail->SMTPAuth = true;
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+
+        $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
+        $mail->addAddress('lukas@thernloven.com');
+
+        $mail->Subject = 'New User Parent';
+        $mail->Body = 'New account has been created.';
+
+        // Send the email to the admin
+        if (!$mail->send()) {
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+        }
+
+        // Clear the recipients before sending the second email
+        $mail->clearAddresses();
+
+        // Set the recipient and email content for the user
+        $email = $_POST['email'];
+        $mail->addAddress($email);
+        $mail->Subject = 'Welcome to XOGOS GAMING';
+        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+
+        // Send the email to the user
+        if (!$mail->send()) {
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+        }
+
         // build SQL query
-        $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id) ";
-        $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}') ";
+        $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id, token) ";
+        $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}', '{$token}') ";
 
         // execute query
         $register_parent_query = mysqli_query($connection, $query);

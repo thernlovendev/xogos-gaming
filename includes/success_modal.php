@@ -8,10 +8,6 @@
       <div class="modal-body">
       <p>Return to login and sign in to continue adding your kids.</p>
       </div>
-      <div class="modal-footer">
-        <a href="<?php echo $DOMAIN?>/xogos-gaming/includes/login.php" style="background: rgb(223,78,204);
-                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn">Continue</a>
-      </div>
     </div>
   </div>
 </div>
