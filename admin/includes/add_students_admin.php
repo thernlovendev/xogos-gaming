@@ -1,75 +1,150 @@
 <?php
-// Add the list of avatar image files to an array
-$avatar_images = glob("assets/img/avatars/*.png");
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../classes/config.php';
+
+require '../vendor/autoload.php';
+
 ?>
 
 <?php
+$avatar_images = glob("assets/img/avatars/*.png");
 
 $success = "";
 $message = "";
+$message_username = "";
+$message_email    = "";
+$query = "";
+$password = generatePassword();
+$unhashedPassword = $password; // Store the unhashed password
+
+$firstname = "";
+$lastname  = "";
+$email     = "";
+$username  = "";
+$city      = "";
+$state     = "";
+
 
 if(isset($_POST['add_student'])) {
+  $firstname        = $_POST['firstname'];
+  $lastname         = $_POST['lastname'];
+  $email            = $_POST['email'];
+  $username         = str_replace(' ', '', strtolower($_POST['username'])); // convert to lowercase and remove spaces
+  $unhashedPassword = $_POST['password']; // Store the unhashed password
+  $password         = password_hash($unhashedPassword, PASSWORD_BCRYPT, array('cost' => 12)); // Hash the password
+  $city             = $_POST['city'];
+  $state            = $_POST['state'];
+  $img              = $_POST['img'];
 
-    $firstname       = $_POST['firstname'];
-    $lastname        = $_POST['lastname'];
-    $email           = $_POST['email'];
-    $username        = $_POST['username'];
-    $password        = $_POST['password'];
-    $repeat_password = $_POST['repeat_password'];
-    $city            = $_POST['city'];
-    $state           = $_POST['state'];
-    $img             = $_POST['img'];
+    $_SESSION['form_data'] = array(
+      'firstname' => $firstname,
+      'lastname' => $lastname,
+      'email' => $email,
+      'username' => $username,
+      'password' => $password,
+      'city' => $city,
+      'state' => $state,
+    );
 
-    if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) && !empty($repeat_password) ) {
+    if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password)) {
+           
+        
+        // check if username and email already exist
+        $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
+        $result = mysqli_query($connection, $query);
 
-      // check if passwords match
-      if($password !== $repeat_password) {
-        $message = "Passwords do not match";
-      } else {
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          if ($row['username'] == $username) {
+            $message_username = "Username already exists";
+          } else {
+            $message_email = "Email already exists";
+          }
+        } else {
 
-    $firstname = mysqli_real_escape_string($connection, $firstname);
-    $lastname  = mysqli_real_escape_string($connection, $lastname);
-    $email     = mysqli_real_escape_string($connection, $email);
-    $username  = mysqli_real_escape_string($connection, $username);
-    $password  = mysqli_real_escape_string($connection, $password);
-    $city      = mysqli_real_escape_string($connection, $city);
-    $state     = mysqli_real_escape_string($connection, $state);
+        // sanitize inputs
+        $firstname = mysqli_real_escape_string($connection, $firstname);
+        $lastname  = mysqli_real_escape_string($connection, $lastname);
+        $email     = mysqli_real_escape_string($connection, $email);
+        $username  = mysqli_real_escape_string($connection, $username);
+        $password  = mysqli_real_escape_string($connection, $password);
+        $city      = mysqli_real_escape_string($connection, $city);
+        $state     = mysqli_real_escape_string($connection, $state);
+      
+            // generate token
+            $length = 50;
+            $token = bin2hex(openssl_random_pseudo_bytes($length));
+            $query .= "token = '{$token}', ";
 
-    $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
-
-    $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student' ) ";
-
-    // execute query
-        $register_student_query = mysqli_query($connection, $query);
-        if(!$register_student_query) {
-          die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+            // Send email notification using PHPMailer
+            $mail = new PHPMailer;
+            $mail->isSMTP();
+            $mail->Host = Config::SMTP_HOST;
+            $mail->Username = Config::SMTP_USER;
+            $mail->Password = Config::SMTP_PASSWORD;
+            $mail->Port = Config::SMTP_PORT;
+            $mail->SMTPSecure = 'tls';
+            $mail->SMTPAuth = true;
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+      
+            $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
+            $mail->addAddress('lukas@thernloven.com');
+            $mail->Subject = 'New User Student';
+            $mail->Body = 'New account has been created.';
+      
+            if (!$mail->send()) {
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+            }
+      
+            $mail->clearAddresses();
+      
+            $email = $_POST['email'];
+            $mail->addAddress($email);
+            $mail->Subject = 'Welcome to XOGOS GAMING';
+            $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+      
+            if (!$mail->send()) {
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+            }
+      
+            $query = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token) ";
+            $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token}' ) ";
+      
+            // Execute query
+            $register_student_query = mysqli_query($connection, $query);
+            if(!$register_student_query) {
+                die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+            }
+      
+            $data_register_lightning_round = [
+                'username' => $username,
+                'first_name' => $firstname,
+                'last_name' => $lastname,
+                'email' => $email,
+                'password' => $_POST['password'],
+                'password_confirmation' => $_POST['password'],
+                'country_id' => 1,
+                'parent_id' => $_SESSION['parent_id'] 
+            ];
+            $token = register_lighting_round($data_register_lightning_round);
+      
+            $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
+            $update = mysqli_query($connection, $query); 
+      
+            $message = "";
         }
-  
-    $data_register_lightning_round = [
-      'username'=>$username,
-      'first_name'=>$firstname,
-      'last_name'=>$lastname,
-      'email'=>$email,
-      'password'=>$_POST['password'],
-      'password_confirmation'=>$_POST['password'],
-      'country_id'=>1,
-      'parent_id'=>$_SESSION['parent_id'] 
-    ];
-    $token = register_lighting_round($data_register_lightning_round);
-
-    $query="UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
-    $update= mysqli_query($connection, $query); 
-   
-    $message = "";
-
+    }
   }
-
-}
-
-}
-
 ?>
+
 
 <style>
     label, h5, input, select{
@@ -121,7 +196,7 @@ if(isset($_POST['add_student'])) {
                   <div class="avatar-images">
                       <?php foreach ($avatar_images as $img): ?>
                           <label>
-                              <input type="radio" name="img" value="<?php echo basename($img); ?>">
+                              <input type="radio" name="img" value="<?php echo basename($img); ?>" required>
                               <img src="<?php echo $img; ?>" alt="<?php echo basename($img); ?>">
                           </label>
                       <?php endforeach; ?>
@@ -133,27 +208,28 @@ if(isset($_POST['add_student'])) {
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom02">First name</label>
-                  <input type="text" name="firstname" class="form-control" id="validationCustom02" required>
+                  <input type="text" name="firstname" class="form-control" id="validationCustom02" value="<?php echo $firstname ?>" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom03">Last name</label>
-                  <input type="text" name="lastname" class="form-control" id="validationCustom03" required>
+                  <input type="text" name="lastname" class="form-control" id="validationCustom03" value="<?php echo $lastname ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="validationCustom04">Email</label>
-                  <input type="email" name="email" class="form-control" id="validationCustom04" required>
+                  <input type="email" name="email" class="form-control" id="validationCustom04" value="<?php echo $email ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_email ?></label>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-8 mb-3">
                   <label for="validationCustom05">City</label>
-                  <input type="text" name="city" class="form-control" id="validationCustom05" required>
+                  <input type="text" name="city" class="form-control" id="validationCustom05" value="<?php echo $city ?>" required>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom06">State</label>
-                  <select name="state" class="custom-select form-control" id="validationCustom06" required>
+                  <select name="state" class="custom-select form-control" id="validationCustom06" value="<?php echo $state ?>" required>
                     <option selected disabled value="">Choose...</option>
                   <?php 
                                     
@@ -176,16 +252,11 @@ if(isset($_POST['add_student'])) {
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom07">Username</label>
-                  <input type="text" name="username" class="form-control" id="validationCustom07" required>
+                  <input type="text" name="username" class="form-control" id="validationCustom07" value="<?php echo $username ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_username ?></label>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label for="validationCustom08">Password</label>
-                  <input type="password" name="password" class="form-control" id="validationCustom08" required>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="validationCustom09">Repeat Password</label>
-                  <input type="password" name="repeat_password" class="form-control" id="validationCustom09" required>
-                  <label class="text-danger"><?php echo $message ?></label>
+                  <input type="hidden" name="password" class="form-control" id="validationCustom08" value="<?php echo $password; ?>">
                 </div>
               </div>
                   <div class="modal-footer">
