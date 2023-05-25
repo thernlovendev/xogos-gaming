@@ -3,7 +3,7 @@
 
 <?php ob_start(); ?>
 <?php session_start(); ?>
-<?php $DOMAIN = "https://testing.thernloven.com"; ?>
+<?php $DOMAIN = "https://test.huzaki.team/"; ?>
 
 <?php 
 
