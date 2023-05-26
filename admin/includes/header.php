@@ -3,7 +3,7 @@
 
 <?php ob_start(); ?>
 <?php session_start(); ?>
-<?php $DOMAIN = "https://test.huzaki.team/"; ?>
+<?php $DOMAIN = "http://localhost:8888/web-development/xogos-gaming/admin"; ?>
 
 <?php 
 

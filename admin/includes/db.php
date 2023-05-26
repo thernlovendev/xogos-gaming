@@ -1,9 +1,9 @@
 <?php
 
-$db['db_host'] = 'xogosgaming-do-user-14057711-0.b.db.ondigitalocean.com:25060';
-$db['db_user'] = 'doadmin';
-$db['db_pass'] = 'AVNS_vyWqBA_ydiHYTBC-tiw';
-$db['db_name'] = 'defaultdb';
+$db['db_host'] = 'localhost';
+$db['db_user'] = 'thernlov_admin';
+$db['db_pass'] = 'root1';
+$db['db_name'] = 'thernlov_xogos';
 
 foreach ($db as $key => $value) {
 
