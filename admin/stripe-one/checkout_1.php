@@ -7,7 +7,7 @@ include './stripe-php-master/init.php';
 
 header('Content-Type: application/json');
 
-$YOUR_DOMAIN = 'http://localhost:8888/web-development/xogos-gaming/admin';
+$YOUR_DOMAIN = 'https://testing.thernloven.com/xogos-gaming/admin';
 
 $checkout_session = \Stripe\Checkout\Session::create([
   'line_items' => [[

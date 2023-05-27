@@ -3,7 +3,11 @@
 
 <?php ob_start(); ?>
 <?php session_start(); ?>
-<?php $DOMAIN = "http://localhost:8888/web-development/xogos-gaming/admin"; ?>
+<?php $DOMAIN = "https://testing.thernloven.com/xogos-gaming"; 
+
+//localhost: http://localhost:8888/web-development/xogos-gaming/admin ?>
+
+
 
 <?php 
 

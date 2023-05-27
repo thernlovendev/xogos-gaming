@@ -48,6 +48,9 @@ if(isset($_POST['add_student'])) {
           die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
         } else {
           $success = true;
+          // Redirect to a success page
+          header("Location: my_kids.php");
+          exit(); // Make sure to exit after the redirect
         }
     
     update_kids_count();
