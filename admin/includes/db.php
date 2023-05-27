@@ -1,9 +1,9 @@
 <?php
 
 $db['db_host'] = 'localhost';
-$db['db_user'] = 'thernlov_admin';
-$db['db_pass'] = 'root1';
-$db['db_name'] = 'thernlov_xogos';
+$db['db_user'] = 'root';
+$db['db_pass'] = '';
+$db['db_name'] = 'clients_db';
 
 foreach ($db as $key => $value) {
 

@@ -539,8 +539,7 @@ function register_lighting_round($data_array){
     if($e = curl_error($ch)){
         echo $e;
     }else{ 
-        return json_decode($resp)->content->token;
-        
+        return json_decode($resp)->content->token;        
     }
 }
 function deleteUserFromLightningRound($data_array)
