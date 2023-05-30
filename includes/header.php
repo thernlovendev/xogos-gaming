@@ -1,6 +1,6 @@
 <?php include "../admin/includes/db.php"; 
 
-$DOMAIN = "https://testing.thernloven.com/xogos-gaming"; ?>
+$DOMAIN = "http://localhost:8888/web-development/"; ?>
 <?php include "../admin/functions.php" ?>
 
 <!DOCTYPE html>

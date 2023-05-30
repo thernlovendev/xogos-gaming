@@ -2,23 +2,7 @@
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
 
-
 <?php
-
-$user_id    = "";
-$parent_id  = "";
-$teacher_id = "";
-$student_id = "";
-$firstname  = "";
-$lastname   = "";
-$img        = "";
-$email      = "";
-$phone      = "";
-$username   = "";
-$password   = "";
-$address    = "";
-$city       = "";
-$zip        = "";
 
 if(isset($_SESSION['user_id'])) {
 
@@ -100,8 +84,7 @@ if(!empty($password)) {
   }
 
 
-  $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
-
+    
 
         $query = "UPDATE users SET ";
         $query .= "firstname      = '{$firstname}', ";
@@ -171,7 +154,6 @@ if(!empty($password)) {
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
                       </div>
                     </div>
-                  </div>
                   <?php endif ?>
                   <?php if(is_admin()): ?>
                   <div class="form-row">
@@ -211,7 +193,7 @@ if(!empty($password)) {
                         <input type="text" class="form-control" name="student_id" value="<?php echo $student_id; ?>" readonly>
                       </div>
                     </div>
-                    </div>
+                  </div>
                   <?php endif ?>        
               <div class="form-row">
                 <div class="col-md-6 mb-3">
