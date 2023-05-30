@@ -231,7 +231,6 @@ $zip       = mysqli_real_escape_string($connection, $zip);
                   <label class="text-danger" for="validationCustom01"><?php echo $message_username ?></label>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label for="validationCustom02">Password</label>
                   <input type="hidden" name="password" class="form-control" id="validationCustom02" value="<?php echo $password; ?>"required>
                 </div>
               </div>
