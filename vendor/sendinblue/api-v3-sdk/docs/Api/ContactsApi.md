@@ -11,12 +11,12 @@ Method | HTTP request | Description
 [**createFolder**](ContactsApi.md#createFolder) | **POST** /contacts/folders | Create a folder
 [**createList**](ContactsApi.md#createList) | **POST** /contacts/lists | Create a list
 [**deleteAttribute**](ContactsApi.md#deleteAttribute) | **DELETE** /contacts/attributes/{attributeCategory}/{attributeName} | Delete an attribute
-[**deleteContact**](ContactsApi.md#deleteContact) | **DELETE** /contacts/{email} | Delete a contact
+[**deleteContact**](ContactsApi.md#deleteContact) | **DELETE** /contacts/{identifier} | Delete a contact
 [**deleteFolder**](ContactsApi.md#deleteFolder) | **DELETE** /contacts/folders/{folderId} | Delete a folder (and all its lists)
 [**deleteList**](ContactsApi.md#deleteList) | **DELETE** /contacts/lists/{listId} | Delete a list
 [**getAttributes**](ContactsApi.md#getAttributes) | **GET** /contacts/attributes | List all attributes
-[**getContactInfo**](ContactsApi.md#getContactInfo) | **GET** /contacts/{email} | Get a contact&#39;s details
-[**getContactStats**](ContactsApi.md#getContactStats) | **GET** /contacts/{email}/campaignStats | Get email campaigns&#39; statistics for a contact
+[**getContactInfo**](ContactsApi.md#getContactInfo) | **GET** /contacts/{identifier} | Get a contact&#39;s details
+[**getContactStats**](ContactsApi.md#getContactStats) | **GET** /contacts/{identifier}/campaignStats | Get email campaigns&#39; statistics for a contact
 [**getContacts**](ContactsApi.md#getContacts) | **GET** /contacts | Get all the contacts
 [**getContactsFromList**](ContactsApi.md#getContactsFromList) | **GET** /contacts/lists/{listId}/contacts | Get contacts in a list
 [**getFolder**](ContactsApi.md#getFolder) | **GET** /contacts/folders/{folderId} | Returns a folder&#39;s details
@@ -28,7 +28,8 @@ Method | HTTP request | Description
 [**removeContactFromList**](ContactsApi.md#removeContactFromList) | **POST** /contacts/lists/{listId}/contacts/remove | Delete a contact from a list
 [**requestContactExport**](ContactsApi.md#requestContactExport) | **POST** /contacts/export | Export contacts
 [**updateAttribute**](ContactsApi.md#updateAttribute) | **PUT** /contacts/attributes/{attributeCategory}/{attributeName} | Update contact attribute
-[**updateContact**](ContactsApi.md#updateContact) | **PUT** /contacts/{email} | Update a contact
+[**updateBatchContacts**](ContactsApi.md#updateBatchContacts) | **POST** /contacts/batch | Update multiple contacts
+[**updateContact**](ContactsApi.md#updateContact) | **PUT** /contacts/{identifier} | Update a contact
 [**updateFolder**](ContactsApi.md#updateFolder) | **PUT** /contacts/folders/{folderId} | Update a folder
 [**updateList**](ContactsApi.md#updateList) | **PUT** /contacts/lists/{listId} | Update a list
 
@@ -59,7 +60,7 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     $config
 );
 $listId = 789; // int | Id of the list
-$contactEmails = new \SendinBlue\Client\Model\AddContactToList(); // \SendinBlue\Client\Model\AddContactToList | Emails addresses of the contacts
+$contactEmails = new \SendinBlue\Client\Model\AddContactToList(); // \SendinBlue\Client\Model\AddContactToList | Emails addresses OR IDs of the contacts
 
 try {
     $result = $apiInstance->addContactToList($listId, $contactEmails);
@@ -75,7 +76,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **listId** | **int**| Id of the list |
- **contactEmails** | [**\SendinBlue\Client\Model\AddContactToList**](../Model/AddContactToList.md)| Emails addresses of the contacts |
+ **contactEmails** | [**\SendinBlue\Client\Model\AddContactToList**](../Model/AddContactToList.md)| Emails addresses OR IDs of the contacts |
 
 ### Return type
 
@@ -438,7 +439,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **deleteContact**
-> deleteContact($email)
+> deleteContact($identifier)
 
 Delete a contact
 
@@ -462,10 +463,10 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = "email_example"; // string | Email (urlencoded) of the contact
+$identifier = "identifier_example"; // string | Email (urlencoded) OR ID of the contact
 
 try {
-    $apiInstance->deleteContact($email);
+    $apiInstance->deleteContact($identifier);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->deleteContact: ', $e->getMessage(), PHP_EOL;
 }
@@ -476,7 +477,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **string**| Email (urlencoded) of the contact |
+ **identifier** | **string**| Email (urlencoded) OR ID of the contact |
 
 ### Return type
 
@@ -659,9 +660,11 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getContactInfo**
-> \SendinBlue\Client\Model\GetExtendedContactDetails getContactInfo($email)
+> \SendinBlue\Client\Model\GetExtendedContactDetails getContactInfo($identifier, $startDate, $endDate)
 
 Get a contact's details
+
+Along with the contact details, this endpoint will show the statistics of contact for the recent 90 days by default. To fetch the earlier statistics, please use Get contact campaign stats (https://developers.sendinblue.com/reference/contacts-7#getcontactstats) endpoint with the appropriate date ranges.
 
 ### Example
 ```php
@@ -683,10 +686,12 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = "email_example"; // string | Email (urlencoded) of the contact OR its SMS attribute value
+$identifier = "identifier_example"; // string | Email (urlencoded) OR ID of the contact OR its SMS attribute value
+$startDate = "startDate_example"; // string | **Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate
+$endDate = "endDate_example"; // string | **Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate.
 
 try {
-    $result = $apiInstance->getContactInfo($email);
+    $result = $apiInstance->getContactInfo($identifier, $startDate, $endDate);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getContactInfo: ', $e->getMessage(), PHP_EOL;
@@ -698,7 +703,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **string**| Email (urlencoded) of the contact OR its SMS attribute value |
+ **identifier** | **string**| Email (urlencoded) OR ID of the contact OR its SMS attribute value |
+ **startDate** | **string**| **Mandatory if endDate is used.** Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate | [optional]
+ **endDate** | **string**| **Mandatory if startDate is used.** Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. | [optional]
 
 ### Return type
 
@@ -716,7 +723,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getContactStats**
-> \SendinBlue\Client\Model\GetContactCampaignStats getContactStats($email, $startDate, $endDate)
+> \SendinBlue\Client\Model\GetContactCampaignStats getContactStats($identifier, $startDate, $endDate)
 
 Get email campaigns' statistics for a contact
 
@@ -740,12 +747,12 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = "email_example"; // string | Email address (urlencoded) of the contact
-$startDate = new \DateTime("2013-10-20"); // \DateTime | Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate
-$endDate = new \DateTime("2013-10-20"); // \DateTime | Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate
+$identifier = "identifier_example"; // string | Email (urlencoded) OR ID of the contact
+$startDate = "startDate_example"; // string | Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate
+$endDate = "endDate_example"; // string | Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Maximum difference between startDate and endDate should not be greater than 90 days
 
 try {
-    $result = $apiInstance->getContactStats($email, $startDate, $endDate);
+    $result = $apiInstance->getContactStats($identifier, $startDate, $endDate);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getContactStats: ', $e->getMessage(), PHP_EOL;
@@ -757,9 +764,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **string**| Email address (urlencoded) of the contact |
- **startDate** | **\DateTime**| Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate | [optional]
- **endDate** | **\DateTime**| Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate | [optional]
+ **identifier** | **string**| Email (urlencoded) OR ID of the contact |
+ **startDate** | **string**| Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be lower than equal to endDate | [optional]
+ **endDate** | **string**| Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the statistic events specific to campaigns. Must be greater than equal to startDate. Maximum difference between startDate and endDate should not be greater than 90 days | [optional]
 
 ### Return type
 
@@ -777,7 +784,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getContacts**
-> \SendinBlue\Client\Model\GetContacts getContacts($limit, $offset, $modifiedSince)
+> \SendinBlue\Client\Model\GetContacts getContacts($limit, $offset, $modifiedSince, $sort)
 
 Get all the contacts
 
@@ -803,10 +810,11 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
 );
 $limit = 50; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
-$modifiedSince = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+$modifiedSince = "modifiedSince_example"; // string | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+$sort = "desc"; // string | Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed
 
 try {
-    $result = $apiInstance->getContacts($limit, $offset, $modifiedSince);
+    $result = $apiInstance->getContacts($limit, $offset, $modifiedSince, $sort);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getContacts: ', $e->getMessage(), PHP_EOL;
@@ -820,7 +828,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int**| Number of documents per page | [optional] [default to 50]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
- **modifiedSince** | **\DateTime**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
+ **modifiedSince** | **string**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
+ **sort** | **string**| Sort the results in the ascending/descending order of record creation. Default order is **descending** if &#x60;sort&#x60; is not passed | [optional] [default to desc]
 
 ### Return type
 
@@ -838,7 +847,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getContactsFromList**
-> \SendinBlue\Client\Model\GetContacts getContactsFromList($listId, $modifiedSince, $limit, $offset)
+> \SendinBlue\Client\Model\GetContacts getContactsFromList($listId, $modifiedSince, $limit, $offset, $sort)
 
 Get contacts in a list
 
@@ -863,12 +872,13 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     $config
 );
 $listId = 789; // int | Id of the list
-$modifiedSince = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+$modifiedSince = "modifiedSince_example"; // string | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
 $limit = 50; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
+$sort = "desc"; // string | Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed
 
 try {
-    $result = $apiInstance->getContactsFromList($listId, $modifiedSince, $limit, $offset);
+    $result = $apiInstance->getContactsFromList($listId, $modifiedSince, $limit, $offset, $sort);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getContactsFromList: ', $e->getMessage(), PHP_EOL;
@@ -881,9 +891,10 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **listId** | **int**| Id of the list |
- **modifiedSince** | **\DateTime**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
+ **modifiedSince** | **string**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
  **limit** | **int**| Number of documents per page | [optional] [default to 50]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
+ **sort** | **string**| Sort the results in the ascending/descending order of record creation. Default order is **descending** if &#x60;sort&#x60; is not passed | [optional] [default to desc]
 
 ### Return type
 
@@ -958,7 +969,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getFolderLists**
-> \SendinBlue\Client\Model\GetFolderLists getFolderLists($folderId, $limit, $offset)
+> \SendinBlue\Client\Model\GetFolderLists getFolderLists($folderId, $limit, $offset, $sort)
 
 Get lists in a folder
 
@@ -985,9 +996,10 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
 $folderId = 789; // int | Id of the folder
 $limit = 10; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
+$sort = "desc"; // string | Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed
 
 try {
-    $result = $apiInstance->getFolderLists($folderId, $limit, $offset);
+    $result = $apiInstance->getFolderLists($folderId, $limit, $offset, $sort);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getFolderLists: ', $e->getMessage(), PHP_EOL;
@@ -1002,6 +1014,7 @@ Name | Type | Description  | Notes
  **folderId** | **int**| Id of the folder |
  **limit** | **int**| Number of documents per page | [optional] [default to 10]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
+ **sort** | **string**| Sort the results in the ascending/descending order of record creation. Default order is **descending** if &#x60;sort&#x60; is not passed | [optional] [default to desc]
 
 ### Return type
 
@@ -1019,7 +1032,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getFolders**
-> \SendinBlue\Client\Model\GetFolders getFolders($limit, $offset)
+> \SendinBlue\Client\Model\GetFolders getFolders($limit, $offset, $sort)
 
 Get all folders
 
@@ -1045,9 +1058,10 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
 );
 $limit = 10; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
+$sort = "desc"; // string | Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed
 
 try {
-    $result = $apiInstance->getFolders($limit, $offset);
+    $result = $apiInstance->getFolders($limit, $offset, $sort);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getFolders: ', $e->getMessage(), PHP_EOL;
@@ -1061,6 +1075,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int**| Number of documents per page | [default to 10]
  **offset** | **int**| Index of the first document of the page | [default to 0]
+ **sort** | **string**| Sort the results in the ascending/descending order of record creation. Default order is **descending** if &#x60;sort&#x60; is not passed | [optional] [default to desc]
 
 ### Return type
 
@@ -1135,7 +1150,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getLists**
-> \SendinBlue\Client\Model\GetLists getLists($limit, $offset)
+> \SendinBlue\Client\Model\GetLists getLists($limit, $offset, $sort)
 
 Get all the lists
 
@@ -1161,9 +1176,10 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
 );
 $limit = 10; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
+$sort = "desc"; // string | Sort the results in the ascending/descending order of record creation. Default order is **descending** if `sort` is not passed
 
 try {
-    $result = $apiInstance->getLists($limit, $offset);
+    $result = $apiInstance->getLists($limit, $offset, $sort);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getLists: ', $e->getMessage(), PHP_EOL;
@@ -1177,6 +1193,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int**| Number of documents per page | [optional] [default to 10]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
+ **sort** | **string**| Sort the results in the ascending/descending order of record creation. Default order is **descending** if &#x60;sort&#x60; is not passed | [optional] [default to desc]
 
 ### Return type
 
@@ -1278,7 +1295,7 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     $config
 );
 $listId = 789; // int | Id of the list
-$contactEmails = new \SendinBlue\Client\Model\RemoveContactFromList(); // \SendinBlue\Client\Model\RemoveContactFromList | Emails adresses of the contact
+$contactEmails = new \SendinBlue\Client\Model\RemoveContactFromList(); // \SendinBlue\Client\Model\RemoveContactFromList | Emails addresses OR IDs of the contacts
 
 try {
     $result = $apiInstance->removeContactFromList($listId, $contactEmails);
@@ -1294,7 +1311,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **listId** | **int**| Id of the list |
- **contactEmails** | [**\SendinBlue\Client\Model\RemoveContactFromList**](../Model/RemoveContactFromList.md)| Emails adresses of the contact |
+ **contactEmails** | [**\SendinBlue\Client\Model\RemoveContactFromList**](../Model/RemoveContactFromList.md)| Emails addresses OR IDs of the contacts |
 
 ### Return type
 
@@ -1430,8 +1447,64 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
+# **updateBatchContacts**
+> updateBatchContacts($updateBatchContacts)
+
+Update multiple contacts
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure API key authorization: api-key
+$config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
+// Configure API key authorization: partner-key
+$config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('partner-key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('partner-key', 'Bearer');
+
+$apiInstance = new SendinBlue\Client\Api\ContactsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$updateBatchContacts = new \SendinBlue\Client\Model\UpdateBatchContacts(); // \SendinBlue\Client\Model\UpdateBatchContacts | Values to update multiple contacts
+
+try {
+    $apiInstance->updateBatchContacts($updateBatchContacts);
+} catch (Exception $e) {
+    echo 'Exception when calling ContactsApi->updateBatchContacts: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateBatchContacts** | [**\SendinBlue\Client\Model\UpdateBatchContacts**](../Model/UpdateBatchContacts.md)| Values to update multiple contacts |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[api-key](../../README.md#api-key), [partner-key](../../README.md#partner-key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **updateContact**
-> updateContact($email, $updateContact)
+> updateContact($identifier, $updateContact)
 
 Update a contact
 
@@ -1455,11 +1528,11 @@ $apiInstance = new SendinBlue\Client\Api\ContactsApi(
     new GuzzleHttp\Client(),
     $config
 );
-$email = "email_example"; // string | Email (urlencoded) of the contact
+$identifier = "identifier_example"; // string | Email (urlencoded) OR ID of the contact
 $updateContact = new \SendinBlue\Client\Model\UpdateContact(); // \SendinBlue\Client\Model\UpdateContact | Values to update a contact
 
 try {
-    $apiInstance->updateContact($email, $updateContact);
+    $apiInstance->updateContact($identifier, $updateContact);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->updateContact: ', $e->getMessage(), PHP_EOL;
 }
@@ -1470,7 +1543,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **email** | **string**| Email (urlencoded) of the contact |
+ **identifier** | **string**| Email (urlencoded) OR ID of the contact |
  **updateContact** | [**\SendinBlue\Client\Model\UpdateContact**](../Model/UpdateContact.md)| Values to update a contact |
 
 ### Return type
