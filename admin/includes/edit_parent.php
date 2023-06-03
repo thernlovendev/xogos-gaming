@@ -25,6 +25,7 @@ if(isset($_GET['edit_parent'])) {
       $address    = $row['address'];
       $city       = $row['city'];
       $zip        = $row['zip'];
+      $verified   = $row['verified'];
 
 
     }
@@ -43,6 +44,7 @@ if(isset($_POST['edit_parent'])) {
   $address   = escape($_POST['address']);
   $city      = escape($_POST['city']);
   $zip       = escape($_POST['zip']);
+  $verified  = escape($_POST['verified']);
 
 
   $img        = escape($_FILES['img']['name']);
@@ -95,7 +97,8 @@ if(!empty($password)) {
         $query .= "password       = '{$password}', ";
         $query .= "address        = '{$address}', ";
         $query .= "city           = '{$city}', ";
-        $query .= "zip            = '{$zip}' ";
+        $query .= "zip            = '{$zip}', ";
+        $query .= "verified       = '{$verified}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
@@ -165,6 +168,27 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="Parent ID" name="parent_id" value="<?php echo $parent_id; ?>">
                       </div>
                     </div>
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                          <label for="users">Verified</label>
+                          <select name="verified" class="form-control" id="">
+                              <?php if ($verified === 'yes') {
+
+                                echo "<option value='yes'>yes</option>" ;
+                                echo "<option value='no'>no</option>";  
+
+                              } elseif ($verified === 'no') {
+
+                                echo "<option value='no'>no</option>";
+                                echo "<option value='yes'>yes</option>";
+
+                              }
+                                
+                                
+                                ?>
+                          </select>
+                      </div>
+                  </div>
                   </div>
                     <div class="row">
                     <div class="col-md-6 pr-md-1">
