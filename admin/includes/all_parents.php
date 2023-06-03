@@ -18,6 +18,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <th>Verified</th>
                                 <th class="text-right">Edit</th>
                                 <th class="text-right">Delete</th>
                             </tr>
@@ -33,10 +34,12 @@
                         $user_id   = $row['user_id'];
                         $firstname = $row['firstname'];
                         $lastname  = $row['lastname'];
+                        $verified  = $row['verified'];
 
                         echo "<tr>";
                             echo "<td>$user_id</td>";
                             echo "<td>$firstname $lastname</td>";
+                            echo "<td>$verified</td>";
                             echo "<td class='text-right'><a href='parents.php?source=edit_parent&edit_parent={$user_id}'>Edit</a></td>";  
                             echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='parents.php?delete={$user_id}'>Delete</a></td>";  
                             echo "</tr>";

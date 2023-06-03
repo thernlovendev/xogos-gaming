@@ -19,6 +19,7 @@
                                 <th>User Id</th>
                                 <th>Teacher Id</th>
                                 <th>Name</th>
+                                <th>Verified</th>
                                 <th class="text-right">Edit</th>
                                 <th class="text-right">Delete</th>
                             </tr>
@@ -35,11 +36,13 @@
                         $teacher_id = $row['teacher_id'];
                         $firstname = $row['firstname'];
                         $lastname  = $row['lastname'];
+                        $verified  = $row['verified'];
 
                         echo "<tr>";
                             echo "<td>$user_id</td>";
                             echo "<td>$teacher_id</td>";
                             echo "<td>$firstname $lastname</td>";
+                            echo "<td>$verified</td>";
                             echo "<td class='text-right'><a href='teachers.php?source=edit_teacher&edit_teacher={$user_id}'>Edit</a></td>";  
                             echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='teachers.php?delete={$user_id}'>Delete</a></td>";  
                             echo "</tr>";
