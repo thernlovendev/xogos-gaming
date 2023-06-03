@@ -1,7 +1,7 @@
 <?php
 
 $db['db_host'] = 'localhost';
-$db['db_user'] = 'thernlov_xogos';
+$db['db_user'] = 'thernlov_admin';
 $db['db_pass'] = 'root1';
 $db['db_name'] = 'thernlov_xogos';
 
