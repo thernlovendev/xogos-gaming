@@ -55,7 +55,6 @@
 						}
 						echo '<img id="profile-img" src="chat/userpics/'.$avtar.'" class="online" alt="" />';
 						echo  '<p>'.$user['username'].'</p>';
-							echo '<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>';
 							echo '<div id="status-options">';
 							echo '<ul>';
 								echo '<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>';
