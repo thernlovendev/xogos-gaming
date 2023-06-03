@@ -3,9 +3,9 @@ class Chat{
     
   
     private $host  = 'localhost';
-    private $user  = 'thernloven';
-    private $password   = 'root';
-    private $database  = "xogos";      
+    private $user  = 'thernlov_admin';
+    private $password   = 'root1';
+    private $database  = "thernlov_xogos";      
     private $chatTable = 'chat';
 	private $chatUsersTable = 'users';
 	private $chatLoginDetailsTable = 'chat_login_details';
