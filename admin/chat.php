@@ -119,11 +119,6 @@
 					foreach ($userDetails as $user) {										
 						echo '<img src="chat/userpics/'.$user['avatar'].'" alt="" />';
 							echo '<p>'.$user['username'].'</p>';
-							echo '<div class="social-media">';
-								echo '<i class="fa fa-facebook" aria-hidden="true"></i>';
-								echo '<i class="fa fa-twitter" aria-hidden="true"></i>';
-								 echo '<i class="fa fa-instagram" aria-hidden="true"></i>';
-							echo '</div>';
 					}	
 					?>						
 					</div>
