@@ -97,7 +97,12 @@
               <p>All Games</p>
             </a>
           </li>
-
+          <li>
+            <a href="chat.php">
+              <i class="tim-icons icon-single-02"></i>
+              <p>Chat</p>
+            </a>
+          </li>
           <!-- <li>
             <a href="examples/icons.html">
               <i class="tim-icons icon-atom"></i>
