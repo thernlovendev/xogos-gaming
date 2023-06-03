@@ -350,7 +350,7 @@
 }
 #frame #sidepanel #contacts ul li.contact {
   position: relative;
-  padding: 10px 0 15px 0;
+  padding: 10px 0 0 0;
   font-size: 0.9em;
   cursor: pointer;
 }
@@ -674,6 +674,7 @@
 }
 ol, ul {
     list-style: none;
+    padding-left: none;
 }
 .fa {
     display: inline-block;
