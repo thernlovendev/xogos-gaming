@@ -76,7 +76,7 @@
 					</div>
 					<div id="contacts">	
 					<?php
-					echo '<ul>';
+					echo '<ul style="padding-top:20px;">';
 					$chatUsers = $chat->chatUsers($_SESSION['user_id']);
 					foreach ($chatUsers as $user) {
 						$status = 'offline';						
