@@ -76,53 +76,54 @@ if (isset($_POST['add_student'])) {
       $state     = mysqli_real_escape_string($connection, $state);
 
       // generate token
-      $length = 50;
-      $token = bin2hex(openssl_random_pseudo_bytes($length));
-      $query .= "token = '{$token}', ";
+    $length = 50;
+    $token = bin2hex(openssl_random_pseudo_bytes($length));
+    $query .= "token = '{$token}', ";
 
-      // Send email notification using PHPMailer
-      $mail = new PHPMailer;
-      $mail->isSMTP();
-      $mail->Host = Config::SMTP_HOST;
-      $mail->Username = Config::SMTP_USER;
-      $mail->Password = Config::SMTP_PASSWORD;
-      $mail->SMTPSecure = 'tls';
-      $mail->Port = Config::SMTP_PORT;
-      $mail->isHTML(true);
-      $mail->CharSet = 'UTF-8';
+    // Send email notification using PHPMailer
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    $mail->Host = Config::SMTP_HOST;
+    $mail->Username = Config::SMTP_USER;
+    $mail->Password = Config::SMTP_PASSWORD;
+    $mail->Port = Config::SMTP_PORT;
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+    $mail->isHTML(true);
+    $mail->CharSet = 'UTF-8';
 
-      $mail->setFrom('test@monirsaikat.me', 'Lukas Thern Loven');
-      $mail->addAddress('test@monirsaikat.me');
-      $mail->Subject = 'New User Student';
-      $mail->Body = 'New account has been created.';
+    $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
+    $mail->addAddress('lukas@thernloven.com');
+    $mail->Subject = 'New User Student';
+    $mail->Body = 'New account has been created.';
 
-      if (!$mail->send()) {
+    if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
-      } else {
-        var_dump('mail send');
-        die(1);
-      }
+    } else {
+    }
 
-      $mail->clearAddresses();
+    $mail->clearAddresses();
 
-      $email = $_POST['email'];
-      $mail->addAddress($email);
-      $mail->Subject = 'Welcome to XOGOS GAMING';
-      $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $email = $_POST['email'];
+    $mail->addAddress($email);
+    $mail->Subject = 'Welcome to XOGOS GAMING';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
-      if (!$mail->send()) {
+    if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
-      } else {
-      }
+    } else {
+    }
 
-      $query = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token) ";
-      $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token}' ) ";
+    $query  = "INSERT INTO users(firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token}'  ) ";
 
-      // Execute query
-      $register_student_query = mysqli_query($connection, $query);
-      if (!$register_student_query) {
-        die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
-      }
+    // execute query
+    $register_teacher_query = mysqli_query($connection, $query);
+    if(!$register_teacher_query) {
+      die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
+    } else {
+      $success = true;
+    }
 
       $data_register_lightning_round = [
         'username' => $username,

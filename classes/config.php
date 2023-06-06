@@ -6,12 +6,11 @@ class Config {
 
     const SMTP_HOST = 'sandbox.smtp.mailtrap.io';
 
-
     const SMTP_PORT = 2525;
 
-    const SMTP_USER = '9db87f77764fe8';
+    const SMTP_USER = '3ba54920983d96';
 
-    const SMTP_PASSWORD = 'e07a9dd28dadda';
+    const SMTP_PASSWORD = '01d9d2ba20ca2d';
 
 
 

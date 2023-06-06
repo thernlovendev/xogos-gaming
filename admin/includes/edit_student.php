@@ -24,6 +24,7 @@ if(isset($_GET['edit_student'])) {
       $password     = $row['password'];
       $city         = $row['city'];
       $state        = $row['state'];
+      $verified     = $row['verified'];
 
     }
    
@@ -41,6 +42,7 @@ if(isset($_POST['edit_user'])) {
   $password  = escape($_POST['password']);
   $city      = escape($_POST['city']);
   $state     = escape($_POST['state']);
+  $verified  = escape($_POST['verified']);
 
 if(!empty($password)) {
 
@@ -73,7 +75,8 @@ if(!empty($password)) {
         $query .= "username       = '{$username}', ";
         $query .= "password       = '{$password}', ";
         $query .= "city           = '{$city}', ";
-        $query .= "state          = '{$state}' ";
+        $query .= "state          = '{$state}', ";
+        $query .= "verified          = '{$verified}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
@@ -149,6 +152,27 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="Teacher ID" name="t_student_id" value="<?php echo $t_student_id; ?>">
                       </div>
                     </div>
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                          <label for="users">Verified</label>
+                          <select name="verified" class="form-control" id="">
+                              <?php if ($verified === 'yes') {
+
+                                echo "<option value='yes'>yes</option>" ;
+                                echo "<option value='no'>no</option>";  
+
+                              } elseif ($verified === 'no') {
+
+                                echo "<option value='no'>no</option>";
+                                echo "<option value='yes'>yes</option>";
+
+                              }
+                                
+                                
+                                ?>
+                          </select>
+                      </div>
+                  </div>
                     <?php endif ?>
                   </div>
                   <div class="row">

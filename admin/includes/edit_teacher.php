@@ -25,6 +25,7 @@ if(isset($_GET['edit_teacher'])) {
       $address    = $row['address'];
       $city       = $row['city'];
       $zip        = $row['zip'];
+      $verified   = $row['verified'];
 
 
     }
@@ -44,6 +45,7 @@ if(isset($_POST['edit_teacher'])) {
   $address   = escape($_POST['address']);
   $city      = escape($_POST['city']);
   $zip       = escape($_POST['zip']);
+  $verified       = escape($_POST['verified']);
 
   $img      = escape($_FILES['img']['name']);
   $img_temp = escape($_FILES['img']['tmp_name']);
@@ -95,7 +97,8 @@ if(!empty($password)) {
         $query .= "password       = '{$password}', ";
         $query .= "address        = '{$address}', ";
         $query .= "city           = '{$city}', ";
-        $query .= "zip            = '{$zip}' ";
+        $query .= "zip            = '{$zip}', ";
+        $query .= "verified       = '{$verified}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
@@ -159,6 +162,27 @@ if(!empty($password)) {
                         <input type="text" class="form-control" placeholder="Username" name="teacher_id" value="<?php echo $teacher_id; ?>">
                       </div>
                     </div>
+                    <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                          <label for="users">Verified</label>
+                          <select name="verified" class="form-control" id="">
+                              <?php if ($verified === 'yes') {
+
+                                echo "<option value='yes'>yes</option>" ;
+                                echo "<option value='no'>no</option>";  
+
+                              } elseif ($verified === 'no') {
+
+                                echo "<option value='no'>no</option>";
+                                echo "<option value='yes'>yes</option>";
+
+                              }
+                                
+                                
+                                ?>
+                          </select>
+                      </div>
+                  </div>
                   </div>
                     <div class="row">
                     <div class="col-md-6 pr-md-1">

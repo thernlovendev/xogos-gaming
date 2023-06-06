@@ -18,7 +18,7 @@
                         $time_out_in_secound = 30;
                         $time_out = $time - $time_out_in_secound;
                         
-                        $query = "SELECT * FROM users_online WHERE time > '$time_out' AND online_user_role = 'student' AND online_id != {$_SESSION['user_id']} ";
+                        $query = "SELECT * FROM users_online WHERE time > '$time_out' AND online_id != {$_SESSION['user_id']} ";
                         $select_online_student = mysqli_query($connection, $query);
                 
                         while ($row = mysqli_fetch_assoc($select_online_student)) {
