@@ -112,7 +112,7 @@ if (mysqli_num_rows($result) > 0) {
       // Perform any action you want after the countdown finishes
       // For example, you can hide the countdown element or show another message
       // Redirect to the desired URL
-      window.location.href = "http://localhost:8888/web-development/xogos-gaming/includes/login.php"; // Replace "http://example.com" with your desired URL
+      window.location.href = "https://myxogos.com"; // Replace "http://example.com" with your desired URL
     }
   }
 </script>

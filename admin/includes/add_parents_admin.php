@@ -100,8 +100,27 @@ $zip       = mysqli_real_escape_string($connection, $zip);
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
 
-    $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
-    $mail->addAddress('lukas@thernloven.com');
+    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+    $mail->addAddress('noreply.xogos@gmail.com');
+    $mail->Subject = 'New User Student';
+    $mail->Body = 'New account has been created.';
+
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+    }
+
+    $mail->clearAddresses();
+
+    $email = $_POST['email'];
+    $mail->addAddress($email);
+    $mail->Subject = 'Welcome to XOGOS GAMING';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+    }
     $mail->Subject = 'New User Student';
     $mail->Body = 'New account has been created.';
 

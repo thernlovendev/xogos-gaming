@@ -60,14 +60,14 @@ require '../vendor/autoload.php';
                     $mail->CharSet = 'UTF-8';
 
 
-                    $mail->setFrom('lukas@thernloven.com', 'Lukas Thern Loven');
+                    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
                     $mail->addAddress($email);
 
                     $mail->Subject = 'Password Reset';
 
                     $mail->Body = '<p>Please click to reset your password
 
-                    <a href="http://localhost:8888/web-development/xogos-gaming/includes/reset.php?email='.$email.'&token='.$token.' ">http://localhost:8888/web-development/xogos-gaming/includes/reset.php?email='.$email.'&token='.$token.'</a>
+                    <a href="https://myxogos.com/includes/reset.php?email='.$email.'&token='.$token.' ">https://myxogos.com/includes/reset.php?email='.$email.'&token='.$token.'</a>
 
 
 

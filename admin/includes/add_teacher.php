@@ -100,8 +100,8 @@ $zip       = mysqli_real_escape_string($connection, $zip);
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
 
-    $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
-    $mail->addAddress('lukas@thernloven.com');
+    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+    $mail->addAddress('noreply.xogos@gmail.com');
     $mail->Subject = 'New User Student';
     $mail->Body = 'New account has been created.';
 
