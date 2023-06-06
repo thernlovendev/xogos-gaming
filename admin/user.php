@@ -84,7 +84,8 @@ if(!empty($password)) {
   }
 
 
-    
+  $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
+
 
         $query = "UPDATE users SET ";
         $query .= "firstname      = '{$firstname}', ";

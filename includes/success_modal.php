@@ -6,7 +6,7 @@
         <h5 class="modal-title" id="successModal">Registration Successful</h5>
       </div>
       <div class="modal-body">
-      <p>Return to login and sign in to continue adding your kids.</p>
+      <p>We just sent you an email with further instructions.</p>
       </div>
     </div>
   </div>
