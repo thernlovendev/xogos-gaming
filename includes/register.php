@@ -138,7 +138,7 @@ if (isset($_POST['add_user'])) {
         $email = $_POST['email'];
         $mail->addAddress($email);
         $mail->Subject = 'Welcome to XOGOS GAMING';
-        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
         // Send the email to the user
         if (!$mail->send()) {
