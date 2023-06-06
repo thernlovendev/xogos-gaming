@@ -92,7 +92,7 @@ if (isset($_POST['add_student'])) {
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
 
-    $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
+    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
     $mail->addAddress('lukas@thernloven.com');
     $mail->Subject = 'New User Student';
     $mail->Body = 'New account has been created.';
