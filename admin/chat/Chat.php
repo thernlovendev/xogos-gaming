@@ -3,8 +3,8 @@ class Chat{
     
   
     private $host  = 'localhost';
-    private $user  = 'thernloven';
-    private $password   = 'root';
+    private $user  = 'admin';
+    private $password   = '52a6d848b3a02dec4792ba937d3a98f810a5b446af4da5d1';
     private $database  = "xogos";      
     private $chatTable = 'chat';
 	private $chatUsersTable = 'users';
