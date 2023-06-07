@@ -237,13 +237,13 @@ if(isset($_SESSION['add_student'])) {
             })();
             </script>
 
-<?php if ($success) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#successModal').modal('show');
-    });
-  </script>
-<?php } ?>
+            <?php if ($success) { ?>
+              <script>
+                $(document).ready(function() {
+                  $('#successModal').modal('show');
+                });
+              </script>
+            <?php } ?>
 
           </div>
           <?php include "includes/footer.php" ?>
