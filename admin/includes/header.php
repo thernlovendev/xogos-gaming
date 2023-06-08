@@ -3,32 +3,22 @@
 
 <?php ob_start(); ?>
 <?php session_start(); ?>
-<?php $DOMAIN = "https://myxogos.com"; ?>
+<?php $DOMAIN = "http://localhost:8888/web-development/xogos-gaming/admin/"; ?>
 
-<?php 
+<?php
 
-if(isset($_SESSION['user_role'])) {
-
-
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['kids_count'] >= 1 || $_SESSION['user_role'] == 'student' || $_SESSION['user_role'] == 'admin') {
+        // User has kids or is a student/admin, proceed
+        // Your code for the checkout page goes here
+    } else {
+        header("Location: ../stripe-one/checkout.php");
+        exit; // Stop script execution
+    }
 } else {
-
-header("location: ../includes/login.php");
-
-
+    header("Location: ../includes/login.php");
+    exit; // Stop script execution
 }
-
-if($_SESSION['kids_count'] >= 1 OR $_SESSION['user_role'] == 'student' OR $_SESSION['user_role'] == 'admin') {
-
-
-} else {
-
-header("location: ../stripe-one/checkout.php");
-
-
-}
-
-
-
 ?>
 
 

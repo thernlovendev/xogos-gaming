@@ -10,7 +10,6 @@ if(isset($_POST['add_parent'])) {
     $address    = escape($_POST['address']);
     $city       = escape($_POST['city']);
     $zip        = escape($_POST['zip']);
-    $student_id = escape($_POST['student_id']);
 
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) ) {
@@ -23,7 +22,6 @@ if(isset($_POST['add_parent'])) {
     $address    = mysqli_real_escape_string($connection, $address);
     $city       = mysqli_real_escape_string($connection, $city);
     $zip        = mysqli_real_escape_string($connection, $zip);
-    $student_id = mysqli_real_escape_string($connection, $student_id);
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 

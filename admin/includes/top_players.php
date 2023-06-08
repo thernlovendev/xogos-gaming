@@ -16,25 +16,28 @@
                         </thead>
                         <tbody>
 
-                        <?php 
-                        
-                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY total_coins DESC ";
-                        $select_student = mysqli_query($connection, $query);
-                
-                        while ($row = mysqli_fetch_assoc($select_student)) {
-                        $user_id     = $row['user_id'];
-                        $firstname   = $row['firstname'];
-                        $lastname    = $row['lastname'];
-                        $total_coins = $row['total_coins'];
+                        <?php
+                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY total_coins DESC";
+                        $result = mysqli_query($connection, $query);
 
-                        echo "<tr>";
-                            echo "<td>$user_id</td>";
-                            echo "<td>$firstname $lastname</td>";
-                            echo "<td class='text-right'>$total_coins</td>";    
+                        $counter = 1; // Counter variable to track the rank
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $rank = $counter;
+                            $firstname = $row['firstname'];
+                            $lastname = $row['lastname'];
+                            $total_coins = $row['total_coins'];
+
+                            echo "<tr>";
+                            echo "<td>" . $rank . "</td>"; // Echo the counter value as the user_id
+                            echo "<td>" . $firstname . " " . $lastname . "</td>";
+                            echo "<td class='text-right'>" . $total_coins . "</td>";
                             echo "</tr>";
+
+                            $counter++; // Increment the counter for the next iteration
                         }
-                        
                         ?>
+
                    </tbody>
 </table>
                 </div>

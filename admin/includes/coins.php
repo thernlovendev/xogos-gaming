@@ -12,7 +12,7 @@
               </div>
               <div class="card-body" style="height:150px">
                 <div class="chart-area">
-                <img src="<?php echo $_SESSION['img']; ?>" alt="">
+                <img src="./assets/img/avatars/<?php echo $_SESSION['img']; ?>" alt="">
                 </div>
               </div>
             </div>

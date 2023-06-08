@@ -28,6 +28,7 @@ if(isset($_SESSION['user_id'])) {
       $address    = $row['address'];
       $city       = $row['city'];
       $zip        = $row['zip'];
+      $state      = $row['state'];
 
 
     }
@@ -46,25 +47,26 @@ if(isset($_POST['edit_user'])) {
   $address    = escape($_POST['address']);
   $city       = escape($_POST['city']);
   $zip        = escape($_POST['zip']);
+  $state      = escape($_POST['state']);
 
-//   $img      = $_FILES['img']['name'];
-//   $img_temp = $_FILES['img']['tmp_name'];
+  $img      = $_FILES['img']['name'];
+  $img_temp = $_FILES['img']['tmp_name'];
 
-//     move_uploaded_file($img_temp, "assets/img/users/$img");
+    move_uploaded_file($img_temp, "assets/img/avatars/$img");
 
-//     if(empty($img)) {
+    if(empty($img)) {
         
-//         $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
-//         $select_image = mysqli_query($connection,$query);
+        $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+        $select_image = mysqli_query($connection,$query);
             
-//         while($row = mysqli_fetch_array($select_image)) {
+        while($row = mysqli_fetch_array($select_image)) {
             
-//           $img = $row['img'];
+          $img = $row['img'];
         
-//         }
+        }
         
         
-// }
+}
 
 if(!empty($password)) {
 
@@ -84,7 +86,7 @@ if(!empty($password)) {
   }
 
 
-  $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
+      $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
 
         $query = "UPDATE users SET ";
@@ -136,26 +138,18 @@ if(!empty($password)) {
                 <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
               </div>
               <div class="card-body">
-
-                  <!-- ADD PARENT MODAL -->
-                  <?php if(is_parent()): ?>
-                  <?php include "includes/add_extra_parent.php" ?>
-                  <div class="form-group">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenterNewParent">Add Parent</button>
-                  </div>
-                  <?php endif ?>
-
                   <!-- ----------------- -->
                   <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
-                  <?php if(is_student()): ?>
-                  <div class="row">
-                    <div class="col-md-6 pr-md-1">
+                  <div class="form-row">
+                    <div class="col-md-4 pr-md-1">
                       <div class="form-group">
                         <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/avatars/<?php echo $img;?>" alt='..'>
                         <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
+                        <br>
+                        <label for="">Select the photo to add or update</label>
                       </div>
                     </div>
-                  <?php endif ?>
+                  </div> 
                   <?php if(is_admin()): ?>
                   <div class="form-row">
                     <div class="col-md-2 pr-md-1">
@@ -177,13 +171,13 @@ if(!empty($password)) {
                   </div>
                   <?php endif ?> 
                   <?php if(is_parent()): ?>
-                  <div class="form-row">
+                    <div class="form-row">
                     <div class="col-md-2 pr-md-1">
                       <div class="form-group">
                         <label>Parent ID</label>
                         <input type="text" class="form-control" name="parent_id" value="<?php echo $parent_id; ?>" readonly>
                       </div>
-                    </div>
+                  </div>
                   </div>
                   <?php endif ?>
                   <?php if(is_student()): ?>
@@ -195,7 +189,7 @@ if(!empty($password)) {
                       </div>
                     </div>
                   </div>
-                  <?php endif ?>        
+                  <?php endif ?>       
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
@@ -206,7 +200,7 @@ if(!empty($password)) {
                   <input type="text" name="lastname" class="form-control" id="validationCustom02" value="<?php echo $lastname; ?>" required>
                 </div>
               </div>
-              <?php if(is_admin() OR is_admin() OR is_teacher() ): ?>
+              <?php if(is_admin() OR is_parent() OR is_teacher() ): ?>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">Email</label>
@@ -238,8 +232,8 @@ if(!empty($password)) {
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
-                    <option selected disabled value="">Choose...</option>
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" value="<?php echo $state; ?>" required>
+                    <option selected value=""><?php echo $state; ?></option>
                     <?php 
                                 $query = "SELECT * FROM state ";
                                 $select_state = mysqli_query($connection, $query);
@@ -261,7 +255,7 @@ if(!empty($password)) {
                 </div>
               </div>
               <?php endif ?>
-              <?php if(is_admin()): ?>
+              <?php if(is_admin() OR is_parent() OR is_teacher() ): ?>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom03">City</label>
@@ -273,7 +267,7 @@ if(!empty($password)) {
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" required>
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" value="<?php echo $state; ?>" required>
                     <option selected disabled value="">Choose...</option>
                     <?php 
                                 $query = "SELECT * FROM state ";

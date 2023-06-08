@@ -1,14 +1,35 @@
 <?php include "includes/reg_header.php"; ?>
 
 <?php
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../classes/config.php';
+
+require '../vendor/autoload.php';
+
+?>
+
+<?php
 // Add the list of avatar image files to an array
 $avatar_images = glob("assets/img/avatars/*.png");
 ?>
 
 <?php
 
-$success = "";
-$message = "";
+$success          = false;
+$pass_modal       = false;
+$message   = "";
+$firstname = "";
+$lastname  = "";
+$email     = "";
+$username  = "";
+$city      = "";
+$state     = "";
+$img       = "";
 
 if(isset($_POST['add_student'])) {
 
@@ -20,13 +41,32 @@ if(isset($_POST['add_student'])) {
     $repeat_password = $_POST['repeat_password'];
     $city            = $_POST['city'];
     $state           = $_POST['state'];
-    $img             = $_POST['img'];
+
+    $img      = $_FILES['img']['name'];
+    $img_temp = $_FILES['img']['tmp_name'];
+
+    move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
+
+    $_SESSION['form_data'] = array(
+      'firstname' => $firstname,
+      'lastname' => $lastname,
+      'email' => $email,
+      'username' => $username,
+      'city' => $city,
+      'state' => $state,
+      'img' => $img
+    );
 
     if(!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) && !empty($repeat_password) ) {
 
       // check if passwords match
       if($password !== $repeat_password) {
         $message = "Passwords do not match";
+      } else {
+
+        // check password strength
+      if (!check_password_strength($password)) {
+        $pass_modal = true;
       } else {
 
     $firstname = mysqli_real_escape_string($connection, $firstname);
@@ -39,8 +79,57 @@ if(isset($_POST['add_student'])) {
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
 
-    $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student' ) ";
+    // generate random values for parent_id, teacher_id, and admin_id columns
+    $parent_id  = rand(1, 999);
+    $teacher_id = rand(1, 999);
+    $admin_id   = rand(1, 999);
+
+    // generate token
+    $length = 50;
+    $token = bin2hex(openssl_random_pseudo_bytes($length));
+    $query .= "token = '{$token}', ";
+
+    // Send email notification using PHPMailer
+    $mail = new PHPMailer;
+    $mail->isSMTP();
+    $mail->Host = Config::SMTP_HOST;
+    $mail->Username = Config::SMTP_USER;
+    $mail->Password = Config::SMTP_PASSWORD;
+    $mail->Port = Config::SMTP_PORT;
+    $mail->SMTPSecure = 'tls';
+    $mail->SMTPAuth = true;
+    $mail->isHTML(true);
+    $mail->CharSet = 'UTF-8';
+
+    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+    $mail->addAddress('noreply.xogos@gmail.com');
+
+    $mail->Subject = 'New User Student';
+    $mail->Body = 'New account has been created.';
+
+    // Send the email to the admin
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+    }
+
+    // Clear the recipients before sending the second email
+    $mail->clearAddresses();
+
+    // Set the recipient and email content for the user
+    $email = $_POST['email'];
+    $mail->addAddress($email);
+    $mail->Subject = 'Welcome to XOGOS GAMING';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Please click the following link to verify your email: <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+
+    // Send the email to the user
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+    }
+
+    $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token}' ) ";
 
     // execute query
         $register_student_query = mysqli_query($connection, $query);
@@ -70,6 +159,8 @@ if(isset($_POST['add_student'])) {
     $message = "";
 
   }
+
+}
 
 }
 
@@ -113,8 +204,8 @@ if(isset($_SESSION['add_student'])) {
         display: none;
     }
     .avatar-images img {
-        height: 100px;
-        width: 100px;
+        height: 92px;
+        width: 92px;
         border: 2px solid transparent;
         border-radius: 50%;
         transition: border-color 0.2s ease-in-out;
@@ -122,6 +213,11 @@ if(isset($_SESSION['add_student'])) {
     .avatar-images input[type="radio"]:checked + img {
         border-color: #C153ED;
     }
+
+    .avatar-images input[type="file"]:checked + img {
+        border-color: #C153ED;
+    }
+
 </style>
 
       <!-- End Navbar -->
@@ -137,43 +233,69 @@ if(isset($_SESSION['add_student'])) {
             <div class="row">
               <div class="">
                 <div class="form-group">
-                  <label>Select an avatars:</label>
+                  <label>Select an avatar:</label>
                   <div class="avatar-images">
-                      <?php foreach ($avatar_images as $img): ?>
                           <label>
-                              <input type="radio" name="img" value="<?php echo basename($img); ?>">
-                              <img src="<?php echo $img; ?>" alt="<?php echo basename($img); ?>">
+                              <input type="radio" name="img" value="">
+                              <img src="assets/img/avatars/avatar_1.png" alt="Avatar Image 1">
                           </label>
-                      <?php endforeach; ?>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="assets/img/avatars/avatar_2.png" alt="Avatar Image 2>">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="assets/img/avatars/avatar_3.png" alt="Avatar Image 3">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="assets/img/avatars/avatar_4.png" alt="Avatar Image 4">
+                          </label>
                   </div>
               </div>
 
               </div>
           </div>
+
+          <div class="row">
+              <div class="">
+                <div class="form-group">
+                  <label>Upload your own avatar:</label>
+                  <div class="avatar-images">
+                          <label>
+                            <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
+                            <img id="previewImage" src="assets/img/avatars/default-avatar.png" alt="Default Avatar Image">
+                        </label>
+                  </div>
+              </div>
+
+              </div>
+          </div>
+          
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
-                  <input type="text" name="firstname" class="form-control" id="validationCustom01" required>
+                  <input type="text" name="firstname" class="form-control" id="validationCustom01" value="<?php echo $firstname ?>" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom02">Last name</label>
-                  <input type="text" name="lastname" class="form-control" id="validationCustom02" required>
+                  <input type="text" name="lastname" class="form-control" id="validationCustom02" value="<?php echo $lastname ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-12 mb-3">
                   <label for="validationCustom01">Email</label>
-                  <input type="email" name="email" class="form-control" id="validationCustom01" required>
+                  <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email ?>" required>
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-md-8 mb-3">
                   <label for="validationCustom03">City</label>
-                  <input type="text" name="city" class="form-control" id="validationCustom03" required>
+                  <input type="text" name="city" class="form-control" id="validationCustom03" value="<?php echo $city ?>" required>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select form-control" id="validationCustom04" required>
+                  <select name="state" class="custom-select form-control" id="validationCustom04" value="<?php echo $state ?>" required>
                     <option selected disabled value="">Choose...</option>
                   <?php 
                                     
@@ -196,7 +318,7 @@ if(isset($_SESSION['add_student'])) {
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom01">Username</label>
-                  <input type="text" name="username" class="form-control" id="validationCustom01" required>
+                  <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username ?>" required>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom02">Password</label>
@@ -212,7 +334,8 @@ if(isset($_SESSION['add_student'])) {
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_student" value="Register">
             </form>
 
-            <?php include "success_modal.php" ?>
+            <?php include "success_modal_kids.php" ?>
+            <?php include "pass_modal.php" ?>
 
 
 
@@ -236,14 +359,6 @@ if(isset($_SESSION['add_student'])) {
               }, false);
             })();
             </script>
-
-            <?php if ($success) { ?>
-              <script>
-                $(document).ready(function() {
-                  $('#successModal').modal('show');
-                });
-              </script>
-            <?php } ?>
 
           </div>
           <?php include "includes/footer.php" ?>

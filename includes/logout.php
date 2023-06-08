@@ -1,11 +1,26 @@
 <?php
 session_start();
+
+// Get the user session ID
 $user_id = session_id();
-$delete_sessions_query = ("DELETE FROM users_online WHERE session = $user_id ");
-sleep(1);
+
+// Include your database connection
+// Replace 'your_host', 'your_username', 'your_password', and 'your_database' with your actual database credentials
+$connection = mysqli_connect('localhost', 'thernloven', 'root', 'xogos');
+if (!$connection) {
+    die('Database connection failed: ' . mysqli_connect_error());
+}
+
+// Delete the user session from the users_online table
+$delete_sessions_query = "DELETE FROM users_online WHERE session = '$user_id'";
+mysqli_query($connection, $delete_sessions_query);
+
+// Unset and destroy the session
 unset($_SESSION['username']);
 unset($_SESSION['user_id']);
 session_destroy();
-header('location: login.php');
-?>
 
+// Redirect to the login page
+header('location: login.php');
+exit();
+?>

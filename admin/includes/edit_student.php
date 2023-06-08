@@ -4,6 +4,9 @@
 
 <?php
 
+$student_id   = "";
+$t_student_id = "";
+
 if(isset($_GET['edit_student'])) {
 
     $the_user_id = $_GET['edit_student'];
@@ -25,6 +28,7 @@ if(isset($_GET['edit_student'])) {
       $city         = $row['city'];
       $state        = $row['state'];
       $verified     = $row['verified'];
+      $active       = $row['active'];
 
     }
    
@@ -43,6 +47,7 @@ if(isset($_POST['edit_user'])) {
   $city      = escape($_POST['city']);
   $state     = escape($_POST['state']);
   $verified  = escape($_POST['verified']);
+  $active    = escape($_POST['active']);
 
 if(!empty($password)) {
 
@@ -76,7 +81,8 @@ if(!empty($password)) {
         $query .= "password       = '{$password}', ";
         $query .= "city           = '{$city}', ";
         $query .= "state          = '{$state}', ";
-        $query .= "verified          = '{$verified}' ";
+        $query .= "verified       = '{$verified}', ";
+        $query .= "active         = '{$active}' ";
         $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
@@ -165,6 +171,27 @@ if(!empty($password)) {
 
                                 echo "<option value='no'>no</option>";
                                 echo "<option value='yes'>yes</option>";
+
+                              }
+                                
+                                
+                                ?>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2 pr-md-1">
+                      <div class="form-group">
+                          <label for="users">Activate / Deactivate</label>
+                          <select name="active" class="form-control" id="">
+                              <?php if ($active === 'yes') {
+
+                                echo "<option value='yes'>Active</option>" ;
+                                echo "<option value='no'>Deactive</option>";  
+
+                              } elseif ($active === 'no') {
+
+                                echo "<option value='no'>Deactive</option>";
+                                echo "<option value='yes'>Active</option>";
 
                               }
                                 

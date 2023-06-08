@@ -411,6 +411,19 @@ function confirmQuery($result) {
 
 }
 
+function loggedInUserIdStudent(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
+        confirmQuery($result);
+        $parent = mysqli_fetch_array($result);
+        if(mysqli_num_rows($result) >= 1) {
+            return $parent['student_id'];
+        }
+    }
+    return false;
+
+}
+
 function loggedInUserIdTeacher(){
     if(isLoggedIn()){
         $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
@@ -445,39 +458,44 @@ function count_records($result){
 }
 
 function users_online() {
-
     global $connection;
 
-        $session                 = session_id();
-        $time                    = time();
-        $online_id               = $_SESSION['user_id'];
-        $online_firstname        = $_SESSION['firstname'];
-        $online_img              = $_SESSION['img'];
-        $online_user_role        = $_SESSION['user_role'];
-        $time_out_in_seconds     = 60;
-        $time_out                = $time - $time_out_in_seconds;
+    $session                 = session_id();
+    $time                    = time();
+    $online_id               = $_SESSION['user_id'];
+    $online_parent_id        = $_SESSION['parent_id'];
+    $online_student_id       = $_SESSION['student_id'];
+    $online_firstname        = $_SESSION['firstname'];
+    $online_img              = $_SESSION['img'];
+    $online_user_role        = $_SESSION['user_role'];
+    $time_out_in_seconds     = 60;
+    $time_out                = $time - $time_out_in_seconds;
 
-        $query = "SELECT * FROM users_online WHERE session = '$session' ";
-        $send_query = mysqli_query($connection, $query);
-        $count = mysqli_num_rows($send_query);
+    $query = "SELECT * FROM users_online WHERE session = '$session' ";
+    $send_query = mysqli_query($connection, $query);
+    $count = mysqli_num_rows($send_query);
 
-            if($count == NULL) {
-
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$_SESSION['user_id']}', '{$_SESSION['firstname']}', '{$_SESSION['img']}', '{$_SESSION['user_role']}')");
-
-
-            } else {
-
-            mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
-
-
-            }
-
-        $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND online_id != {$_SESSION['user_id']} ");
-        return $count_user = mysqli_num_rows($users_online_query);
-
-
+    if ($count == NULL) {
+        if ($online_student_id !== NULL && $online_parent_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } elseif ($online_student_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } elseif ($online_parent_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } else {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        }
+    } else {
+        mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
     }
+
+    $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND (online_id != $online_id)");
+    return $count_user = mysqli_num_rows($users_online_query);
+}
+
+
+
+
 
 function print_users_online(){
     global $connection;   

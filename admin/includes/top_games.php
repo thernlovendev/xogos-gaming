@@ -5,7 +5,7 @@
                 <h3 class="card-title"><i class="tim-icons icon-triangle-right-17 text-warning"></i> Most Played</h3>
               </div>
               <div class="card-body">
-                <div class="chart-area">
+                <div class="chart-area"> 
                 <table class="table">
     <thead>
         <tr>
@@ -17,17 +17,17 @@
     <tbody>
         <tr>
             <td class="text-center">1</td>
-            <td>Historical Conquest</td>
+            <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
             <td class="text-right">765</td>
         </tr>
         <tr>
             <td class="text-center">2</td>
-            <td>Panic Attack!!!</td>
+            <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Historical Conquest</a></td>
             <td class="text-right">402</td>
         </tr>
         <tr>
             <td class="text-center">3</td>
-            <td>Global Tag</td>
+            <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Time Quest</a></td>
             <td class="text-right">236</td>
         </tr>
     </tbody>

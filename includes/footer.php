@@ -26,6 +26,8 @@
   <script src="../admin/assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="../admin/assets/demo/demo.js"></script>
 
+  <script src="//code.tidio.co/cbe0s02d74bhkvjfagrlculfyt01g7fv.js" async></script>
+
   <?php if ($success) { ?>
   <script>
     $(document).ready(function() {
@@ -41,3 +43,21 @@
     });
   </script>
 <?php } ?>
+  
+<script>
+function previewFile(event) {
+  var preview = document.getElementById('previewImage');
+  var file = event.target.files[0];
+  var reader = new FileReader();
+
+  reader.onloadend = function() {
+    preview.src = reader.result;
+  }
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = '../admin/assets/img/avatars/default-avatar.png'; // Path to your default image
+  }
+}
+</script>
