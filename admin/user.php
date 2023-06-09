@@ -4,11 +4,11 @@
 
 <?php
 
-$address    = "";
+if(isset($_SESSION['user_id'])) {
+
+  $address    = "";
 $phone    = "";
 $zip    = "";
-
-if(isset($_SESSION['user_id'])) {
 
     $the_user_id = $_SESSION['user_id'];
 
