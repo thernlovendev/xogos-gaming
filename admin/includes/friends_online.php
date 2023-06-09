@@ -14,7 +14,7 @@
 
                   <?php 
                  
-                        $query = "SELECT * FROM users_online WHERE online_student_id =".loggedInUserIdParent()." ORDER BY online_student_id DESC";
+                        $query = "SELECT * FROM users_online WHERE online_student_id =".loggedInUserIdParent()." ORDER BY online_id DESC";
                         $select_students = mysqli_query($connection, $query);
           
 
@@ -37,7 +37,7 @@
                 <?php if(is_student()): ?>
 
                   <?php 
-                      $query = "SELECT * FROM users_online WHERE online_parent_id = {$_SESSION['student_id']} OR online_teacher_id = {$_SESSION['t_student_id']} DESC";
+                      $query = "SELECT * FROM users_online WHERE online_parent_id = {$_SESSION['student_id']} OR online_teacher_id = {$_SESSION['t_student_id']} ORDER BY online_id DESC";
                       $select_students = mysqli_query($connection, $query);
 
                       while ($row = mysqli_fetch_assoc($select_students)) {
