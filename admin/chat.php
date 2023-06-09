@@ -53,7 +53,7 @@
 						else{
 						   $avtar= $user['img'];
 						}
-						echo '<img id="profile-img" src="assets/img/avatars/'.$img.'" class="online" alt="" />';
+						echo '<img id="profile-img" src="assets/img/avatars/'.$_SESSION['img'].'" class="online" alt="" />';
 						echo  '<p>'.$user['username'].'</p>';
 							echo '<div id="status-options">';
 							echo '<ul>';
