@@ -1,3 +1,11 @@
+<?php 
+
+$pass_modal = "";
+$success = "";
+
+
+?>
+
 <footer class="footer">
         <div class="container-fluid">
           <div class="copyright">

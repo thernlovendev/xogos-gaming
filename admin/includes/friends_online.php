@@ -36,25 +36,24 @@
 
                 <?php if(is_student()): ?>
 
-                <?php 
-
-                      $query = "SELECT * FROM users_online WHERE online_parent_id =".loggedInUserIdStudent()." ORDER BY online_parent_id DESC";
+                  <?php 
+                      $query = "SELECT * FROM users_online WHERE online_parent_id = {$_SESSION['student_id']} OR online_teacher_id = {$_SESSION['t_student_id']} ORDER BY online_parent_id DESC";
                       $select_students = mysqli_query($connection, $query);
 
+                      while ($row = mysqli_fetch_assoc($select_students)) {
+                          $online_id        = $row['online_id'];
+                          $online_firstname = $row['online_firstname'];
+                          $online_img       = $row['online_img'];
+                      
+                          echo "<div class='col-lg-4 col-md-4 col-sm-4 col-4 text-center'>
+                              <a href='./chat.php'>
+                              <img style='border-radius:100%; border: 2px solid #74FFBA; height:80px' src='assets/img/avatars/$online_img' alt=''>
+                              </a>
+                              <h5>$online_firstname</h5>
+                          </div>";
+                      }
+                  ?>
 
-                        while ($row = mysqli_fetch_assoc($select_students)) {
-                        $online_id        = $row['online_id'];
-                        $online_firstname = $row['online_firstname'];
-                        $online_img       = $row['online_img'];
-                    
-                    echo "<div class='col-lg-4 col-md-4 col-sm-4 col-4 text-center'>
-                        <a href='./chat.php'>
-                        <img style='border-radius:100%; border: 2px solid #74FFBA; height:80px' src='assets/img/avatars/$online_img' alt=''>
-                        </a>
-                        <h5>$online_firstname</h5>
-                    </div>";
-                }
-                ?>
 
                 <?php endif ?>
 

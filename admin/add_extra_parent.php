@@ -1,3 +1,7 @@
+<?php include "includes/header.php" ?>
+<?php include "includes/sidebar.php" ?>
+<?php include "includes/navbar.php" ?>
+
 <?php
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
@@ -102,7 +106,7 @@ $zip       = mysqli_real_escape_string($connection, $zip);
 
     $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
     $mail->addAddress('noreply.xogos@gmail.com');
-    $mail->Subject = 'New User Student';
+    $mail->Subject = 'New User Extra Parent';
     $mail->Body = 'New account has been created.';
 
     if (!$mail->send()) {
@@ -129,8 +133,20 @@ $zip       = mysqli_real_escape_string($connection, $zip);
     } else {
     }
 
+    $mail->clearAddresses();
+
+    $email = $_POST['email'];
+    $mail->addAddress($email);
+    $mail->Subject = 'Welcome to XOGOS GAMING';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+    }
+
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, address, city, state, zip, parent_id, user_role, token) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$state}', '{$zip}', RAND()*(999-1)+5, 'parent', '{$token}'  ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$address}', '{$city}', '{$state}', '{$zip}', '{$_SESSION['parent_id']}', 'parent', '{$token}'  ) ";
 
     // execute query
     $register_teacher_query = mysqli_query($connection, $query);
@@ -155,24 +171,18 @@ $zip       = mysqli_real_escape_string($connection, $zip);
 
 ?>
 
-<style>
-    label, h5, input, select{
-        color:black !important;
-    }
-</style>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenterParent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Parent</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
+ <!-- End Navbar -->
+ <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Add Extra Parent</h5>
+                <h3 class="text-center" style="color:green";> <?php echo $message ?> </h3>
+              </div>
+              <div class="card-body">
+                  <!-- ----------------- -->
+                  <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>       
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
@@ -184,13 +194,12 @@ $zip       = mysqli_real_escape_string($connection, $zip);
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-6 mb-3">
                   <label for="validationCustom01">Email</label>
                   <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email; ?>" required>
-                  <label class="text-danger" for="validationCustom01"><?php echo $message_email ?></label>
                 </div>
-                <div class="col-md-12 mb-3">
-                  <label for="validationCustom01">Phone</label>
+                <div class="col-md-6 mb-3">
+                  <label for="validationCustom01">Phone Number</label>
                   <input type="text" name="phone" class="form-control" id="validationCustom01" value="<?php echo $phone; ?>" required>
                 </div>
               </div>
@@ -201,32 +210,35 @@ $zip       = mysqli_real_escape_string($connection, $zip);
                 </div>
               </div>
               <div class="form-row">
-                <div class="col-md-6 mb-3">
-                  <label for="validationCustom03">City</label>
-                  <input type="text" name="city" class="form-control" id="validationCustom03" value="<?php echo $city; ?>" required>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom01">City</label>
+                  <input type="text" name="city" class="form-control" id="validationCustom01" value="<?php echo $city; ?>" required>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label for="validationCustom03">ZIP</label>
-                  <input type="text" name="zip" class="form-control" id="validationCustom03" value="<?php echo $zip; ?>" required>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom01">ZIP</label>
+                  <input type="text" name="zip" class="form-control" id="validationCustom01" value="<?php echo $zip; ?>" required>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-4 mb-3">
                   <label for="validationCustom04">State</label>
-                  <select name="state" class="custom-select form-control" id="validationCustom04" value="<?php echo $state; ?>" required>
-                    <option selected disabled value="">Choose...</option>
-                  <?php 
-                                    
-                  $query = "SELECT * FROM state ";
-                  $select_state = mysqli_query($connection, $query);
+                  <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" value="<?php echo $state; ?>" required>
+                    <option selected value=""><?php echo $state; ?></option>
+                    <?php 
+                                $query = "SELECT * FROM state ";
+                                $select_state = mysqli_query($connection, $query);
 
-                  while ($row = mysqli_fetch_assoc($select_state)) {
-                  $id   = $row['id'];
-                  $code = $row['code'];
+                                while ($row = mysqli_fetch_assoc($select_state)) {
+                                    $id   = $row['id'];
+                                    $name = $row['name'];
 
-                  echo "<option>$code</option>";
+                                    if ($id === $state) {
+                                        $selected = 'selected';
+                                    } else {
+                                        $selected = '';
+                                    }
 
-                  }
-
-                  ?>
+                                    echo "<option $selected value='{$id}'>{$name}</option>";
+                                }
+                            ?>
                   </select>
                 </div>
               </div>
@@ -234,20 +246,20 @@ $zip       = mysqli_real_escape_string($connection, $zip);
               <div class="form-row">
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom01">Username</label>
-                  <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username; ?>" required>
-                  <label class="text-danger" for="validationCustom01"><?php echo $message_username ?></label>
+                  <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username; ?>">
                 </div>
                 <div class="col-md-4 mb-3">
                   <input type="hidden" name="password" class="form-control" id="validationCustom02" value="<?php echo $password; ?>" required>
                 </div>
+                </div>
+              <input style="background: rgb(223,78,204);
+                background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_parent" value="Add Parent">
+            </form>
               </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" name="add_parent" class="btn btn-primary">Add Parent</button>
-                    </div>
-                </form>
-      </div>
-    </div>
-  </div>
-</div>
+            </div>
+          </div>
+        </div>
+
+      <?php include "includes/footer.php" ?>
+      
 

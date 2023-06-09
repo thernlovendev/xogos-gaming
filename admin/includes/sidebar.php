@@ -22,12 +22,6 @@
               <p>Tasks</p>
             </a>
           </li> -->
-          <li>
-            <a href="user.php">
-              <i class="tim-icons icon-single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
 
           <?php if(is_admin()): ?>
           <li>

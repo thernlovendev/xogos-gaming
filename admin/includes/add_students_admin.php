@@ -197,20 +197,46 @@ if (isset($_POST['add_student'])) {
       </div>
       <div class="modal-body">
         <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
-          <div class="row">
-            <div class="">
-              <div class="form-group">
-                <div class="avatar-images">
-                  <?php foreach ($avatar_images as $img) : ?>
-                    <label>
-                      <input type="radio" name="img" value="<?php echo basename($img); ?>" required>
-                      <img src="<?php echo $img; ?>" alt="<?php echo basename($img); ?>">
-                    </label>
-                  <?php endforeach; ?>
-                </div>
+        <div class="row">
+              <div class="">
+                <div class="form-group">
+                  <label>Select an avatar:</label>
+                  <div class="avatar-images">
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_1.png" alt="Avatar Image 1">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_2.png" alt="Avatar Image 2>">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_3.png" alt="Avatar Image 3">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_4.png" alt="Avatar Image 4">
+                          </label>
+                  </div>
               </div>
 
-            </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="">
+                <div class="form-group">
+                  <label>Upload your own avatar:</label>
+                  <div class="avatar-images">
+                          <label>
+                            <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
+                            <img id="previewImage" src="./assets/img/avatars/default-avatar.png" alt="Default Avatar Image">
+                        </label>
+                  </div>
+              </div>
+
+              </div>
           </div>
           <div class="form-row">
             <div class="col-md-6 mb-3">

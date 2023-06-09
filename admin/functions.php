@@ -465,6 +465,8 @@ function users_online() {
     $online_id               = $_SESSION['user_id'];
     $online_parent_id        = $_SESSION['parent_id'];
     $online_student_id       = $_SESSION['student_id'];
+    $online_teacher_id       = $_SESSION['teacher_id'];
+    $online_t_student_id     = $_SESSION['t_student_id'];
     $online_firstname        = $_SESSION['firstname'];
     $online_img              = $_SESSION['img'];
     $online_user_role        = $_SESSION['user_role'];
@@ -477,21 +479,23 @@ function users_online() {
 
     if ($count == NULL) {
         if ($online_student_id !== NULL && $online_parent_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
         } elseif ($online_student_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
         } elseif ($online_parent_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
         } else {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
         }
     } else {
-        mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
+        mysqli_query($connection, "UPDATE users_online SET time = '$time', online_teacher_id = NULLIF('{$online_teacher_id}', ''), online_t_student_id = NULLIF('{$online_t_student_id}', '') WHERE session = '$session'");
     }
 
     $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND (online_id != $online_id)");
     return $count_user = mysqli_num_rows($users_online_query);
 }
+
+
 
 
 

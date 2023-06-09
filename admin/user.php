@@ -54,6 +54,8 @@ if(isset($_POST['edit_user'])) {
 
     move_uploaded_file($img_temp, "assets/img/avatars/$img");
 
+    $_SESSION['img'] = $img;
+
     if(empty($img)) {
         
         $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
@@ -68,40 +70,33 @@ if(isset($_POST['edit_user'])) {
         
 }
 
-if(!empty($password)) {
-
+if (!empty($password)) {
   $query_password = "SELECT password FROM users WHERE user_id = '{$the_user_id}' ";
   $get_user_query = mysqli_query($connection, $query_password);
   confirmQuery($get_user_query);
 
   $row = mysqli_fetch_array($get_user_query);
-
   $db_password = $row['password'];
 
-
-  if($db_password != $password) {
-
+  if ($db_password != $password) {
     $hashed_password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-
+    $password = $hashed_password; // Assign the hashed password to $password variable
   }
 
-
-      $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12) );
-
-
-        $query = "UPDATE users SET ";
-        $query .= "firstname      = '{$firstname}', ";
-        $query .= "lastname       = '{$lastname}', ";
-        $query .= "lastname       = '{$lastname}', ";
-        $query .= "img            = '{$img}', ";
-        $query .= "email          = '{$email}', ";
-        $query .= "phone          = '{$phone}', ";
-        $query .= "username       = '{$username}', ";
-        $query .= "password       = '{$password}', ";
-        $query .= "address        = '{$address}', ";
-        $query .= "city           = '{$city}', ";
-        $query .= "zip            = '{$zip}' ";
-        $query .= "WHERE user_id  = '{$the_user_id}' ";
+  // Rest of the code...
+  $query = "UPDATE users SET ";
+  $query .= "firstname      = '{$firstname}', ";
+  $query .= "lastname       = '{$lastname}', ";
+  $query .= "lastname       = '{$lastname}', ";
+  $query .= "img            = '{$img}', ";
+  $query .= "email          = '{$email}', ";
+  $query .= "phone          = '{$phone}', ";
+  $query .= "username       = '{$username}', ";
+  $query .= "password       = '{$password}', "; // Use $password instead of $hashed_password
+  $query .= "address        = '{$address}', ";
+  $query .= "city           = '{$city}', ";
+  $query .= "zip            = '{$zip}' ";
+  $query .= "WHERE user_id  = '{$the_user_id}' ";
     
         $edit_user_query = mysqli_query($connection, $query);
     
@@ -143,8 +138,8 @@ if(!empty($password)) {
                   <div class="form-row">
                     <div class="col-md-4 pr-md-1">
                       <div class="form-group">
-                        <img style="height:100px; width:100px" class="avatar border-gray" src="assets/img/avatars/<?php echo $img;?>" alt='..'>
-                        <input type="file" class="form-control" name="img" value="<?php echo $img; ?>">
+                        <img id="previewImage" style="height:100px; width:100px" class="avatar border-gray" src="assets/img/avatars/<?php echo $img;?>" alt='..'>
+                        <input type="file" name="img" value="<?php echo $img ?>" id="imageInput" onchange="previewFile(event)">
                         <br>
                         <label for="">Select the photo to add or update</label>
                       </div>
@@ -268,7 +263,7 @@ if(!empty($password)) {
                 <div class="col-md-3 mb-3">
                   <label for="validationCustom04">State</label>
                   <select name="state" class="custom-select form-control" id="exampleFormControlSelect1" value="<?php echo $state; ?>" required>
-                    <option selected disabled value="">Choose...</option>
+                    <option selected value=""><?php echo $state; ?></option>
                     <?php 
                                 $query = "SELECT * FROM state ";
                                 $select_state = mysqli_query($connection, $query);

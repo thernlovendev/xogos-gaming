@@ -30,6 +30,7 @@ $username  = "";
 $city      = "";
 $state     = "";
 $img       = "";
+$query     = "";
 
 if(isset($_POST['add_student'])) {
 
@@ -120,7 +121,7 @@ if(isset($_POST['add_student'])) {
     $email = $_POST['email'];
     $mail->addAddress($email);
     $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Please click the following link to verify your email: <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
     // Send the email to the user
     if (!$mail->send()) {
@@ -334,7 +335,15 @@ if(isset($_SESSION['add_student'])) {
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_student" value="Register">
             </form>
 
-            <?php include "success_modal_kids.php" ?>
+            <?php 
+            
+            if ($_SESSION['kids_count'] >= 1) {
+              include "success_modal_1_kids.php";
+            } else {
+              include "success_modal.php";
+            }
+            
+            ?>
             <?php include "pass_modal.php" ?>
 
 

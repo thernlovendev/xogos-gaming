@@ -11,7 +11,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th class="text-right">Coins</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,7 +30,6 @@
                             echo "<tr>";
                             echo "<td>" . $rank . "</td>"; // Echo the counter value as the user_id
                             echo "<td>" . $firstname . " " . $lastname . "</td>";
-                            echo "<td class='text-right'>" . $total_coins . "</td>";
                             echo "</tr>";
 
                             $counter++; // Increment the counter for the next iteration

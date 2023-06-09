@@ -31,10 +31,11 @@
                 </a>
                 <ul class="dropdown-menu dropdown-navbar">
                 <?php if(is_parent()): ?>
-                  <?php include "includes/add_extra_parent.php" ?>
-                  <li class="nav-link"><button data-toggle="modal" data-target="#exampleModalCenterNewParent" class="nav-item dropdown-item">Add Extra Parent</button></li>
-                  <li class="dropdown-divider"></li>
+                  <li class="nav-link"><a href="./add_extra_parent.php" class="nav-item dropdown-item">Add Extra Parent</a></li>
                   <?php endif ?>
+                  <li class="nav-link"><a href="./user.php" class="nav-item dropdown-item" name="user">User Account</a></li>
+                  <li class="dropdown-divider"></li>
+                  <li class="nav-link"><a href="./open_ticket.php" class="nav-item dropdown-item" name="user">Open Ticket</a></li>
                   <li class="nav-link"><a href="../includes/logout.php" class="nav-item dropdown-item" name="logout">Log out</a></li>
                 </ul>
               </li>
