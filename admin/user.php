@@ -10,7 +10,7 @@ if(isset($_SESSION['user_id'])) {
   
     $the_user_id = $_SESSION['user_id'];
   
-    $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+    $query = "SELECT *, address, phone FROM users WHERE user_id = '{$the_user_id}' ";
   
     $select_user_profile_query = mysqli_query($connection, $query);
   
@@ -23,19 +23,11 @@ if(isset($_SESSION['user_id'])) {
         $lastname = $row['lastname'];
         $img = $row['img'];
         $email = $row['email'];
+        $phone = $row['phone'];
         $username = $row['username'];
         $password = $row['password'];
-  
-        if (isset($row['address'])) {
-            $address = $row['address'];
-        }
-  
+        $address = $row['address'];
         $city = $row['city'];
-  
-        if (isset($row['phone'])) {
-            $phone = $row['phone'];
-        }
-  
         $zip = $row['zip'];
         $state = $row['state'];
     }
