@@ -54,7 +54,7 @@ if(isset($_POST['edit_parent'])) {
   $img      = escape($_FILES['img']['name']);
   $img_temp = escape($_FILES['img']['tmp_name']);
 
-  move_uploaded_file($img_temp, "assets/img/users/$img");
+  move_uploaded_file($img_temp, "./assets/img/avatars/$img");
 
     if(empty($img)) {
         
@@ -150,7 +150,7 @@ if (!empty($password)) {
                   <div class="row">
                     <div class="col-md-6 pr-md-1">
                       <div class="form-group">
-                        <img id="previewImage" style="height:100px; width:100px" class="avatar border-gray" src="assets/img/users/<?php echo $img;?>" alt='..'>
+                        <img id="previewImage" style="height:100px; width:100px" class="avatar border-gray" src="./assets/img/avatars/<?php echo $img;?>" alt='..'>
                         <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
                       </div>
                     </div>

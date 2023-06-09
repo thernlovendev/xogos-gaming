@@ -77,8 +77,8 @@ if (isset($_POST['add_student'])) {
 
       // generate token
     $length = 50;
-    $token = bin2hex(openssl_random_pseudo_bytes($length));
-    $query .= "token = '{$token}', ";
+    $token_e = bin2hex(openssl_random_pseudo_bytes($length));
+    $query .= "token = '{$token_e}', ";
 
     // Send email notification using PHPMailer
     $mail = new PHPMailer;
@@ -107,7 +107,7 @@ if (isset($_POST['add_student'])) {
     $email = $_POST['email'];
     $mail->addAddress($email);
     $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token_e . '">Verify Email</a></p>';
 
     if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -115,7 +115,7 @@ if (isset($_POST['add_student'])) {
     }
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token}'  ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
 
     // execute query
     $register_teacher_query = mysqli_query($connection, $query);

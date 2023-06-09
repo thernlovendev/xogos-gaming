@@ -51,7 +51,7 @@ if(isset($_POST['edit_student'])) {
   $img      = escape($_FILES['img']['name']);
   $img_temp = escape($_FILES['img']['tmp_name']);
 
-  move_uploaded_file($img_temp, "assets/img/users/$img");
+  move_uploaded_file($img_temp, "./assets/img/avatars/$img");
 
     if(empty($img)) {
         
@@ -82,6 +82,8 @@ if (!empty($password)) {
   }
 
   $query = "UPDATE users SET ";
+  $query .= "student_id     = '{$student_id}', ";
+  $query .= "t_student_id   = '{$t_student_id}', ";
   $query .= "firstname      = '{$firstname}', ";
   $query .= "lastname       = '{$lastname}', ";
   $query .= "lastname       = '{$lastname}', ";
