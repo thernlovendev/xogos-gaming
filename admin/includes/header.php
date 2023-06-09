@@ -7,19 +7,22 @@
 
 <?php
 
-if (isset($_SESSION['user_role'])) {
-    if ($_SESSION['kids_count'] >= 1 || $_SESSION['user_role'] == 'student' || $_SESSION['user_role'] == 'admin') {
-        // User has kids or is a student/admin, proceed
-        // Your code for the checkout page goes here
-    } else {
-        header("Location: ../stripe-one/checkout.php");
-        exit; // Stop script execution
-    }
+if(isset($_SESSION['user_role'])) {
+  $user_role = $_SESSION['user_role'];
+  $kids_count = $_SESSION['kids_count'];
+
+  // Check user role and kids count conditions
+  if($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
+    header("Location: ../stripe-one/checkout.php");
+    exit();
+  }
 } else {
-    header("Location: ../includes/login.php");
-    exit; // Stop script execution
+  header("Location: ../includes/login.php");
+  exit();
 }
+
 ?>
+
 
 
 <!DOCTYPE html>
