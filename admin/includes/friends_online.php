@@ -38,9 +38,9 @@
 
                   <?php 
                       $query = "SELECT * FROM users_online WHERE online_parent_id = {$_SESSION['student_id']} OR online_teacher_id = {$_SESSION['t_student_id']}";
-                      $select_students = mysqli_query($connection, $query);
+                      $select_parents_teachers = mysqli_query($connection, $query);
 
-                      while ($row = mysqli_fetch_assoc($select_students)) {
+                      while ($row = mysqli_fetch_assoc($select_parents_teachers)) {
                           $online_id        = $row['online_id'];
                           $online_firstname = $row['online_firstname'];
                           $online_img       = $row['online_img'];
