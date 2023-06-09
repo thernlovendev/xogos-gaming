@@ -37,10 +37,13 @@
                 <?php if(is_student()): ?>
 
                   <?php 
-                      $query = "SELECT * FROM users_online WHERE online_parent_id = {$_SESSION['student_id']} OR online_teacher_id = {$_SESSION['t_student_id']}";
-                      $select_parents_teachers = mysqli_query($connection, $query);
-
-                      while ($row = mysqli_fetch_assoc($select_parents_teachers)) {
+                      $query = "SELECT * FROM users_online WHERE online_parent_id = ? OR online_teacher_id = ?";
+                      $stmt = mysqli_prepare($connection, $query);
+                      mysqli_stmt_bind_param($stmt, "ii", $_SESSION['student_id'], $_SESSION['t_student_id']);
+                      mysqli_stmt_execute($stmt);
+                      $result = mysqli_stmt_get_result($stmt);
+                      
+                      while ($row = mysqli_fetch_assoc($result)) {
                           $online_id        = $row['online_id'];
                           $online_firstname = $row['online_firstname'];
                           $online_img       = $row['online_img'];
