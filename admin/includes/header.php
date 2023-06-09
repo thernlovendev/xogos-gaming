@@ -5,21 +5,29 @@
 <?php session_start(); ?>
 <?php $DOMAIN = "https://myxogos.com/admin/"; ?>
 
-<?php
+<?php 
 
 if(isset($_SESSION['user_role'])) {
-  $user_role = $_SESSION['user_role'];
-  $kids_count = $_SESSION['kids_count'];
 
-  // Check user role and kids count conditions
-  if($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
-    header("Location: ../stripe-one/checkout.php");
-    exit();
-  }
+
 } else {
-  header("Location: ../includes/login.php");
-  exit();
+
+header("location: ../includes/login.php");
+
+
 }
+
+if($_SESSION['kids_count'] >= 1 OR $_SESSION['user_role'] == 'student' OR $_SESSION['user_role'] == 'admin') {
+
+
+} else {
+
+header("location: ../stripe-one/checkout.php");
+
+
+}
+
+
 
 ?>
 <?php

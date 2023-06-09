@@ -3,53 +3,55 @@
 <?php include "includes/navbar.php" ?>
 
 <?php
+
+$address    = "";
+$phone    = "";
+$zip    = "";
+
 if(isset($_SESSION['user_id'])) {
+
     $the_user_id = $_SESSION['user_id'];
 
     $query = "SELECT * FROM users WHERE user_id = '{$the_user_id}' ";
+
     $select_user_profile_query = mysqli_query($connection, $query);
 
-    if($row = mysqli_fetch_array($select_user_profile_query)) {
-        $user_id = $row['user_id'];
-        $parent_id = $row['parent_id'];
-        $teacher_id = $row['teacher_id'];
-        $student_id = $row['student_id'];
-        $firstname = $row['firstname'];
-        $lastname = $row['lastname'];
-        $img = $row['img'];
-        $email = $row['email'];
-        $username = $row['username'];
-        $password = $row['password'];
-        $city = $row['city'];
-        $state = $row['state'];
-      
-        // Check if 'address' field exists in the result set
-        if(isset($row['address'])) {
-            $address = $row['address'];
-        } else {
-            $address = NULL;
-        }
+    while($row = mysqli_fetch_array($select_user_profile_query)) {
 
-        // Check if 'phone' field exists in the result set
-        if(isset($row['phone'])) {
-            $phone = $row['phone'];
-        } else {
-            $phone = NULL;
-        }
+      $user_id    = $row['user_id'];
+      $parent_id  = $row['parent_id'];
+      $teacher_id = $row['teacher_id'];
+      $student_id = $row['student_id'];
+      $firstname  = $row['firstname'];
+      $lastname   = $row['lastname'];
+      $img        = $row['img'];
+      $email      = $row['email'];
+      $phone      = $row['phone'];
+      $username   = $row['username'];
+      $password   = $row['password'];
+      $address    = $row['address'];
+      $city       = $row['city'];
+      $zip        = $row['zip'];
+      $state      = $row['state'];
+
+
     }
+
+    
 }
 
 if(isset($_POST['edit_user'])) {
-    $firstname = escape($_POST['firstname']);
-    $lastname = escape($_POST['lastname']);
-    $email = escape($_POST['email']);
-    $phone = escape($_POST['phone']);
-    $username = escape($_POST['username']);
-    $password = escape($_POST['password']);
-    $address = escape($_POST['address']);
-    $city = escape($_POST['city']);
-    $zip = escape($_POST['zip']);
-    $state = escape($_POST['state']);
+    
+  $firstname  = escape($_POST['firstname']);
+  $lastname   = escape($_POST['lastname']);
+  $email      = escape($_POST['email']);
+  $phone      = escape($_POST['phone']);
+  $username   = escape($_POST['username']);
+  $password   = escape($_POST['password']);
+  $address    = escape($_POST['address']);
+  $city       = escape($_POST['city']);
+  $zip        = escape($_POST['zip']);
+  $state      = escape($_POST['state']);
 
   $img      = $_FILES['img']['name'];
   $img_temp = $_FILES['img']['tmp_name'];
