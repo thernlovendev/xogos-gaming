@@ -38,8 +38,6 @@ if(isset($_POST['login'])) {
     $db_kids_count   = $row['kids_count'];
     $db_email        = $row['email'];
     $db_total_coins  = $row['total_coins'];
-    $db_verified     = $row['verified'];
-    $db_active       = $row['active'];
   }
 
 //   $password = crypt($password, $db_user_password);
