@@ -376,4 +376,20 @@ if(isset($_SESSION['add_student'])) {
     </div>
   </div>
 </section>
+
+<?php if ($success) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#successModalKids').modal('show');
+    });
+  </script>
+<?php } ?>
+
+<?php if ($pass_modal) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#passModal').modal('show');
+    });
+  </script>
+<?php } ?>
       

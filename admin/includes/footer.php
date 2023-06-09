@@ -1,11 +1,3 @@
-<?php 
-
-$pass_modal = "";
-$success = "";
-
-
-?>
-
 <footer class="footer">
         <div class="container-fluid">
           <div class="copyright">
@@ -188,21 +180,7 @@ $success = "";
 
 <script src="//code.tidio.co/cbe0s02d74bhkvjfagrlculfyt01g7fv.js" async></script>
 
-<?php if ($success) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#successModalKids').modal('show');
-    });
-  </script>
-<?php } ?>
 
-<?php if ($pass_modal) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#passModal').modal('show');
-    });
-  </script>
-<?php } ?>
 
 <script>
 function previewFile(event) {
