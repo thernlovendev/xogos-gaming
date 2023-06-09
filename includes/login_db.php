@@ -59,8 +59,6 @@ if (password_verify($password,$db_password)) {
   $_SESSION['kids_count']   = $db_kids_count;
   $_SESSION['total_coins']  = $db_total_coins;
   $_SESSION['email']        = $db_email;
-  $_SESSION['verified']     = $verified;
-  $_SESSION['active']       = $active;
   $data_array_login = [
       'email'=>$db_email,
       'password'=>$_POST['password'],
