@@ -4,9 +4,9 @@
 
 <?php
 if(isset($_SESSION['user_id'])) {
-    $address = null;
-    $phone = null;
-    $zip = null;
+    $address = "";
+    $phone = "";
+    $zip = "";
   
     $the_user_id = $_SESSION['user_id'];
   
