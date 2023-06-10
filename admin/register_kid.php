@@ -23,6 +23,9 @@ $avatar_images = glob("assets/img/avatars/*.png");
 $success          = false;
 $pass_modal       = false;
 $message   = "";
+$message_username = "";
+$message_email    = "";
+
 $firstname = "";
 $lastname  = "";
 $email     = "";
@@ -69,6 +72,19 @@ if(isset($_POST['add_student'])) {
       if (!check_password_strength($password)) {
         $pass_modal = true;
       } else {
+
+        // check if username and email already exist
+        $query = "SELECT * FROM users WHERE username = '$username' OR email = '$email'";
+        $result = mysqli_query($connection, $query);
+
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          if ($row['username'] == $username) {
+            $message_username = "Username already exists";
+          } else {
+            $message_email = "Email already exists";
+          }
+        } else {
 
     $firstname = mysqli_real_escape_string($connection, $firstname);
     $lastname  = mysqli_real_escape_string($connection, $lastname);
@@ -140,8 +156,6 @@ if(isset($_POST['add_student'])) {
           $success = true;
         }
     
-    update_kids_count();
-    update_kids_count_byteacher();
     $data_register_lightning_round = [
       'username'=>$username,
       'first_name'=>$firstname,
@@ -160,6 +174,9 @@ if(isset($_POST['add_student'])) {
     $message = "";
 
   }
+
+
+}
 
 }
 
@@ -287,6 +304,7 @@ if(isset($_SESSION['add_student'])) {
                 <div class="col-md-12 mb-3">
                   <label for="validationCustom01">Email</label>
                   <input type="email" name="email" class="form-control" id="validationCustom01" value="<?php echo $email ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_email ?></label>
                 </div>
               </div>
               <div class="form-row">
@@ -297,7 +315,7 @@ if(isset($_SESSION['add_student'])) {
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom04">State</label>
                   <select name="state" class="custom-select form-control" id="validationCustom04" value="<?php echo $state ?>" required>
-                    <option selected disabled value="">Choose...</option>
+                    <option selected disabled value=""><?php echo $state ?></option>
                   <?php 
                                     
                   $query = "SELECT * FROM state ";
@@ -320,6 +338,7 @@ if(isset($_SESSION['add_student'])) {
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom01">Username</label>
                   <input type="text" name="username" class="form-control" id="validationCustom01" value="<?php echo $username ?>" required>
+                  <label class="text-danger" for="validationCustom01"><?php echo $message_username ?></label>
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom02">Password</label>
@@ -340,7 +359,7 @@ if(isset($_SESSION['add_student'])) {
             if ($_SESSION['kids_count'] >= 1) {
               include "success_modal_1_kids.php";
             } else {
-              include "success_modal.php";
+              include "success_modal_kids.php";
             }
             
             ?>
