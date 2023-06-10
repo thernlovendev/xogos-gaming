@@ -67,7 +67,7 @@ require '../vendor/autoload.php';
 
                     $mail->Body = '<p>Please click to reset your password
 
-                    <a href="https://myxogos.com/includes/reset.php?email='.$email.'&token='.$token.' ">https://myxogos.com/includes/reset.php?email='.$email.'&token='.$token.'</a>
+                    <a href="http://localhost:8888/web-development/xogos-gaming/includes/reset.php?email='.$email.'&token='.$token.' ">http://localhost:8888/web-development/xogos-gaming/includes/reset.php?email='.$email.'&token='.$token.'</a>
 
 
 
