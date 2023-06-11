@@ -115,7 +115,7 @@ $zip       = mysqli_real_escape_string($connection, $zip);
     $email = $_POST['email'];
     $mail->addAddress($email);
     $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/admin/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
     if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;

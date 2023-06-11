@@ -48,8 +48,8 @@ if(isset($_POST['edit_student'])) {
   $verified  = escape($_POST['verified']);
   $active    = escape($_POST['active']);
 
-  $img      = escape($_FILES['img']['name']);
-  $img_temp = escape($_FILES['img']['tmp_name']);
+  $img      = $_FILES['img']['name'];
+  $img_temp = $_FILES['img']['tmp_name'];
 
   move_uploaded_file($img_temp, "./assets/img/avatars/$img");
 
