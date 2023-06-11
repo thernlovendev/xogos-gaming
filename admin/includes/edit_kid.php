@@ -42,8 +42,8 @@ if(isset($_POST['edit_user'])) {
   $city      = escape($_POST['city']);
   $zip       = escape($_POST['zip']);
 
-  $img      = escape($_FILES['img']['name']);
-  $img_temp = escape($_FILES['img']['tmp_name']);
+  $img      = $_FILES['img']['name'];
+  $img_temp = $_FILES['img']['tmp_name'];
 
     move_uploaded_file($img_temp, "assets/img/users/$img");
 
