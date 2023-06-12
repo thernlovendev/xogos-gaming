@@ -173,6 +173,10 @@ if(isset($_POST['add_student'])) {
    
     $message = "";
 
+    // Redirect to index.php
+    header("Location: index.php");
+    exit();
+
   }
 
 
@@ -353,20 +357,6 @@ if(isset($_SESSION['add_student'])) {
               <input style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_student" value="Register">
             </form>
-
-            <?php 
-            
-            if ($_SESSION['kids_count'] >= 1) {
-              include "success_modal_1_kids.php";
-            } else {
-              include "success_modal_kids.php";
-            }
-            
-            ?>
-            <?php include "pass_modal.php" ?>
-
-
-
             <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function() {
