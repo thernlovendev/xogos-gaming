@@ -112,11 +112,15 @@ if(isset($_GET['delete'])) {
                       </div>
                     </div>
                     </div>
+                    <?php if(is_teacher()): ?>
                   <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="edit_class" value="Update Class">
                   </div>
+                  <?php endif ?>
                 </form>
+                <?php if(is_teacher()): ?>
                 <a class="text-danger" href="classes.php?delete=<?php echo $class_id; ?>" onclick="return confirm('Are you sure you want to delete this class?')">Delete Class</a>
+                <?php endif ?> 
               </div>
             </div>
           </div>
@@ -126,10 +130,12 @@ if(isset($_GET['delete'])) {
             <div class="card ">
               <div class="card-header">
                 <h4 class="card-title"> All Students</h4>
+                <?php if(is_teacher()): ?>
                 <div class="form-group">
                   <?php include "add_student_to_class.php" ?>
                     <button type='button' class='btn btn-primary add-students-btn' data-toggle='modal' data-target='#newStudentsEditClass' data-class-id='$the_class_id'>Add Students</button>
                   </div>
+                  <?php endif ?> 
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -138,7 +144,9 @@ if(isset($_GET['delete'])) {
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <?php if(is_teacher()): ?>
                                 <th class="text-right">Delete</th>
+                                <?php endif ?> 
                             </tr>
                         </thead>
                         <tbody>
@@ -153,7 +161,9 @@ if(isset($_GET['delete'])) {
                         echo "<tr>";
                             echo "<td>$student_id</td>";
                             echo "<td>$firstname $lastname</td>";
+                            if(is_teacher()) {
                             echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='classes.php?source=edit_class_admin&edit_class_admin={$class_id}&delete={$student_id}'>Delete</a></td>";
+                            }
                             echo "</tr>";
                         }
                         
