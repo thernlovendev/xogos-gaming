@@ -177,10 +177,10 @@ else{
 			$user_name = '';
 			if($chat["sender_userid"] == $from_user_id) {
 				$conversation .= '<li class="sent">';
-				$conversation .= '<img width="22px" height="22px" src="chat/userpics/'.$fromUserAvatar.'" alt="" />';
+				$conversation .= '<img width="22px" height="22px" src="./assets/img/'.$img.'" alt="" />';
 			} else {
 				$conversation .= '<li class="replies">';
-				$conversation .= '<img width="22px" height="22px" src="chat/userpics/'.$toUserAvatar.'" alt="" />';
+				$conversation .= '<img width="22px" height="22px" src="./assets/img/'.$img.'" alt="" />';
 			}			
 			$conversation .= '<p>'.$chat["message"].'</p>';			
 			$conversation .= '</li>';
