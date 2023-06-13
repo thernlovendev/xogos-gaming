@@ -38,7 +38,7 @@
                             echo "<td>$user_id</td>";
                             echo "<td>$firstname $lastname</td>";
                             echo "<td class='text-right'><a href='students.php?source=edit_student&edit_student={$user_id}'>Edit</a></td>";  
-                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \"href='cams.php?delete={$user_id}'>Delete</a></td>";  
+                            echo "<td class='text-right'><a onClick=\"javascript: return confirm('Are you sure you want to remove this student?'); \"href='my_students.php?remove={$user_id}'>Remove</a></td>";  
                             echo "</tr>";
                         }
                         
@@ -47,27 +47,21 @@
                    </table>
 
                    <?php 
-                   
-                   if(isset($_GET['delete'])) {
+              if(isset($_GET['remove'])) {
+                $user_id = $_GET['remove'];
 
-                    $client_id = $_GET['delete'];
+                $query = "UPDATE users SET t_student_id = '0' WHERE user_id = '{$user_id}'";
+                $remove_user = mysqli_query($connection, $query);
 
-                    $query = "DELETE FROM users WHERE user_id = {$user_id}";
-                    $delete_query = mysqli_query($connection, $query);
-                     update_kids_count();
-                     update_kids_count_byteacher();
-                     $data_array = [
-                      'username'=>$row['username'],
-                     ];
-                     deleteUserFromLightningRound($data_array);
-                     
-                    header("Location: users.php");
-
-
-                   }
-                   
-                   
-                   ?>
+                // Check if the user was successfully deactivated
+                if($remove_user) {
+                  header("Location: {$_SERVER['PHP_SELF']}"); // Redirect to the same page
+                  exit();
+                } else {
+                  echo "<p>Failed to remove user. Please try again.</p>";
+                }
+              }
+              ?>
 
                 </div>
               </div>

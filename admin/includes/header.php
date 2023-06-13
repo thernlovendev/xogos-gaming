@@ -7,21 +7,48 @@
 
 <?php
 
-if(isset($_SESSION['user_role'])) {
-  $user_role = $_SESSION['user_role'];
-  $kids_count = $_SESSION['kids_count'];
+// $user_role = $_SESSION['user_role'];
+  // $kids_count = $_SESSION['kids_count'];
 
-  // Check user role and kids count conditions
-  if($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
-    header("Location: ../stripe-one/checkout.php");
+  // // Check user role and kids count conditions
+  // if($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
+  //   header("Location: ../stripe-one/checkout.php");
+  //   exit();
+  // }
+
+  if(isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $user_role = $_SESSION['user_role'];
+    $kids_count = $_SESSION['kids_count'];
+  
+    // Check if user is verified and active
+    $query = "SELECT verified, active FROM users WHERE user_id = ?";
+    $stmt = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    $verified = $row['verified'];
+    $active = $row['active'];
+  
+    if (!isset($user_role) || $verified === 'no' || $active === 'no') {
+      // Redirect to the login page
+      header("Location: ../includes/login.php");
+      exit();
+    } elseif($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
+      header("Location: ../stripe-one/checkout.php");
+      exit();
+    }
+  } else {
+    // Redirect to the login page
+    header("Location: ../includes/login.php");
     exit();
   }
-} else {
-  header("Location: ../includes/login.php");
-  exit();
-}
+  
+  
 
 ?>
+
 
 
 
