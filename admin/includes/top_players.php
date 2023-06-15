@@ -16,7 +16,7 @@
                         <tbody>
 
                         <?php
-                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY total_coins DESC";
+                        $query = "SELECT * FROM users WHERE user_role = 'student' ORDER BY total_coins_lr DESC";
                         $result = mysqli_query($connection, $query);
 
                         $counter = 1; // Counter variable to track the rank
@@ -25,7 +25,7 @@
                             $rank = $counter;
                             $firstname = $row['firstname'];
                             $lastname = $row['lastname'];
-                            $total_coins = $row['total_coins'];
+                            $total_coins_lr = $row['total_coins_lr'];
 
                             echo "<tr>";
                             echo "<td>" . $rank . "</td>"; // Echo the counter value as the user_id
