@@ -1,4 +1,24 @@
-          <div class="col-lg-8 col-md-12 col-sm-6">
+<?php
+$session_id = $_SESSION['user_id'];
+
+// Initialize an array to store the total_coins_lr values for each month
+$total_coins_lr_data = array();
+
+// Loop through each month
+for ($month = 1; $month <= 12; $month++) {
+    // Prepare the SQL query to fetch total_coins_lr for the current month
+    $total_coins_query = "SELECT total_coins_lr FROM lightninground WHERE MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
+
+    $select_student = mysqli_query($connection, $total_coins_query);
+    $row = mysqli_fetch_assoc($select_student);
+    $total_coins_lr = $row ? $row['total_coins_lr'] : 0;
+
+    // Add the total_coins_lr value to the array
+    $total_coins_lr_data[] = $total_coins_lr;
+}
+?>
+         
+         <div class="col-lg-8 col-md-12 col-sm-6">
             <div class="card card-chart">
               <div class="card-header ">
                 <div class="row">
@@ -225,26 +245,6 @@ demo = {
         ],
       },
     };
-
-    <?php
-$session_id = $_SESSION['user_id'];
-
-// Initialize an array to store the total_coins_lr values for each month
-$total_coins_lr_data = array();
-
-// Loop through each month
-for ($month = 1; $month <= 12; $month++) {
-    // Prepare the SQL query to fetch total_coins_lr for the current month
-    $total_coins_query = "SELECT total_coins_lr FROM lightninground WHERE MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
-
-    $select_student = mysqli_query($connection, $total_coins_query);
-    $row = mysqli_fetch_assoc($select_student);
-    $total_coins_lr = $row ? $row['total_coins_lr'] : 0;
-
-    // Add the total_coins_lr value to the array
-    $total_coins_lr_data[] = $total_coins_lr;
-}
-?>
 
 var ctx = document.getElementById("chartLinePurple").getContext("2d");
 
