@@ -226,68 +226,60 @@ demo = {
       },
     };
 
-    <?php 
+    <?php
 $session_id = $_SESSION['user_id'];
 
-// Prepare the SQL query to fetch total_coins_lr for each month
-$query = "
-    SELECT MONTH(timestamp_lr) AS month, total_coins_lr
-    FROM lightninground
-    WHERE user_id = :session_id
-    AND YEAR(timestamp_lr) = 2023
-";
-
-$stmt = $connection->prepare($query);
-$stmt->bindParam(':session_id', $session_id);
-
-// Execute the query
-$stmt->execute();
-
-// Fetch all the rows into an associative array
-$resultSet = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Initialize an array to store the total_coins_lr values for each month
-$total_coins_lr_data = array_fill(0, 12, null);
+$total_coins_lr_data = array();
 
-// Populate the total_coins_lr values for each month
-foreach ($resultSet as $row) {
-    $month = (int)$row['month'];
-    $total_coins_lr = $row['total_coins_lr'];
-    $total_coins_lr_data[$month - 1] = $total_coins_lr;
+// Loop through each month
+for ($month = 1; $month <= 12; $month++) {
+    // Prepare the SQL query to fetch total_coins_lr for the current month
+    $total_coins_query = "SELECT total_coins_lr FROM lightninground WHERE user_id = $session_id AND MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
+
+    $select_student = mysqli_query($connection, $total_coins_query);
+    $row = mysqli_fetch_assoc($select_student);
+    $total_coins_lr = $row ? $row['total_coins_lr'] : 0;
+
+    // Add the total_coins_lr value to the array
+    $total_coins_lr_data[] = $total_coins_lr;
 }
-
 ?>
 
-    var ctx = document.getElementById("chartLinePurple").getContext("2d");
+var ctx = document.getElementById("chartLinePurple").getContext("2d");
 
-    var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
 
-    gradientStroke.addColorStop(1, "rgba(72,72,176,0.2)");
-    gradientStroke.addColorStop(0.2, "rgba(72,72,176,0.0)");
-    gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
+gradientStroke.addColorStop(1, "rgba(72,72,176,0.2)");
+gradientStroke.addColorStop(0.2, "rgba(72,72,176,0.0)");
+gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
 
-    var data = {
-      labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
-      datasets: [
-        {
-          label: "Data",
-          fill: true,
-          backgroundColor: gradientStroke,
-          borderColor: "#d048b6",
-          borderWidth: 2,
-          borderDash: [],
-          borderDashOffset: 0.0,
-          pointBackgroundColor: "#d048b6",
-          pointBorderColor: "rgba(255,255,255,0)",
-          pointHoverBackgroundColor: "#d048b6",
-          pointBorderWidth: 20,
-          pointHoverRadius: 4,
-          pointHoverBorderWidth: 15,
-          pointRadius: 4,
-          data: [<?php echo json_encode($total_coins_lr_data); ?>],
-        },
-      ],
-    };
+var data = {
+  labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+  datasets: [
+    {
+      label: "Data",
+      fill: true,
+      backgroundColor: gradientStroke,
+      borderColor: "#d048b6",
+      borderWidth: 2,
+      borderDash: [],
+      borderDashOffset: 0.0,
+      pointBackgroundColor: "#d048b6",
+      pointBorderColor: "rgba(255,255,255,0)",
+      pointHoverBackgroundColor: "#d048b6",
+      pointBorderWidth: 20,
+      pointHoverRadius: 4,
+      pointHoverBorderWidth: 15,
+      pointRadius: 4,
+      data: <?php echo json_encode($total_coins_lr_data); ?>,
+    },
+  ],
+};
+
+
+
+
 
     var myChart = new Chart(ctx, {
       type: "line",
