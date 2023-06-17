@@ -37,7 +37,7 @@ if(isset($_POST['login'])) {
     $db_user_role    = $row['user_role'];
     $db_kids_count   = $row['kids_count'];
     $db_email        = $row['email'];
-    $db_total_coins  = $row['total_coins'];
+    $db_total_coins_lr  = $row['total_coins_lr'];
   }
 
 //   $password = crypt($password, $db_user_password);
