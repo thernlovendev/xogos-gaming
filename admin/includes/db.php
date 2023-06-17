@@ -2,7 +2,7 @@
 
 $db['db_host'] = 'localhost';
 $db['db_user'] = 'thernlov_admin';
-$db['db_pass'] = 'root1!';
+$db['db_pass'] = 'root1';
 $db['db_name'] = 'thernlov_xogos';
 
 foreach ($db as $key => $value) {
