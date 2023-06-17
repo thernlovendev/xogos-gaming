@@ -155,6 +155,24 @@ if(isset($_POST['add_student'])) {
         } else {
           $success = true;
         }
+
+        if ($success) {
+          // Get the user_id of the logged-in user
+          $user_id = $_SESSION['user_id'];
+      
+          // Update the kids_count for the logged-in user
+          $query = "UPDATE users SET kids_count = kids_count + 1 WHERE user_id = '{$user_id}'";
+          $update_kids_query = mysqli_query($connection, $query);
+      
+          if (!$update_kids_query) {
+              die("QUERY FAILED" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
+          }
+
+          // Redirect to the index page
+          header("Location: index.php");
+          exit();
+
+      }
     
     $data_register_lightning_round = [
       'username'=>$username,
@@ -183,23 +201,6 @@ if(isset($_POST['add_student'])) {
 }
 
 }
-
-// UPDATE KIDS COUNT
-
-if(isset($_SESSION['add_student'])) {
-  
-  $the_user_id = $_SESSION['user_id'];
-  $kids_count  = $_SESSION['kids_count'];
-  
-      $query = "UPDATE users SET kids_count = kids_count + 1 WHERE user_id = '{$the_user_id}' ";
-  
-      $edit_user_query = mysqli_query($connection, $query);
-  
-      confirm($edit_user_query);
-      update_kids_count();
-    update_kids_count_byteacher();
-
-      }
 
 ?>
 
