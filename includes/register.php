@@ -46,10 +46,10 @@ if (isset($_POST['add_user'])) {
   $state           = $_POST['state'];
   $zip             = $_POST['zip'];
 
-  $img      = $_FILES['img']['name'];
-  $img_temp = $_FILES['img']['tmp_name'];
+  // $img      = $_FILES['img']['name'];
+  // $img_temp = $_FILES['img']['tmp_name'];
 
-    move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
+  //   move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
 
   $_SESSION['form_data'] = array(
     'firstname' => $firstname,
@@ -154,8 +154,8 @@ if (isset($_POST['add_user'])) {
         }
 
         // build SQL query
-        $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id, token) ";
-        $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}', '{$token}') ";
+        $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id, token) ";
+        $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}', '{$token}') ";
 
         // execute query
         $register_parent_query = mysqli_query($connection, $query);
@@ -213,7 +213,7 @@ if (isset($_POST['add_user'])) {
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
             <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-            <div class="form-row">
+            <!-- <div class="form-row">
               <div class="col-md-4 pr-md-1">
                 <div class="form-group">
                   <img id="previewImage" style="height: 100px; width: 100px" class="avatar border-gray" src="../admin/assets/img/avatars/default-avatar.png" alt='..'>
@@ -222,7 +222,7 @@ if (isset($_POST['add_user'])) {
                   <label for="imageInput">Select the photo to add or update</label>
                 </div>
               </div>
-            </div>
+            </div> -->
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
