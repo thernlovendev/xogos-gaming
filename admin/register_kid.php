@@ -173,10 +173,6 @@ if(isset($_POST['add_student'])) {
    
     $message = "";
 
-    // Redirect to index.php
-    header("Location: index.php");
-    exit();
-
   }
 
 
@@ -202,6 +198,10 @@ if(isset($_SESSION['add_student'])) {
       confirm($edit_user_query);
       update_kids_count();
     update_kids_count_byteacher();
+
+    // Redirect to index.php
+    header("Location: index.php");
+    exit();
 
       }
 
