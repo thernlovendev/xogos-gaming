@@ -199,10 +199,6 @@ if(isset($_SESSION['add_student'])) {
       update_kids_count();
     update_kids_count_byteacher();
 
-    // Redirect to index.php
-    header("Location: index.php");
-    exit();
-
       }
 
 ?>
