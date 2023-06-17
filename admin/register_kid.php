@@ -169,7 +169,7 @@ if(isset($_POST['add_student'])) {
           }
 
           // Redirect to the index page
-          header("Location: index.php");
+          header("Location: ../../index.php");
           exit();
 
       }
