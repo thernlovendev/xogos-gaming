@@ -24,13 +24,15 @@
 </style>
 
 <div class="col-lg-4">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Coins Available</h5>
-                <h3 class="card-title text-bold"><i class="tim-icons icon-coins text-info"></i><?php echo $_SESSION['total_coins_lr']; ?></h3>
-              </div>
-            </div>
-            <div class="card card-chart" style="background-image: url('./assets/img/avatars/<?php echo $_SESSION['img']; ?>');">
+  <?php if(is_student()): ?>
+    <div class="card card-chart">
+      <div class="card-header">
+        <h5 class="card-category">Coins Available</h5>
+        <h3 class="card-title text-bold"><i class="tim-icons icon-coins text-info"></i><?php echo $_SESSION['total_coins_lr']; ?></h3>
+      </div>
+    </div>
+    <?php endif ?>
+  <div class="card card-chart" style="background-image: url('./assets/img/avatars/<?php echo $_SESSION['img']; ?>');">
   <div class="overlay"></div> <!-- Added overlay div -->
   <div class="card-header" style="position: relative; z-index: 2;">
     <h5 class="card-category">Welcome</h5>

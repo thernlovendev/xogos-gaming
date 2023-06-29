@@ -103,7 +103,7 @@ if(isset($_POST['add_student'])) {
 
     // generate token
     $length = 50;
-    $token = bin2hex(openssl_random_pseudo_bytes($length));
+    $token_e = bin2hex(openssl_random_pseudo_bytes($length));
     $query .= "token = '{$token}', ";
 
     // Send email notification using PHPMailer
@@ -137,7 +137,7 @@ if(isset($_POST['add_student'])) {
     $email = $_POST['email'];
     $mail->addAddress($email);
     $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token_e . '">Verify Email</a></p>';
 
     // Send the email to the user
     if (!$mail->send()) {
@@ -146,7 +146,7 @@ if(isset($_POST['add_student'])) {
     }
 
     $query  = "INSERT INTO users(firstname, lastname, img, email, username, password, city, state, student_id, user_role, token) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token}' ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$img}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', '{$_SESSION['parent_id']}', 'student', '{$token_e}' ) ";
 
     // execute query
         $register_student_query = mysqli_query($connection, $query);
