@@ -6,10 +6,10 @@
         <h5 class="modal-title" id="successModalKids">Registration Successful</h5>
       </div>
       <div class="modal-body">
-      <p>Return to login and sign in.</p>
+      <p>Email has been sent to confirm user.</p>
       </div>
       <div class="modal-footer">
-        <a href="https://myxogos.com/index.php" style="background: rgb(223,78,204);
+        <a href="https://myxogos.com/admin/index.php" style="background: rgb(223,78,204);
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn">Continue</a>
       </div>
     </div>
