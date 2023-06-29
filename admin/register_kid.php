@@ -104,7 +104,7 @@ if(isset($_POST['add_student'])) {
     // generate token
     $length = 50;
     $token_e = bin2hex(openssl_random_pseudo_bytes($length));
-    $query .= "token = '{$token}', ";
+    $query .= "token = '{$token_e}', ";
 
     // Send email notification using PHPMailer
     $mail = new PHPMailer;
