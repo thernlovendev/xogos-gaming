@@ -168,10 +168,6 @@ if(isset($_POST['add_student'])) {
               die("QUERY FAILED" . mysqli_error($connection) . ' ' . mysqli_errno($connection));
           }
 
-          // Redirect to the index page
-          header("Location: ../../index.php");
-          exit();
-
       }
     
     $data_register_lightning_round = [

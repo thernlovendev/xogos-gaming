@@ -735,4 +735,20 @@ function generatePassword($length = 8) {
   
     return $password;
   }
+
+  //Automatic logout after inactivity
+
+  function checkInactivity($timeoutMinutes, $redirectUrl) {
+    $lastActivity = isset($_SESSION['last_activity']) ? $_SESSION['last_activity'] : 0;
+    $inactiveTime = time() - $lastActivity;
+
+    if ($inactiveTime >= ($timeoutMinutes * 60)) {
+        // Redirect to the specified URL
+        header("Location: $redirectUrl");
+        exit();
+    }
+
+    $_SESSION['last_activity'] = time();
+}
+
   

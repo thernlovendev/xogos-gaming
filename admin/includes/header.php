@@ -7,15 +7,6 @@
 
 <?php
 
-// $user_role = $_SESSION['user_role'];
-  // $kids_count = $_SESSION['kids_count'];
-
-  // // Check user role and kids count conditions
-  // if($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
-  //   header("Location: ../stripe-one/checkout.php");
-  //   exit();
-  // }
-
   if(isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     $user_role = $_SESSION['user_role'];
@@ -39,6 +30,9 @@
       header("Location: ../stripe-one/checkout.php");
       exit();
     }
+
+    checkInactivity(60, "../includes/logout.php");
+    
   } else {
     // Redirect to the login page
     header("Location: ../includes/login.php");
