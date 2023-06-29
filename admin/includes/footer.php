@@ -60,6 +60,22 @@ $success = "";
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
+ 
+  <?php if ($success) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#successModalKids').modal('show');
+    });
+  </script>
+<?php } ?>
+
+<?php if ($pass_modal) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#passModal').modal('show');
+    });
+  </script>
+<?php } ?>
 
   <!-- Initialize tooltips -->
 <script>
@@ -187,22 +203,6 @@ $success = "";
   </script>
 
 <script src="//code.tidio.co/cbe0s02d74bhkvjfagrlculfyt01g7fv.js" async></script>
-
-<?php if ($success) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#successModalKids').modal('show');
-    });
-  </script>
-<?php } ?>
-
-<?php if ($pass_modal) { ?>
-  <script>
-    $(document).ready(function() {
-      $('#passModal').modal('show');
-    });
-  </script>
-<?php } ?>
 
 <script>
 function previewFile(event) {
