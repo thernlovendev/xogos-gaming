@@ -49,7 +49,7 @@ if(isset($_POST['add_student'])) {
     $img      = $_FILES['img']['name'];
     $img_temp = $_FILES['img']['tmp_name'];
 
-    move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
+    move_uploaded_file($img_temp, "assets/img/avatars/$img");
 
     $_SESSION['form_data'] = array(
       'firstname' => $firstname,
