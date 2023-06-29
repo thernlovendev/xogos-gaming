@@ -31,7 +31,6 @@
       exit();
     }
 
-    checkInactivity(60, "../includes/logout.php");
     
   } else {
     // Redirect to the login page
