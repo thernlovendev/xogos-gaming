@@ -352,6 +352,8 @@ if(isset($_POST['add_student'])) {
             </form>
 
             <?php include "success_modal_kids.php" ?>
+            <?php include "pass_modal.php" ?>
+
 
             <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields
