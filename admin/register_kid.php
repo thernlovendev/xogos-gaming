@@ -351,8 +351,8 @@ if(isset($_POST['add_student'])) {
                 background: linear-gradient(90deg, rgba(223,78,204,1) 0%, rgba(223,78,204,1) 35%, rgba(192,83,237,1) 62%); border:none;" class="btn btn-primary btn" type="submit" name="add_student" value="Register">
             </form>
 
-            <?php include "admin/success_modal_kids.php" ?>
-            <?php include "admin/pass_modal.php" ?>
+            <?php include "../admin/success_modal_kids.php" ?>
+            <?php include "../admin/pass_modal.php" ?>
 
 
             <script>
