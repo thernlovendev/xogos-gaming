@@ -253,7 +253,7 @@ if(isset($_POST['add_student'])) {
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register Kid</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
             <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
-            <div class="row">
+            <!-- <div class="row">
               <div class="">
                 <div class="form-group">
                   <label>Select an avatar:</label>
@@ -278,7 +278,7 @@ if(isset($_POST['add_student'])) {
               </div>
 
               </div>
-          </div>
+          </div> -->
 
           <div class="row">
               <div class="">
