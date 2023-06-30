@@ -49,7 +49,7 @@ if(isset($_POST['add_student'])) {
     $img      = $_FILES['img']['name'];
     $img_temp = $_FILES['img']['tmp_name'];
     try {
-      if(move_uploaded_file($img_temp, "assets/imgsdf/avatars/$img")){
+      if(move_uploaded_file($img_temp, "assets/img/avatars/$img")){
         var_dump('success');die;
       }else{
         throw new Exception("Gagal memindahkan file: " . error_get_last()["message"]);
