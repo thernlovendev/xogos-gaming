@@ -48,16 +48,16 @@ if(isset($_POST['add_student'])) {
 
     $img      = $_FILES['img']['name'];
     $img_temp = $_FILES['img']['tmp_name'];
-    // move_uploaded_file($img_temp, "assets/img/avatars/$img");
-    try {
-      if(move_uploaded_file($img_temp, "assets/img/avatars/$img")){
-        var_dump('success');die;
-      }else{
-        throw new Exception("Gagal memindahkan file: " . error_get_last()["message"]);
-      }
-    } catch (Exception $e) {
-      echo "Terjadi kesalahan: " . $e->getMessage();die;
-    }
+    move_uploaded_file($img_temp, "assets/img/avatars/$img");
+    // try {
+    //   if(move_uploaded_file($img_temp, "assets/img/avatars/$img")){
+    //     var_dump('success');die;
+    //   }else{
+    //     throw new Exception("Gagal memindahkan file: " . error_get_last()["message"]);
+    //   }
+    // } catch (Exception $e) {
+    //   echo "Terjadi kesalahan: " . $e->getMessage();die;
+    // }
 
     $_SESSION['form_data'] = array(
       'firstname' => $firstname,
@@ -368,7 +368,6 @@ if(isset($_POST['add_student'])) {
             (function() {
               'use strict';
               window.addEventListener('load', function() {
-                console.log('sync');
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
                 // Loop over them and prevent submission
