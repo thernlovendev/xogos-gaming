@@ -40,9 +40,6 @@
           </div>
         </div>
         <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  console.log('sync');
-}, false);
   </script>
       <!-- Bootstrap core JavaScript
       ================================================== -->
