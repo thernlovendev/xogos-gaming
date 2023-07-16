@@ -1,35 +1,57 @@
 <?php include "db.php" ?>
 <?php include "functions.php" ?>
 
-<?php ob_start(); ?>
-<?php session_start(); ?>
-<?php $DOMAIN = "https://testing.thernloven.com"; ?>
+<?php
 
-<?php 
-
-if(isset($_SESSION['user_role'])) {
-
-
-} else {
-
-header("location: ../includes/login.php");
-
-
-}
-
-if($_SESSION['kids_count'] >= 1 OR $_SESSION['user_role'] == 'student' OR $_SESSION['user_role'] == 'admin') {
-
-
-} else {
-
-header("location: ../stripe-one/checkout.php");
-
-
-}
-
-
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 ?>
+
+<?php ob_start(); ?>
+<?php session_start(); ?>
+<?php $DOMAIN = "https://myxogos.com/admin/"; ?>
+
+<?php
+
+  if(isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $user_role = $_SESSION['user_role'];
+    $kids_count = $_SESSION['kids_count'];
+  
+    // Check if user is verified and active
+    $query = "SELECT verified, active FROM users WHERE user_id = ?";
+    $stmt = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($stmt, "i", $user_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    $verified = $row['verified'];
+    $active = $row['active'];
+  
+    if (!isset($user_role) || $verified === 'no' || $active === 'no') {
+      // Redirect to the login page
+      header("Location: ../includes/login.php");
+      exit();
+    } elseif($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
+      header("Location: ../stripe-one/checkout.php");
+      exit();
+    }
+
+    
+  } else {
+    // Redirect to the login page
+    header("Location: ../includes/login.php");
+    exit();
+  }
+  
+  
+  
+
+?>
+
+
 
 
 <!DOCTYPE html>

@@ -77,8 +77,8 @@ if (isset($_POST['add_student'])) {
 
       // generate token
     $length = 50;
-    $token = bin2hex(openssl_random_pseudo_bytes($length));
-    $query .= "token = '{$token}', ";
+    $token_e = bin2hex(openssl_random_pseudo_bytes($length));
+    $query .= "token = '{$token_e}', ";
 
     // Send email notification using PHPMailer
     $mail = new PHPMailer;
@@ -92,8 +92,8 @@ if (isset($_POST['add_student'])) {
     $mail->isHTML(true);
     $mail->CharSet = 'UTF-8';
 
-    $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
-    $mail->addAddress('lukas@thernloven.com');
+    $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+    $mail->addAddress('noreply.xogos@gmail.com');
     $mail->Subject = 'New User Student';
     $mail->Body = 'New account has been created.';
 
@@ -107,7 +107,7 @@ if (isset($_POST['add_student'])) {
     $email = $_POST['email'];
     $mail->addAddress($email);
     $mail->Subject = 'Welcome to XOGOS GAMING';
-    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+    $mail->Body = 'Thank you for signing up to XOGOS GAMING. Here are your login credentials. Once logged in, you can change your password in "User Profile". Username: ' . $username . '. Password: ' . $unhashedPassword . ' <a href="https://myxogos.com/includes/verify.php?token=' . $token_e . '">Verify Email</a></p>';
 
     if (!$mail->send()) {
         echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -115,7 +115,7 @@ if (isset($_POST['add_student'])) {
     }
 
     $query  = "INSERT INTO users(firstname, lastname, email, username, password, city, state, parent_id, user_role, token) ";
-    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token}'  ) ";
+    $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$username}', '{$password}', '{$city}', '{$state}', RAND()*(999-1)+5, 'student', '{$token_e}'  ) ";
 
     // execute query
     $register_teacher_query = mysqli_query($connection, $query);
@@ -136,6 +136,27 @@ if (isset($_POST['add_student'])) {
         'parent_id' => $_SESSION['parent_id']
       ];
       $token = register_lighting_round($data_register_lightning_round);
+
+      // Historial API REGISTER STUDENT
+      // $dataLogin = array(
+      //   "email" => "ali@gmail.com",
+      //   "password" => "1234"
+      // );
+
+      // $dataStudent = [
+      //   'name' => $username." ".$lastname,
+      //   'img' => $img,
+      //   'email' => $email,
+      //   'password' => $_POST['password'],
+      //   'country_id' => 1,
+      //   'parent_id' => $_SESSION['parent_id'],
+      //   'city_id' => $city,
+      //   'state_id' => $zip,
+      //   'teached_id' => $_SESSION['teacher_id']
+      // ];
+
+      // $tokenHistorical = loginHistorical($data);
+      // $responsepHistorial = registerHistoricalStudent($dataStudent,$tokenHistorical);
 
       $query = "UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
       $update = mysqli_query($connection, $query);
@@ -197,20 +218,46 @@ if (isset($_POST['add_student'])) {
       </div>
       <div class="modal-body">
         <form method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
-          <div class="row">
-            <div class="">
-              <div class="form-group">
-                <div class="avatar-images">
-                  <?php foreach ($avatar_images as $img) : ?>
-                    <label>
-                      <input type="radio" name="img" value="<?php echo basename($img); ?>" required>
-                      <img src="<?php echo $img; ?>" alt="<?php echo basename($img); ?>">
-                    </label>
-                  <?php endforeach; ?>
-                </div>
+        <div class="row">
+              <div class="">
+                <div class="form-group">
+                  <label>Select an avatar:</label>
+                  <div class="avatar-images">
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_1.png" alt="Avatar Image 1">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_2.png" alt="Avatar Image 2>">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_3.png" alt="Avatar Image 3">
+                          </label>
+                          <label>
+                              <input type="radio" name="img" value="">
+                              <img src="./assets/img/avatars/avatar_4.png" alt="Avatar Image 4">
+                          </label>
+                  </div>
               </div>
 
-            </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="">
+                <div class="form-group">
+                  <label>Upload your own avatar:</label>
+                  <div class="avatar-images">
+                          <label>
+                            <input type="file" name="img" value="" id="imageInput" onchange="previewFile(event)">
+                            <img id="previewImage" src="./assets/img/avatars/default-avatar.png" alt="Default Avatar Image">
+                        </label>
+                  </div>
+              </div>
+
+              </div>
           </div>
           <div class="form-row">
             <div class="col-md-6 mb-3">

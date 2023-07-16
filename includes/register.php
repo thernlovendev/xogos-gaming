@@ -29,6 +29,7 @@ $address   = "";
 $city      = "";
 $state     = "";
 $zip       = "";
+$img       = "";
 
 session_start(); // Start the session
 
@@ -45,6 +46,11 @@ if (isset($_POST['add_user'])) {
   $state           = $_POST['state'];
   $zip             = $_POST['zip'];
 
+  $img      = $_FILES['img']['name'];
+  $img_temp = $_FILES['img']['tmp_name'];
+
+    move_uploaded_file($img_temp, "../admin/assets/img/avatars/$img");
+
   $_SESSION['form_data'] = array(
     'firstname' => $firstname,
     'lastname' => $lastname,
@@ -54,7 +60,8 @@ if (isset($_POST['add_user'])) {
     'address' => $address,
     'city' => $city,
     'state' => $state,
-    'zip' => $zip
+    'zip' => $zip,
+    'img' => $img
   );
 
   if (!empty($username) && !empty($firstname) && !empty($lastname) && !empty($email) && !empty($password) && !empty($repeat_password)) {
@@ -119,8 +126,8 @@ if (isset($_POST['add_user'])) {
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
 
-        $mail->setFrom('contact@thernloven.com', 'Lukas Thern Loven');
-        $mail->addAddress('lukas@thernloven.com');
+        $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
+        $mail->addAddress('noreply.xogos@gmail.com');
 
         $mail->Subject = 'New User Parent';
         $mail->Body = 'New account has been created.';
@@ -138,7 +145,7 @@ if (isset($_POST['add_user'])) {
         $email = $_POST['email'];
         $mail->addAddress($email);
         $mail->Subject = 'Welcome to XOGOS GAMING';
-        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="http://localhost:8888/web-development/xogos-gaming/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
         // Send the email to the user
         if (!$mail->send()) {
@@ -147,8 +154,8 @@ if (isset($_POST['add_user'])) {
         }
 
         // build SQL query
-        $query  = "INSERT INTO users(firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id, token) ";
-        $query .= "VALUES('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}', '{$token}') ";
+        $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, teacher_id, admin_id, token) ";
+        $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$teacher_id}', '{$admin_id}', '{$token}') ";
 
         // execute query
         $register_parent_query = mysqli_query($connection, $query);
@@ -205,7 +212,17 @@ if (isset($_POST['add_user'])) {
           <div class="card-body p-4 p-md-5">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
-            <form method="post" class="needs-validation" novalidate>
+            <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="col-md-4 pr-md-1">
+                <div class="form-group">
+                  <img id="previewImage" style="height: 100px; width: 100px" class="avatar border-gray" src="../admin/assets/img/avatars/default-avatar.png" alt='..'>
+                  <input type="file" class="form-control" name="img" id="imageInput" value="<?php echo $img ?>" onchange="previewFile(event)">
+                  <br>
+                  <label for="imageInput">Select the photo to add or update</label>
+                </div>
+              </div>
+            </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>

@@ -39,6 +39,7 @@
   </div>
   <!--   Core JS Files   -->
   <script src="assets/js/core/jquery.min.js"></script>
+  <script src="assets/js/scripts.js"></script>
   <script src="assets/js/core/popper.min.js"></script>
   <script src="assets/js/core/bootstrap.min.js"></script>
   <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -52,6 +53,22 @@
   <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/scripts.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
   <script src="assets/demo/demo.js"></script>
+ 
+  <?php if ($success) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#successModalKids').modal('show');
+    });
+  </script>
+<?php } ?>
+
+<?php if ($pass_modal) { ?>
+  <script>
+    $(document).ready(function() {
+      $('#passModal').modal('show');
+    });
+  </script>
+<?php } ?>
 
   <!-- Initialize tooltips -->
 <script>
@@ -178,7 +195,54 @@
     });
   </script>
 
-<script src="//code.tidio.co/upmvxogiauiva10luqnnczbbidsq9rlg.js" async></script>
+<script src="//code.tidio.co/cbe0s02d74bhkvjfagrlculfyt01g7fv.js" async></script>
+
+<script>
+function previewFile(event) {
+  var preview = document.getElementById('previewImage');
+  var file = event.target.files[0];
+  var reader = new FileReader();
+
+  reader.onloadend = function() {
+    preview.src = reader.result;
+  }
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = '../admin/assets/img/avatars/default-avatar.png'; // Path to your default image
+  }
+}
+</script>
+
+<script>
+  // Get the radio buttons and file input elements
+  const avatarRadios = document.querySelectorAll('input[type="radio"][name="img"]');
+  const customImgInput = document.querySelector('input[type="file"][name="img"]');
+
+  // Add event listener to the custom image input
+  customImgInput.addEventListener('change', function () {
+    // Deselect all the avatar radios
+    avatarRadios.forEach(radio => {
+      radio.checked = false;
+    });
+  });
+
+  // Add event listeners to the avatar radios
+  avatarRadios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      // Remove the selected file from the custom image input
+      customImgInput.src = null;
+    });
+  });
+</script>
+
+
+
+
+
+
+
 
 </body>
 

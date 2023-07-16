@@ -3,7 +3,7 @@
 <?php
 
 if (!isset($_GET['token'])) {
-    header('Location: ../index.php');
+  header('Location: ../index.php');
 }
 
 $message_suc = "Verification Successful";
@@ -19,18 +19,19 @@ $query = "SELECT * FROM users WHERE token = '{$token}'";
 $result = mysqli_query($connection, $query);
 
 if (mysqli_num_rows($result) > 0) {
-    // Token is valid
-    // Update the verified column to "yes" for the user with the given token
-    $updateQuery = "UPDATE users SET verified = 'yes' WHERE token = '{$token}'";
-    mysqli_query($connection, $updateQuery);
+// Token is valid
+// Update the verified and active columns to "yes" for the user with the given token
+$updateQuery = "UPDATE users SET verified = 'yes', active = 'yes' WHERE token = '{$token}'";
+mysqli_query($connection, $updateQuery);
 
-    // Check if the update was successful
-    if (mysqli_affected_rows($connection) > 0) {
-        // Delete the token from the database
-        $deleteQuery = "UPDATE users SET token = NULL WHERE token = '{$token}'";
-        mysqli_query($connection, $deleteQuery);
-    }
+// Check if the update was successful
+if (mysqli_affected_rows($connection) > 0) {
+    // Delete the token from the database
+    $deleteQuery = "UPDATE users SET token = NULL WHERE token = '{$token}'";
+    mysqli_query($connection, $deleteQuery);
+}
 } else {
+// Token is invalid or not found
 }
 ?>
 
@@ -60,6 +61,7 @@ if (mysqli_num_rows($result) > 0) {
   }
 
 </style>
+
 
 <section class="vh-100 gradient-custom">
   <div class="container py-5 h-100">
@@ -112,7 +114,7 @@ if (mysqli_num_rows($result) > 0) {
       // Perform any action you want after the countdown finishes
       // For example, you can hide the countdown element or show another message
       // Redirect to the desired URL
-      window.location.href = "http://localhost:8888/web-development/xogos-gaming/includes/login.php"; // Replace "http://example.com" with your desired URL
+      window.location.href = "https://myxogos.com/"; // Replace "http://example.com" with your desired URL
     }
   }
 </script>

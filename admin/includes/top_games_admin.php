@@ -18,7 +18,18 @@
         <tr>
             <td class="text-center">1</td>
             <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
-            <td class="text-right">765</td>
+            <?php 
+                        
+                        $query = "SELECT SUM(total_time_lr) AS total_time FROM users";
+                        $select_time = mysqli_query($connection, $query);
+
+                        $row = mysqli_fetch_assoc($select_time);
+                        $total_time_lr = $row['total_time'];
+
+                            echo "<td class='text-right'>$total_time_lr</td>";
+                        
+                        
+                        ?>
         </tr>
         <tr>
             <td class="text-center">2</td>

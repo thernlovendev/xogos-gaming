@@ -37,7 +37,7 @@ if(isset($_POST['login'])) {
     $db_user_role    = $row['user_role'];
     $db_kids_count   = $row['kids_count'];
     $db_email        = $row['email'];
-    $db_total_coins  = $row['total_coins'];
+    $db_total_coins_lr  = $row['total_coins_lr'];
   }
 
 //   $password = crypt($password, $db_user_password);
@@ -55,7 +55,7 @@ if (password_verify($password,$db_password)) {
   $_SESSION['student_id']   = $db_student_id;
   $_SESSION['t_student_id'] = $db_t_student_id;
   $_SESSION['kids_count']   = $db_kids_count;
-  $_SESSION['total_coins']  = $db_total_coins;
+  $_SESSION['total_coins_lr']  = $db_total_coins_lr;
   $_SESSION['email']        = $db_email;
   $data_array_login = [
       'email'=>$db_email,

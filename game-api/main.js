@@ -23,14 +23,14 @@ async function main() {
         if (error) throw error;
         if (results.length > 0) {
           // If the username exists, update the value of coins
-          const updateQuery = `UPDATE users SET total_coins = ${data.coins} WHERE username = '${data.username}'`;
+          const updateQuery = `UPDATE users SET total_coins_lr = ${data.coins} WHERE username = '${data.username}'`;
           pool.query(updateQuery, (error, results) => {
             if (error) throw error;
             console.log(`Updated ${data.username} with ${data.coins} coins`);
           });
         } else {
           // If the username does not exist, insert a new row with the username and coins
-          const insertQuery = `INSERT INTO users (username, total_coins) VALUES ('${data.username}', ${data.coins})`;
+          const insertQuery = `INSERT INTO users (username, total_coins_lr) VALUES ('${data.username}', ${data.coins})`;
           pool.query(insertQuery, (error, results) => {
             if (error) throw error;
             console.log(`Inserted ${data.username} with ${data.coins} coins`);
@@ -49,7 +49,7 @@ async function main() {
         if (error) throw error;
         if (results.length > 0) {
           // If the username exists, update the value of coins
-          const updateQuery = `UPDATE users SET total_time = ? WHERE username = ?`;
+          const updateQuery = `UPDATE users SET total_time_lr = ? WHERE username = ?`;
           console.log(data.game_time, data.username);
           pool.query(
             updateQuery,
@@ -63,7 +63,7 @@ async function main() {
           );
         } else {
           // If the username does not exist, insert a new row with the username and coins
-          const insertQuery = `INSERT INTO users (username, total_time) VALUES ('${data.username}', ${data.game_time})`;
+          const insertQuery = `INSERT INTO users (username, total_time_lr) VALUES ('${data.username}', ${data.game_time})`;
           pool.query(insertQuery, (error, results) => {
             if (error) throw error;
             console.log(

@@ -411,6 +411,19 @@ function confirmQuery($result) {
 
 }
 
+function loggedInUserIdStudent(){
+    if(isLoggedIn()){
+        $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
+        confirmQuery($result);
+        $parent = mysqli_fetch_array($result);
+        if(mysqli_num_rows($result) >= 1) {
+            return $parent['student_id'];
+        }
+    }
+    return false;
+
+}
+
 function loggedInUserIdTeacher(){
     if(isLoggedIn()){
         $result = query("SELECT * FROM users WHERE user_id='" . $_SESSION['user_id'] ."'");
@@ -445,39 +458,48 @@ function count_records($result){
 }
 
 function users_online() {
-
     global $connection;
 
-        $session                 = session_id();
-        $time                    = time();
-        $online_id               = $_SESSION['user_id'];
-        $online_firstname        = $_SESSION['firstname'];
-        $online_img              = $_SESSION['img'];
-        $online_user_role        = $_SESSION['user_role'];
-        $time_out_in_seconds     = 60;
-        $time_out                = $time - $time_out_in_seconds;
+    $session                 = session_id();
+    $time                    = time();
+    $online_id               = $_SESSION['user_id'];
+    $online_parent_id        = $_SESSION['parent_id'];
+    $online_student_id       = $_SESSION['student_id'];
+    $online_teacher_id       = $_SESSION['teacher_id'];
+    $online_t_student_id     = $_SESSION['t_student_id'];
+    $online_firstname        = $_SESSION['firstname'];
+    $online_img              = $_SESSION['img'];
+    $online_user_role        = $_SESSION['user_role'];
+    $time_out_in_seconds     = 60;
+    $time_out                = $time - $time_out_in_seconds;
 
-        $query = "SELECT * FROM users_online WHERE session = '$session' ";
-        $send_query = mysqli_query($connection, $query);
-        $count = mysqli_num_rows($send_query);
+    $query = "SELECT * FROM users_online WHERE session = '$session' ";
+    $send_query = mysqli_query($connection, $query);
+    $count = mysqli_num_rows($send_query);
 
-            if($count == NULL) {
-
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$_SESSION['user_id']}', '{$_SESSION['firstname']}', '{$_SESSION['img']}', '{$_SESSION['user_role']}')");
-
-
-            } else {
-
-            mysqli_query($connection, "UPDATE users_online SET time = '$time' WHERE session = '$session'");
-
-
-            }
-
-        $users_online_query =  mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND online_id != {$_SESSION['user_id']} ");
-        return $count_user = mysqli_num_rows($users_online_query);
-
-
+    if ($count == NULL) {
+        if ($online_student_id !== NULL && $online_parent_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } elseif ($online_student_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } elseif ($online_parent_id !== NULL) {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        } else {
+            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+        }
+    } else {
+        mysqli_query($connection, "UPDATE users_online SET time = '$time', online_teacher_id = NULLIF('{$online_teacher_id}', ''), online_t_student_id = NULLIF('{$online_t_student_id}', '') WHERE session = '$session'");
     }
+
+    $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND (online_id != $online_id)");
+    return $count_user = mysqli_num_rows($users_online_query);
+}
+
+
+
+
+
+
 
 function print_users_online(){
     global $connection;   
@@ -524,6 +546,130 @@ function update_kids_count(){
 
     }
     return false;
+}
+
+function loginHistorical($data_array)
+{
+    $data = array(
+        "std_email" => $data_array['email'],
+        "std_pass" => $data_array['password']
+    );
+    // URL endpoint API
+    $url = 'https://timequest.huntthepast.com/colyseuss/login';
+    // Prepare Request
+    $ch = curl_init();
+    curl_setopt_array($ch, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => json_encode($data),
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen(json_encode($data))
+        )
+    ));
+    // Execute Request
+    $response = curl_exec($ch);
+    $response = json_decode($response);
+    // Periksa apakah ada kesalahan dalam permintaan
+    if (curl_errno($ch)) {
+        echo 'Error: ' . curl_error($ch);
+    }
+    // Close Conn
+    curl_close($ch);
+    // Show Respon
+    $token = $response == null ? null : $response->accessToken;
+    return $token;
+}
+
+function registerHistoricalStudent($data_array,$token)
+{
+    // Data to be sent in the request body
+    $data = array(
+        "std_name" => $data_array['name'],
+        "std_pass" => $data_array['password'],
+        "std_email" => $data_array['email'],
+        "img_url" => $data_array['img'],
+        "state_id" => "1",
+        "city_id" => "1",
+        "school_id" => "1",
+        "class_id" => 1,
+        "teacherId" => $data_array['teached_id']
+    );
+
+    // Convert data to JSON format
+    $jsonData = json_encode($data);
+
+    // API endpoint URL
+    $url = 'https://timequest.huntthepast.com/api/student';
+
+
+    // Prepare the request
+    $ch = curl_init();
+
+    curl_setopt_array($ch, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $jsonData,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            "Authorization: $token",
+            'Content-Length: ' . strlen($jsonData)
+        )
+    ));
+
+    // Execute the request and get the response
+    $response = curl_exec($ch);
+
+    // Check for errors in the request
+    if (curl_errno($ch)) {
+        echo 'Error: ' . curl_error($ch);
+    }
+
+    // Close the connection
+    curl_close($ch);
+
+    // Display the API response
+    return json_decode($response);
+}
+
+function editHistoricalStudent($data_array, $accessToken)
+{
+    // Convert data to JSON format
+    $jsonData = json_encode($data_array);
+
+    // API endpoint URL
+    $url = 'https://timequest.huntthepast.com/api/student';
+
+    // Prepare the request
+    $ch = curl_init();
+
+    curl_setopt_array($ch, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => "PUT",
+        CURLOPT_POSTFIELDS => $jsonData,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'token: ' . $accessToken,
+            'Content-Length: ' . strlen($jsonData)
+        )
+    ));
+
+    // Execute the request and get the response
+    $response = curl_exec($ch);
+
+    // Check for errors in the request
+    if (curl_errno($ch)) {
+        echo 'Error: ' . curl_error($ch);
+    }
+
+    // Close the connection
+    curl_close($ch);
+
+    // Return the API response
+    return json_decode($response);
 }
 
 function register_lighting_round($data_array){
@@ -713,4 +859,20 @@ function generatePassword($length = 8) {
   
     return $password;
   }
+
+  //Automatic logout after inactivity
+
+  function checkInactivity($timeoutMinutes, $redirectUrl) {
+    $lastActivity = isset($_SESSION['last_activity']) ? $_SESSION['last_activity'] : 0;
+    $inactiveTime = time() - $lastActivity;
+
+    if ($inactiveTime >= ($timeoutMinutes * 60)) {
+        // Redirect to the specified URL
+        header("Location: $redirectUrl");
+        exit();
+    }
+
+    $_SESSION['last_activity'] = time();
+}
+
   

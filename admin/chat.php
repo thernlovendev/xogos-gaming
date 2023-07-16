@@ -53,7 +53,7 @@
 						else{
 						   $avtar= $user['img'];
 						}
-						echo '<img id="profile-img" src="chat/userpics/'.$avtar.'" class="online" alt="" />';
+						echo '<img id="profile-img" src="assets/img/avatars/'.$_SESSION['img'].'" class="online" alt="" />';
 						echo  '<p>'.$user['username'].'</p>';
 							echo '<div id="status-options">';
 							echo '<ul>';
@@ -84,10 +84,10 @@
 							$status = 'online';
 						}
 						if($user['img']==""){
-						    $avtar="user6.jpg";
+						    $img="default-avatar.png";
 						}
 						else{
-						   $avtar= $user['img'];
+						   $img= $user['img'];
 						}
 						$activeUser = '';
 						if($user['user_id'] == $currentSession) {
@@ -96,7 +96,7 @@
 						echo '<li id="'.$user['user_id'].'" class="contact '.$activeUser.'" data-touserid="'.$user['user_id'].'" data-tousername="'.$user['username'].'">';
 						echo '<div class="wrap">';
 						echo '<span id="status_'.$user['user_id'].'" class="contact-status '.$status.'"></span>';
-						echo '<img src="chat/userpics/'.$avtar.'" alt="" />';
+						echo '<img src="assets/img/avatars/'.$img.'" alt="" />';
 						echo '<div class="meta">';
 						echo '<p class="name">'.$user['username'].'<span id="unread_'.$user['user_id'].'" class="unread">'.$chat->getUnreadMessageCount($user['user_id'], $_SESSION['user_id']).'</span></p>';
 						echo '<p class="preview"><span id="isTyping_'.$user['user_id'].'" class="isTyping"></span></p>';

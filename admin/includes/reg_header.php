@@ -2,6 +2,7 @@
 <?php include "functions.php" ?>
 <?php ob_start(); ?>
 <?php session_start(); ?>
+<?php $DOMAIN = "http://localhost:8888/web-development/xogos-gaming/"; ?>
 
 <?php 
 

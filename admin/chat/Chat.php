@@ -3,8 +3,8 @@ class Chat{
     
   
     private $host  = 'localhost';
-    private $user  = 'thernloven';
-    private $password   = 'root';
+    private $user  = 'admin';
+    private $password   = '52a6d848b3a02dec4792ba937d3a98f810a5b446af4da5d1';
     private $database  = "xogos";      
     private $chatTable = 'chat';
 	private $chatUsersTable = 'users';
@@ -177,10 +177,10 @@ else{
 			$user_name = '';
 			if($chat["sender_userid"] == $from_user_id) {
 				$conversation .= '<li class="sent">';
-				$conversation .= '<img width="22px" height="22px" src="chat/userpics/'.$fromUserAvatar.'" alt="" />';
+				// $conversation .= '<img width="22px" height="22px" src="./assets/img/'.$fromUserAvatar.'" alt="" />';
 			} else {
 				$conversation .= '<li class="replies">';
-				$conversation .= '<img width="22px" height="22px" src="chat/userpics/'.$toUserAvatar.'" alt="" />';
+				// $conversation .= '<img width="22px" height="22px" src="chat/userpics/'.$toUserAvatar.'" alt="" />';
 			}			
 			$conversation .= '<p>'.$chat["message"].'</p>';			
 			$conversation .= '</li>';

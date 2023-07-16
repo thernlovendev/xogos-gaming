@@ -22,7 +22,7 @@
               <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="photo">
-                    <img src="assets/img/avatars/<?php echo $_SESSION['img'] ?>" alt="Profile Photo">
+                    <img src="./assets/img/avatars/<?php echo $_SESSION['img'] ?>" alt="Profile Photo">
                   </div>
                   <b class="caret d-none d-lg-block d-xl-block"></b>
                   <p class="d-lg-none">
@@ -30,9 +30,12 @@
                   </p>
                 </a>
                 <ul class="dropdown-menu dropdown-navbar">
-                  <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Profile</a></li>
-                  <li class="nav-link"><a href="javascript:void(0)" class="nav-item dropdown-item">Settings</a></li>
+                <?php if(is_parent()): ?>
+                  <li class="nav-link"><a href="./add_extra_parent.php" class="nav-item dropdown-item">Add Extra Parent</a></li>
+                  <?php endif ?>
+                  <li class="nav-link"><a href="./user.php" class="nav-item dropdown-item" name="user">User Account</a></li>
                   <li class="dropdown-divider"></li>
+                  <li class="nav-link"><a href="./open_ticket.php" class="nav-item dropdown-item" name="user">Open Ticket</a></li>
                   <li class="nav-link"><a href="../includes/logout.php" class="nav-item dropdown-item" name="logout">Log out</a></li>
                 </ul>
               </li>
