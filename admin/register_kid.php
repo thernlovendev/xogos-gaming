@@ -280,7 +280,7 @@ if(isset($_POST['add_student'])) {
               </div>
           </div> -->
 
-          <div class="row">
+          <!-- <div class="row">
               <div class="">
                 <div class="form-group">
                   <label>Upload your own avatar:</label>
@@ -293,7 +293,7 @@ if(isset($_POST['add_student'])) {
               </div>
 
               </div>
-          </div>
+          </div> -->
           
               <div class="form-row">
                 <div class="col-md-6 mb-3">
