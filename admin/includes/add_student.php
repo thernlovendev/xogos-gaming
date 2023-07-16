@@ -54,6 +54,28 @@ if(isset($_POST['add_student'])) {
     $query="UPDATE users SET token_lr='{$token}' WHERE username='{$username}'";
     $update= mysqli_query($connection, $query); 
 
+
+    // Historial API REGISTER STUDENT
+    // $dataLogin = array(
+    //   "email" => "ali@gmail.com",
+    //   "password" => "1234"
+    // );
+    
+    // $dataStudent = [
+    //   'name' => $username." ".$lastname,
+    //   'img' => $img,
+    //   'email' => $email,
+    //   'password' => $_POST['password'],
+    //   'country_id' => 1,
+    //   'parent_id' => $_SESSION['parent_id'],
+    //   'city_id' => $city,
+    //   'state_id' => $zip,
+    //   'teached_id' => $_SESSION['teacher_id']
+    // ];
+    
+    // $tokenHistorical = loginHistorical($data);
+    // $responsepHistorial = registerHistoricalStudent($dataStudent,$tokenHistorical);
+
     $message = "Your registration was successful";
 
   } else {
