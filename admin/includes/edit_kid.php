@@ -108,6 +108,24 @@ if(!empty($password)) {
         confirm($edit_user_query);
           update_kids_count();
     update_kids_count_byteacher();
+
+      // Historial API REGISTER STUDENT
+      // $dataLogin = array(
+      //   "email" => "ali@gmail.com",
+      //   "password" => "1234"
+      // );
+      // $tokenHistorical = loginHistorical($data);
+
+      // $dataStudent = array(
+      //   "student_id" => $the_user_id,
+      //   "student_name" => $firstname." ".$lastname,
+      //   "student_email" => $email,
+      //   "img_url" => "$img",
+      //   "schoolId" => 3 // default because i dont found school_id
+      // );
+
+      // editHistoricalStudent($dataStudent, $tokenHistorical)
+
         
         $message = "Profile Updated!";
 
