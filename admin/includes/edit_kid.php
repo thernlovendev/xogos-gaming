@@ -32,7 +32,7 @@ if(isset($_GET['edit_student'])) {
 
 if(isset($_POST['edit_user'])) {
 
-  $firstname = escpae($_POST['firstname']);
+  $firstname = escape($_POST['firstname']);
   $lastname  = escape($_POST['lastname']);
   $email     = escape($_POST['email']);
   $phone     = escape($_POST['phone']);

@@ -578,7 +578,7 @@ function loginHistorical($data_array)
     // Close Conn
     curl_close($ch);
     // Show Respon
-    $token = $response == null ? null : $response->accessToken;
+    $token = $response == null ? null : $response;
     return $token;
 }
 
