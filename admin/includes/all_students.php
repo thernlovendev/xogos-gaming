@@ -54,12 +54,19 @@
                    if(isset($_GET['delete'])) {
 
                     $user_id = $_GET['delete'];
+                    
+                    $query = "SELECT * FROM users WHERE user_id = '$user_id'";
+                    $selected_student = mysqli_query($connection, $query);
+                    $data_user = mysqli_fetch_assoc($selected_student);
+                    $data_array = ['username'=> $data_user['username']];
+                    $tokendelete = deleteUserFromLightningRound($data_array);
 
                     $query = "DELETE FROM users WHERE user_id = {$user_id}";
                     $delete_query = mysqli_query($connection, $query);
                     update_kids_count();
                     update_kids_count_byteacher();
                     header("Location: students.php");
+
 
 
                    }
