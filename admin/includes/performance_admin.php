@@ -7,7 +7,7 @@ $total_coins_lr_data = array();
 // Loop through each month
 for ($month = 1; $month <= 12; $month++) {
     // Prepare the SQL query to fetch total_coins_lr for the current month
-    $total_coins_query = "SELECT total_coins_lr FROM lightninground WHERE MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
+    $total_coins_query = "SELECT CASE WHEN SUM(total_coins_lr) IS NULL THEN 0 ELSE SUM(total_coins_lr) END as total_coins_lr FROM lightninground WHERE MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
 
     $select_student = mysqli_query($connection, $total_coins_query);
     $row = mysqli_fetch_assoc($select_student);
