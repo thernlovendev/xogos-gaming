@@ -6,7 +6,6 @@
     "password" => "1234"
   );
   $tokenHistorical = loginHistorical($dataLogin);
-  var_dump($tokenHistorical);
 ?>
 <?php include "includes/sidebar.php" ?>
 <?php include "includes/navbar.php" ?>
@@ -29,10 +28,10 @@
       <?php include "includes/top_players.php" ?>
 
       <?php if(is_student() OR is_parent() OR is_teacher() ): ?>
-      <?php include "includes/top_games_admin.php" ?>
+      <?php include "includes/top_games.php" ?>
       <?php endif ?>
       <?php if(is_admin()): ?>
-      <?php include "includes/top_games.php" ?>
+      <?php include "includes/top_games_admin.php" ?>
       <?php endif ?>          
         </div>
       </div>

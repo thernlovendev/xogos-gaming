@@ -20,7 +20,7 @@
             <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
             <?php 
                         
-                        $query = "SELECT SUM(total_time_lr) AS total_time FROM users";
+                        $query = "SELECT HOUR(SEC_TO_TIME(SUM(TIME_TO_SEC(timestamp_lr)))) AS total_time FROM lightninground WHERE YEAR(timestamp_lr) = 2023;";
                         $select_time = mysqli_query($connection, $query);
 
                         $row = mysqli_fetch_assoc($select_time);
