@@ -30,13 +30,13 @@
                             <td>2</td>
                             <td><img src="assets/img/historical-conquest.jpg" alt="" style="width:125px; height:auto;"></td>
                             <td>Historical Conquest</td>
-                            <td class='text-right'><a href=''>Play</a></td>
+                            <td class='text-right'><a href='http://historicalconquest.aden.digital/public/web/'>Play</a></td>
                           </tr>
                           <tr>
                             <td>3</td>
                             <td><img src="assets/img/time-quest.jpg" alt="" style="width:125px; height:auto;"></td>
                             <td>Time Quest</td>
-                            <td class='text-right'><a href=''>Play</a></td>
+                            <td class='text-right'><a href='https://timequest.huntthepast.com/'>Play</a></td>
                           </tr>
                 
                    </tbody>
