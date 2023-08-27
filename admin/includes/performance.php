@@ -1,5 +1,6 @@
 <?php
 $session_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 
 // Initialize an array to store the total_coins_lr values for each month
 $total_coins_lr_data = array();
@@ -7,7 +8,28 @@ $total_coins_lr_data = array();
 // Loop through each month
 for ($month = 1; $month <= 12; $month++) {
     // Prepare the SQL query to fetch total_coins_lr for the current month
-    $total_coins_query = "SELECT CASE WHEN SUM(total_coins_lr) IS NULL THEN 0 ELSE SUM(total_coins_lr) END as total_coins_lr FROM lightninground WHERE user_id = $session_id AND MONTH(timestamp_lr) = $month AND YEAR(timestamp_lr) = 2023";
+    $total_coins_query = "SELECT
+    CASE
+      WHEN
+        SUM( gd.game_coins ) IS NULL THEN
+          0 ELSE SUM( gd.game_coins ) 
+          END AS total_coins_lr 
+      FROM
+        gamedata gd
+        JOIN (
+        SELECT
+          username,
+          MAX( update_at ) AS last_update 
+        FROM
+          gamedata 
+        WHERE
+          YEAR ( update_at ) = 2023 
+          AND MONTH ( update_at ) = $month 
+          AND username = '$username'
+        GROUP BY
+          username 
+        ) last_updates ON gd.username = last_updates.username 
+      AND gd.update_at = last_updates.last_update;";
 
     $select_student = mysqli_query($connection, $total_coins_query);
     $row = mysqli_fetch_assoc($select_student);

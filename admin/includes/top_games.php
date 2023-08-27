@@ -19,12 +19,31 @@
               <td class="text-center">1</td>
               <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
               <?php
-
-              $query = "SELECT HOUR(SEC_TO_TIME(SUM(TIME_TO_SEC(timestamp_lr)))) AS total_time FROM lightninground WHERE user_id = $session_id AND YEAR(timestamp_lr) = 2023;";
+              $username = $_SESSION['username'];
+              $query = "SELECT
+              CASE
+                WHEN
+                  SUM( gd.game_time ) IS NULL THEN
+                    0 ELSE SUM( gd.game_time ) 
+                    END AS total_time_lr 
+                FROM
+                  gamedata gd
+                  JOIN (
+                  SELECT
+                    username,
+                    MAX( update_at ) AS last_update 
+                  FROM
+                    gamedata 
+                  WHERE
+                    YEAR ( update_at ) = 2023 AND username = $username
+                  GROUP BY
+                    username 
+                  ) last_updates ON gd.username = last_updates.username 
+                AND gd.update_at = last_updates.last_update;";
               $select_time = mysqli_query($connection, $query);
 
               $row = mysqli_fetch_assoc($select_time);
-              $total_time_lr = $row['total_time'];
+              $total_time_lr = ($row['total_time_lr'] - ($row['total_time_lr'] % 60)) / 60;
 
               echo "<td class='text-right'>$total_time_lr</td>";
 
