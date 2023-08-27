@@ -20,26 +20,7 @@
               <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Lightning Round</a></td>
               <?php
               $username = $_SESSION['username'];
-              $query = "SELECT
-              CASE
-                WHEN
-                  SUM( gd.game_time ) IS NULL THEN
-                    0 ELSE SUM( gd.game_time ) 
-                    END AS total_time_lr 
-                FROM
-                  gamedata gd
-                  JOIN (
-                  SELECT
-                    username,
-                    MAX( update_at ) AS last_update 
-                  FROM
-                    gamedata 
-                  WHERE
-                    YEAR ( update_at ) = 2023 AND username = $username
-                  GROUP BY
-                    username 
-                  ) last_updates ON gd.username = last_updates.username 
-                AND gd.update_at = last_updates.last_update;";
+              $query = "SELECT CASE WHEN SUM( gd.game_time ) IS NULL THEN 0 ELSE SUM( gd.game_time )  END AS total_time_lr  FROM gamedata gd JOIN ( SELECT username, MAX( update_at ) AS last_update  FROM gamedata  WHERE YEAR ( update_at ) = 2023 AND username = '".$username."' GROUP BY username  ) last_updates ON gd.username = last_updates.username AND gd.update_at = last_updates.last_update";
               $select_time = mysqli_query($connection, $query);
               $row = $select_time ? mysqli_fetch_assoc($select_time) : ['total_time_lr'=>0];
               $total_time_lr = ($row['total_time_lr'] - ($row['total_time_lr'] % 60)) / 60;
