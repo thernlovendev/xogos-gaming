@@ -473,23 +473,24 @@ function users_online() {
     $time_out_in_seconds     = 60;
     $time_out                = $time - $time_out_in_seconds;
 
-    $query = "SELECT * FROM users_online WHERE session = '$session' ";
-    $send_query = mysqli_query($connection, $query);
-    $count = mysqli_num_rows($send_query);
+    $query = "DELETE FROM users_online WHERE users_online.id = $online_id;";
+    mysqli_query($connection, $query);
+    // $count = mysqli_num_rows($send_query);
 
-    if ($count == NULL) {
-        if ($online_student_id !== NULL && $online_parent_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
-        } elseif ($online_student_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
-        } elseif ($online_parent_id !== NULL) {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
-        } else {
-            mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
-        }
+    // if ($count == NULL) {
+    if ($online_student_id !== NULL && $online_parent_id !== NULL) {
+        mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+    } elseif ($online_student_id !== NULL) {
+        mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_student_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_student_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
+    } elseif ($online_parent_id !== NULL) {
+        mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_parent_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', '{$online_parent_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
     } else {
-        mysqli_query($connection, "UPDATE users_online SET time = '$time', online_teacher_id = NULLIF('{$online_teacher_id}', ''), online_t_student_id = NULLIF('{$online_t_student_id}', '') WHERE session = '$session'");
+        mysqli_query($connection, "INSERT INTO users_online(session, time, online_id, online_teacher_id, online_t_student_id, online_firstname, online_img, online_user_role) VALUES('{$session}', '{$time}', '{$online_id}', NULLIF('{$online_teacher_id}', ''), NULLIF('{$online_t_student_id}', ''), '{$online_firstname}', '{$online_img}', '{$online_user_role}')");
     }
+    // } 
+    // else {
+    //     mysqli_query($connection, "UPDATE users_online SET time = '$time', online_teacher_id = NULLIF('{$online_teacher_id}', ''), online_t_student_id = NULLIF('{$online_t_student_id}', '') WHERE online_id = '$online_id'");
+    // }
 
     $users_online_query = mysqli_query($connection, "SELECT * FROM users_online WHERE time > '$time_out' AND (online_id != $online_id)");
     return $count_user = mysqli_num_rows($users_online_query);
