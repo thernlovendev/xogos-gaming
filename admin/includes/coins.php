@@ -28,7 +28,14 @@
     <div class="card card-chart">
       <div class="card-header">
         <h5 class="card-category">Coins Available</h5>
-        <h3 class="card-title text-bold"><i class="tim-icons icon-coins text-info"></i><?php echo $_SESSION['total_coins_lr']; ?></h3>
+        <?php
+          $username = $_SESSION['username'];
+          $query="SELECT game_coins FROM gamedata WHERE username='$username' ORDER BY update_at DESC LIMIT 1";
+          $data = mysqli_query($connection, $query);
+          $array = mysqli_fetch_assoc($data);
+          $coins = mysqli_fetch_assoc($data) == null ? 0 : $array[0]['"game_coins'];
+        ?>
+        <h3 class="card-title text-bold"><i class="tim-icons icon-coins text-info"></i><?php echo $coins ?></h3>
       </div>
     </div>
     <?php endif ?>
