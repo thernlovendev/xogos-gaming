@@ -3,9 +3,9 @@ const axios = require("axios");
 
 // Create a connection pool
 const pool = mysql.createPool({
-  host: "localhost",
-  user: "admin",
-  password: "52a6d848b3a02dec4792ba937d3a98f810a5b446af4da5d1",
+  host: "0.0.0.0",
+  user: "thernloven",
+  password: "root",
   database: "xogos",
 });
 function convertToSeconds(time) {
