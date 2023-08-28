@@ -473,7 +473,7 @@ function users_online() {
     $time_out_in_seconds     = 60;
     $time_out                = $time - $time_out_in_seconds;
 
-    $query = "DELETE FROM users_online WHERE users_online.id = $online_id;";
+    $query = "DELETE FROM users_online WHERE users_online.online_id = '".$online_id."'";
     mysqli_query($connection, $query);
     // $count = mysqli_num_rows($send_query);
 
