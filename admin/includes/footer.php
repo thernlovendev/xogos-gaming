@@ -223,7 +223,11 @@
 <script>
   $(document).ready(function() {
     // Javascript method's body can be found in assets/js/demos.js
-    demo.initDashboardPageCharts();
+    demo.initDashboardPageCharts("1");
+    $('input[type=radio][name=options]').change(function() {
+      var selectedValue = $('input[type=radio][name=options]:checked').val();
+      demo.initDashboardPageCharts(selectedValue);
+    });
 
   });
 </script>
