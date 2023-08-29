@@ -32,12 +32,12 @@
             </tr>
             <tr>
               <td class="text-center">2</td>
-              <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Historical Conquest</a></td>
+              <td><a href='http://historicalconquest.aden.digital/public/web/'>Historical Conquest</a></td>
               <td class="text-right">402</td>
             </tr>
             <tr>
               <td class="text-center">3</td>
-              <td><a href='https://lightninground.rocks/?token=<?php echo $_SESSION['token_LR']; ?>'>Time Quest</a></td>
+              <td><a href='https://timequest.huntthepast.com/'>Time Quest</a></td>
               <td class="text-right">236</td>
             </tr>
           </tbody>
