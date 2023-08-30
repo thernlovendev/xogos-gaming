@@ -70,6 +70,15 @@
 
           <?php if(is_admin()): ?>
           <li>
+            <a href="contractors.php">
+              <i class="tim-icons icon-attach-87"></i>
+              <p>Contractors</p>
+            </a>
+          </li>
+          <?php endif ?>
+
+          <?php if(is_admin()): ?>
+          <li>
             <a href="classes.php">
               <i class="tim-icons icon-globe-2"></i>
               <p>Classes</p>
@@ -85,18 +94,30 @@
             </a>
           </li>
           <?php endif ?>
+          <?php if(is_teacher() OR is_student() OR is_parent() OR is_admin() ): ?>
           <li>
             <a href="all_games.php">
               <i class="tim-icons icon-controller"></i>
               <p>All Games</p>
             </a>
           </li>
+          <?php endif ?>
+          <?php if(is_contractor()): ?>
+          <li>
+            <a href="my_games.php">
+              <i class="tim-icons icon-controller"></i>
+              <p>My Games</p>
+            </a>
+          </li>
+          <?php endif ?>
+          <?php if(is_teacher() OR is_student() OR is_parent() OR is_admin() ): ?>
           <li>
             <a href="chat.php">
               <i class="tim-icons icon-single-02"></i>
               <p>Chat</p>
             </a>
           </li>
+          <?php endif ?>
           <!-- <li>
             <a href="examples/icons.html">
               <i class="tim-icons icon-atom"></i>

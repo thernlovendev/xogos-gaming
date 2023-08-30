@@ -364,6 +364,19 @@ function is_admin() {
     return false;
 }
 
+function is_contractor() {
+    if(isLoggedIn()){
+        $result = query("SELECT user_role FROM users WHERE user_id=".$_SESSION['user_id']."");
+        $row = fetchRecords($result);
+        if($row['user_role'] == 'contractor'){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    return false;
+}
+
 //===== END AUTHENTICATION HELPERS =====//
 
 function isLoggedIn(){

@@ -34,7 +34,7 @@ error_reporting(E_ALL);
       // Redirect to the login page
       header("Location: ../includes/login.php");
       exit();
-    } elseif($user_role !== 'student' && $user_role !== 'admin' && $kids_count < 1) {
+    } elseif($user_role !== 'student' && $user_role !== 'admin' && $user_role !== 'contractor' && $kids_count < 1) {
       header("Location: ../stripe-one/checkout.php");
       exit();
     }

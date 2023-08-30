@@ -31,6 +31,7 @@ if(isset($_POST['login'])) {
     $db_t_student_id = $row['t_student_id'];
     $db_username     = $row['username'];
     $db_password     = $row['password'];
+    $db_company      = $row['company'];
     $db_firstname    = $row['firstname'];
     $db_lastname     = $row['lastname'];
     $db_img          = $row['img'];
@@ -45,6 +46,7 @@ if(isset($_POST['login'])) {
 if (password_verify($password,$db_password)) {
 
   $_SESSION['user_id']      = $db_user_id;
+  $_SESSION['company']      = $db_company;
   $_SESSION['username']     = $db_username;
   $_SESSION['firstname']    = $db_firstname;
   $_SESSION['lastname']     = $db_lastname;

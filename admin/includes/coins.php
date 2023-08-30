@@ -43,7 +43,12 @@
   <div class="overlay"></div> <!-- Added overlay div -->
   <div class="card-header" style="position: relative; z-index: 2;">
     <h5 class="card-category">Welcome</h5>
+    <?php if(is_student() OR is_parent() OR is_teacher() OR is_admin()): ?>
     <h3 class="card-title"><?php echo $_SESSION['firstname']; ?></h3>
+    <?php endif ?>
+    <?php if(is_contractor()): ?>
+      <h3 class="card-title"><?php echo $_SESSION['company']; ?></h3>
+      <?php endif ?>
   </div>
   <div class="card-body" style="height: 150px; position: relative;">
     <div class="chart-area">
