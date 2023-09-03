@@ -20,6 +20,7 @@ $message          = "";
 $message_username = "";
 $message_email    = "";
 
+$company   = "";
 $firstname = "";
 $lastname  = "";
 $email     = "";
@@ -34,6 +35,7 @@ $img       = "";
 session_start(); // Start the session
 
 if (isset($_POST['add_user'])) {
+  $company         = $_POST['company'];
   $firstname       = $_POST['firstname'];
   $lastname        = $_POST['lastname'];
   $email           = $_POST['email'];
@@ -90,6 +92,7 @@ if (isset($_POST['add_user'])) {
         } else {
 
         // sanitize inputs
+        $company   = mysqli_real_escape_string($connection, $company);
         $firstname = mysqli_real_escape_string($connection, $firstname);
         $lastname  = mysqli_real_escape_string($connection, $lastname);
         $email     = mysqli_real_escape_string($connection, $email);
@@ -105,7 +108,7 @@ if (isset($_POST['add_user'])) {
         $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
         // generate random values for parent_id, teacher_id, and admin_id columns
-        $parent_id  = rand(1, 999);
+        $contractor_id  = rand(1, 999);
 
         // generate token
         $length = 50;
@@ -152,8 +155,8 @@ if (isset($_POST['add_user'])) {
         }
 
         // build SQL query
-        $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, token) ";
-        $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$token}') ";
+        $query  = "INSERT INTO users(img, company, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, contractor_id, token) ";
+        $query .= "VALUES('{$img}', '{$company}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}', '{$address}', '{$city}', '{$state}', '{$zip}', 'contractor', '{$contractor_id}', '{$token}') ";
 
         // execute query
         $register_parent_query = mysqli_query($connection, $query);
@@ -208,7 +211,7 @@ if (isset($_POST['add_user'])) {
       <div class="col-12 col-lg-9 col-xl-7" style="padding-bottom: 50px;">
         <div class="card shadow-5-strong card-registration" style="border-radius: 15px; border:solid 1px; border-color: #C153ED; background-color: #27293D">
           <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register Contractor</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
             <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="form-row">
@@ -222,6 +225,10 @@ if (isset($_POST['add_user'])) {
               </div>
             </div>
               <div class="form-row">
+              <div class="col-md-6 mb-3">
+                  <label for="validationCustom01">Company</label>
+                  <input type="text" name="company" class="form-control" id="validationCustom01" value="<?php echo $company ?>" required>
+                </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom01">First name</label>
                   <input type="text" name="firstname" class="form-control" id="validationCustom01" value="<?php echo $firstname ?>" required>

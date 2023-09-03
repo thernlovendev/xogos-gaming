@@ -105,7 +105,7 @@ if (isset($_POST['add_user'])) {
         $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 
         // generate random values for parent_id, teacher_id, and admin_id columns
-        $parent_id  = rand(1, 999);
+        $teacher_id = rand(1, 999);
 
         // generate token
         $length = 50;
@@ -127,7 +127,7 @@ if (isset($_POST['add_user'])) {
         $mail->setFrom('noreply.xogos@gmail.com', 'XOGOS GAMING');
         $mail->addAddress('noreply.xogos@gmail.com');
 
-        $mail->Subject = 'New User Parent';
+        $mail->Subject = 'New User Teacher';
         $mail->Body = 'New account has been created.';
 
         // Send the email to the admin
@@ -143,7 +143,7 @@ if (isset($_POST['add_user'])) {
         $email = $_POST['email'];
         $mail->addAddress($email);
         $mail->Subject = 'Welcome to XOGOS GAMING';
-        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your kids, please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
+        $mail->Body = 'Thank you for signing up to XOGOS GAMING. To continue adding your students, please click the following link to verify your email: <a href="https://myxogos.com/includes/verify.php?token=' . $token . '">Verify Email</a></p>';
 
         // Send the email to the user
         if (!$mail->send()) {
@@ -152,8 +152,8 @@ if (isset($_POST['add_user'])) {
         }
 
         // build SQL query
-        $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, token) ";
-        $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$token}') ";
+        $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, teacher_id, token) ";
+        $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'teacher', '{$teacher_id}', '{$admin_id}', '{$token}') ";
 
         // execute query
         $register_parent_query = mysqli_query($connection, $query);
@@ -208,7 +208,7 @@ if (isset($_POST['add_user'])) {
       <div class="col-12 col-lg-9 col-xl-7" style="padding-bottom: 50px;">
         <div class="card shadow-5-strong card-registration" style="border-radius: 15px; border:solid 1px; border-color: #C153ED; background-color: #27293D">
           <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register Teacher</h3>
             <h5 class="mb-4 pb-2 pb-md-0 mb-md-5">Personal Information</h5>
             <form method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="form-row">
