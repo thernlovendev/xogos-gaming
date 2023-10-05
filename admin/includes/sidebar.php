@@ -118,6 +118,11 @@
             </a>
           </li>
           <?php endif ?>
+          <?php include "join_affiliate.php" ?>
+          <li style="text-align:center">
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newAffiliate">Join Affiliate</button>
+          </li>
+
           <!-- <li>
             <a href="examples/icons.html">
               <i class="tim-icons icon-atom"></i>
