@@ -53,41 +53,17 @@ if(isset($_POST['add_students'])) {
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="newAffiliate">Add Students</h5>
+        <h5 class="modal-title" id="newAffiliate">Join Affiliate</h5>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="tim-icons icon-simple-remove"></i>
         </button>
       </div>
       <div class="modal-body">
-      <form action="" method="post" enctype="multipart/form-data">
-                  <div class="row">
-                    <div class="col-md-12 pr-md-1">
-                      <div class="form-group">
-                      <input type="hidden" name="class_id" id="class_id" value="<?php echo $class_id ?>">
-                    <select multiple name="student_id[]" class="form-control" id="student_id">
-                    <?php 
-            
-                    $query = "SELECT * FROM users where user_role = 'student' ORDER BY student_id DESC";
-                    $select_user = mysqli_query($connection, $query);
-
-                    while ($row = mysqli_fetch_assoc($select_user)) {
-                    $user_id = $row['user_id'];
-                    $firstname = $row['firstname'];
-                
-                    echo "<option class='input-modal' value='{$user_id}'>{$firstname}</option>";
-
-                      }
-                
-                    ?>
-                    </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
+        Some text
+        <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" id="add-students-btn" class="btn btn-primary" name="add_students" value="Add Student">
+        <input type="submit" id="add-students-btn" class="btn btn-primary" name="add_students" value="Become Affiliate">
       </div>
-                </form>
       </div>
     </div>
   </div>
