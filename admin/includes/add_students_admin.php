@@ -136,13 +136,7 @@ if (isset($_POST['add_student'])) {
         'parent_id' => $_SESSION['parent_id']
       ];
       $token = register_lighting_round($data_register_lightning_round);
-
-      // Historial API REGISTER STUDENT
-      // $dataLogin = array(
-      //   "email" => "ali@gmail.com",
-      //   "password" => "1234"
-      // );
-
+      
       $dataForTimeQst = [
         'std_name' => $username . " " . $lastname,
         'img_url' => $img ?? '',

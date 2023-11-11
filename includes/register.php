@@ -30,7 +30,8 @@ $city      = "";
 $state     = "";
 $zip       = "";
 $img       = "";
-$affiliated_by = null;
+$unhashedPassword = '';
+$affiliated_by = 0;
 
 session_start();
 
@@ -41,7 +42,7 @@ if (isset($_GET['by_user'])) {
   $result = mysqli_query($connection, $query);
 
   if ($result && mysqli_num_rows($result) > 0) {
-    $affiliated_by = $by_user_id ?? null;
+    $affiliated_by = $by_user_id ?? 0;
     $updateQuery = "UPDATE affiliates SET total_clicks = total_clicks + 1 WHERE user_id = $by_user_id";
     $updateResult = mysqli_query($connection, $updateQuery);
   }
@@ -54,6 +55,7 @@ if (isset($_POST['add_user'])) {
   $phone           = $_POST['phone'];
   $username        = str_replace(' ', '', strtolower($_POST['username'])); // convert to lowercase and remove spaces
   $password        = $_POST['password'];
+  $unhashedPassword        = $_POST['password'];
   $repeat_password = $_POST['repeat_password'];
   $address         = $_POST['address'];
   $city            = $_POST['city'];
@@ -167,11 +169,51 @@ if (isset($_POST['add_user'])) {
 
           // build SQL query
 
+          
           $query  = "INSERT INTO users(img, firstname, lastname, email, phone, username, password, address, city, state, zip, user_role, parent_id, token, affiliated_by) ";
           $query .= "VALUES('{$img}', '{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$username}', '{$password}','{$address}', '{$city}', '{$state}', '{$zip}', 'parent', '{$parent_id}', '{$token}', '{$affiliated_by}') ";
 
           // execute query
           $register_parent_query = mysqli_query($connection, $query);
+
+          $data_register_lightning_round = [
+            'username' => $username,
+            'first_name' => $firstname,
+            'last_name' => $lastname,
+            'email' => $email,
+            'password' => $_POST['password'],
+            'password_confirmation' => $_POST['password'],
+            'country_id' => 1,
+            'parent_id' => @$_SESSION['parent_id'] ?? null
+          ];
+          $token = register_lighting_round($data_register_lightning_round);
+          
+          $dataForTimeQst = [
+            'std_name' => $username . " " . $lastname,
+            'img_url' => $img ?? '',
+            'std_email' => $email,
+            'std_pass' => $unhashedPassword,
+          ];
+    
+          $loginData = [
+            'email' => 'superadmin@gmail.com',
+            'password' => '1234'
+          ];
+          $loginResp = loginTimeQuestApi($loginData);
+          $timeQstLoginToken = $loginResp['token']['token'];
+    
+          registerTimeQuest($dataForTimeQst, $timeQstLoginToken);
+    
+          $studentLoginData = [
+            'std_email' => $email,
+            'std_pass' => $unhashedPassword
+          ];
+    
+          $stdLoginResp = loginStudentTimeQuest($studentLoginData);
+          $token_tq = $stdLoginResp['accessToken'];
+      
+          $query = "UPDATE users SET token_lr='{$token}', token_tq='$token_tq' WHERE username='{$username}'";
+          $update = mysqli_query($connection, $query);
 
           if (!$register_parent_query) {
             die("QUERY FAILED" . mysqli_error($connection) . '' . mysqli_errno($connection));
