@@ -1,94 +1,89 @@
 <?php
 
-if(isset($_POST['add_students'])) {
+if (isset($_POST['become_affiliate'])) {
+  // Get the user ID from the session or your authentication system
+  $user_id = $_SESSION['user_id']; // Adjust this according to your actual user session
 
-    // Get the class ID and array of student IDs from the form
-    $class_id   = $_POST['class_id'];
-    $student_id = $_POST['student_id'];
+  // Retrieve the user's kid count from the database
+  $query = "SELECT kids_count FROM users WHERE user_id = $user_id";
+  $result = mysqli_query($connection, $query);
 
-    // Check if class_id is not empty
-    if(!empty($class_id)) {
+  if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $kids_count = $row['kids_count'];
 
-        // Loop through the array of student IDs and insert a new enrollment for each one
-        foreach ($student_id as $student_id) {
+    if ($kids_count > 0) {
+      $updateQuery = "UPDATE users SET is_affiliate = 1 WHERE user_id = $user_id";
+      $updateResult = mysqli_query($connection, $updateQuery);
 
-          // Get the firstname of the student from the users table
-          $query = "SELECT firstname, lastname FROM users WHERE user_id = $student_id";
-          $result = mysqli_query($connection, $query);
-          $row = mysqli_fetch_assoc($result);
-          $firstname = $row['firstname'];
-          $lastname = $row['lastname'];
+      if ($updateResult) {
+        $base_url = (isset($_SERVER['HTTPS'])
+          && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+          . "://" . $_SERVER['HTTP_HOST'];
 
-            $query = "INSERT INTO enrollments (student_id, firstname, lastname, class_id) VALUES ('$student_id', '$firstname', '$lastname', '$class_id')";
-            $add_enrollment_query = mysqli_query($connection, $query);
 
-            if (!$add_enrollment_query) {
-                die("QUERY FAILED" . mysqli_error($connection));
-            }
+        $register_url = $base_url . ($_SERVER['HTTP_HOST'] == 'localhost' ? '/xogos' : '') . '/includes/register.php';
+
+        $user_id = $_SESSION['user_id'];
+        $register_url_with_id = $register_url . '?by_user=' . $user_id;
+
+        $insertQuery = "INSERT INTO affiliates (user_id, affiliate_link, total_registration, total_clicks)
+                              VALUES ($user_id, '$register_url_with_id', 0, 0)";
+        $insertResult = mysqli_query($connection, $insertQuery);
+
+        if ($insertResult) {
+          header('Location: affiliate.php');
         }
-
-        // Redirect the user to a different page
-        header("Location: my_classes.php?source=edit_class&edit_class=" . $_GET['edit_class']);
-        exit();
+      } else {
+        // Error updating the user's status
+        // Handle this case as needed
+      }
     } else {
-        echo "Class ID cannot be empty.";
+      // User does not have kids, cannot become an affiliate
+      echo "You need to have kids to become an affiliate.";
     }
+  } else {
+    // Error fetching user's data
+    // Handle this case as needed
+  }
 }
+
 ?>
 
 
-
-
 <style>
-    .content {
-        padding:50px;
-    }
-    .input-modal{
-        color:black !important;
-    }
+  .content {
+    padding: 50px;
+  }
+
+  .input-modal {
+    color: black !important;
+  }
+
+  .modal-backdrop.fade.show {
+    display: none !important;
+    visibility: hidden !important;
+  }
 </style>
 
 <!-- Modal -->
 <div class="modal fade" id="newAffiliate" tabindex="-1" role="dialog" aria-labelledby="newAffiliate" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newAffiliate">Add Students</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          <i class="tim-icons icon-simple-remove"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form action="" method="post" enctype="multipart/form-data">
-                  <div class="row">
-                    <div class="col-md-12 pr-md-1">
-                      <div class="form-group">
-                      <input type="hidden" name="class_id" id="class_id" value="<?php echo $class_id ?>">
-                    <select multiple name="student_id[]" class="form-control" id="student_id">
-                    <?php 
-            
-                    $query = "SELECT * FROM users where user_role = 'student' ORDER BY student_id DESC";
-                    $select_user = mysqli_query($connection, $query);
-
-                    while ($row = mysqli_fetch_assoc($select_user)) {
-                    $user_id = $row['user_id'];
-                    $firstname = $row['firstname'];
-                
-                    echo "<option class='input-modal' value='{$user_id}'>{$firstname}</option>";
-
-                      }
-                
-                    ?>
-                    </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" id="add-students-btn" class="btn btn-primary" name="add_students" value="Add Student">
-      </div>
-                </form>
-      </div>
+      <form action="" method="POST">
+        <div class="modal-header">
+          <h2 class="modal-title text-center" id="newAffiliate">Join Affiliate</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="tim-icons icon-simple-remove"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" name="become_affiliate" value="Become Affiliate">
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
