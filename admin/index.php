@@ -12,7 +12,7 @@
 
 <script>
   const stdLoginResp = <?php echo json_encode($_SESSION['stdLoginResp']); ?>;
-  console.log(stdLoginResp);
+   
   const data = {
     id: stdLoginResp.std_id,
     name: stdLoginResp.std_name,
