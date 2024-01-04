@@ -73,7 +73,9 @@ error_reporting(E_ALL);
   <!-- CSS Files -->
   <link href="assets/css/styles.css?v=1.0.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="assets/demo/demo.css" rel="stylesheet" />
+  <link href="assets/demo/demo.css" rel="stylesheet" /> 
+
+  
 </head>
 
 <body class="">

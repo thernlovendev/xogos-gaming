@@ -90,7 +90,7 @@ if (isset($_POST['login'])) {
 
 
     $stdLoginResp = loginStudentTimeQuest($student_login_data);
-
+    
     if ($stdLoginResp == 'no_data') {
       $dataForTimeQst = [
         'std_name' => $db_firstname . " " . $db_lastname,
@@ -110,7 +110,6 @@ if (isset($_POST['login'])) {
     }
 
     $stdLoginResp = loginStudentTimeQuest($student_login_data);
-    
     $_SESSION['stdLoginResp'] = $stdLoginResp;
 
     confirm($update);
